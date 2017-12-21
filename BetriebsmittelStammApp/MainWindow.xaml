@@ -1,0 +1,72 @@
+﻿<Window x:Class="BetriebsmittelStammApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BetriebsmittelStammApp"
+        mc:Ignorable="d"
+        Title="HTTP API Test Client" Height="750" Width="1100" MinHeight="640" MinWidth="700" Background="Beige">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="8,0"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="3,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="RichTextBox">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Quell-Host-URL:"/>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="_quellHostUrlTextBox" Text="http://localhost:8500" IsEnabled="{Binding ControlsAreEnabled}"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Quell-Betriebsmittelstämme:"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="_quellStämmeComboBox" ItemsSource="{Binding QuellStammViewModels}" SelectedItem="{Binding QuellStammViewModel}" DisplayMemberPath="VollständigeBezeichnung" IsEnabled="{Binding ControlsAreEnabled}"/>
+        <Button Grid.Row="1" Grid.Column="2" Content="Stämme laden" Click="OnBetriebsmittelstämmeLaden" IsEnabled="{Binding ControlsAreEnabled}"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Ziel-Host-URL:"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="_zielHostUrlTextBox" Text="" IsEnabled="{Binding ControlsAreEnabled}"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Zielstamm:"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ZielStammBezeichnung}" IsEnabled="{Binding ControlsAreEnabled}"/>
+        <Button Grid.Row="3" Grid.Column="2" Content="Stamm kopieren" Click="OnBetriebsmittelstämmeKopieren" IsEnabled="{Binding ControlsAreEnabled}"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Meldungen:"/>
+        <RichTextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" x:Name="_meldungenBox" IsReadOnly="True" VerticalScrollBarVisibility="Visible">
+            <FlowDocument>
+                <Paragraph x:Name="_meldungenParagraph"/>
+            </FlowDocument>
+        </RichTextBox>
+    </Grid>
+
+</Window>
