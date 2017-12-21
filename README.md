@@ -1,2 +1,3 @@
 # http-api-demo-clients
-A C#/WPF client demonstrating the use of the HTTP API of NEVARIS Build
+
+Diese Visual Studio-Solution enthält ein Projekt, das den Zugriff auf Betriebsmittelstämme über die HTTP-API von NEVARIS Build 2018 R2 demonstriert.
