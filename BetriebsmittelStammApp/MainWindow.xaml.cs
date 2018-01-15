@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,9 +112,11 @@ namespace BetriebsmittelStammApp
 
             if (string.IsNullOrEmpty(ZielStammBezeichnung))
             {
-                LogInfoText("Bitte geben Sie eine Bezeichnung für den Zielstamm ein.", true);
+                LogInfoText("Bitte geben Sie einen Namen für den Zielstamm ein.", true);
                 return;
             }
+
+            Stopwatch sw = Stopwatch.StartNew();
 
             LogInfoText($"Der Stamm '{QuellStammViewModel.VollständigeBezeichnung}' wird nach '{ZielStammBezeichnung}' kopiert.");
             ControlsAreEnabled = false;
@@ -126,6 +129,8 @@ namespace BetriebsmittelStammApp
                     QuellStammViewModel.Model.Id,
                     ZielStammBezeichnung,
                     args => LogInfoText(args.Message));
+
+                LogInfoText($"Der Stamm '{QuellStammViewModel.VollständigeBezeichnung}' wurde erfolgreich nach '{ZielStammBezeichnung}' kopiert.");
             }
             catch (Exception ex)
             {
@@ -134,10 +139,12 @@ namespace BetriebsmittelStammApp
             }
             finally
             {
+                // Gib die benötigte Zeit im Format d.hh:mm:ss aus
+                TimeSpan span = sw.Elapsed;
+                string elapsed = new TimeSpan(span.Ticks - span.Ticks % TimeSpan.TicksPerSecond).ToString(@"d\.hh\:mm\:ss");
+                LogInfoText($"Benötigte Zeit (d.hh:mm:ss): {elapsed}");
                 ControlsAreEnabled = true;
             }
-
-            LogInfoText($"Der Stamm '{QuellStammViewModel.VollständigeBezeichnung}' wurde erfolgreich nach '{ZielStammBezeichnung}' kopiert.");
         }
 
         public void LogInfoText(string text, bool isError = false, string caption = null)
