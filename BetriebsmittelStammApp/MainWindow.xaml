@@ -68,7 +68,7 @@
         <Label Grid.Row="6" Grid.Column="0">
             <Span>
                 Name des Zielstamms:
-                <Run FontWeight="Normal">(falls ein Stamm mit diesem Namen im Ziel bereits existiert, wird in den besteheden Stamm importiert)</Run>
+                <Run FontWeight="Normal">(falls ein Stamm mit diesem Namen im Ziel bereits existiert, wird in den bestehenden Stamm importiert)</Run>
             </Span>
         </Label>
         <TextBox Grid.Row="7" Grid.Column="0" Text="{Binding ZielStammBezeichnung}" IsEnabled="{Binding ControlsAreEnabled}"/>
