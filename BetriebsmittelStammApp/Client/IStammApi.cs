@@ -33,8 +33,8 @@ namespace HttpApiClient.Client
         [Delete("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
         Task DeleteBetriebsmittelStamm(Guid betriebsmittelStammId);
 
-        [Get("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel?art={art}&mitStrukturen={mitStrukturen}&mitKosten={mitKosten}")]
-        Task<List<Betriebsmittel>> GetBetriebsmittelList(Guid betriebsmittelStammId, BetriebsmittelArt? art, bool mitStrukturen = true, bool mitKosten = false);
+        [Get("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}")]
+        Task<List<Betriebsmittel>> GetBetriebsmittelList(Guid betriebsmittelStammId, BetriebsmittelArt? art, bool mitGruppen = true, bool mitKosten = false);
 
         [Get("/api/global/betriebsmittel/{betriebsmittelId}")]
         Task<Betriebsmittel> GetBetriebsmittel(Guid betriebsmittelId, BetriebsmittelArt? art = null);

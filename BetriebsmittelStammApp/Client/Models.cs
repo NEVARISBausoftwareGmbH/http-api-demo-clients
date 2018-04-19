@@ -17,15 +17,43 @@ namespace HttpApiClient.Client
 #pragma warning restore CS0169
     }
 
+    public class Kostenart : BaseObject
+    {
+        public string Bezeichnung { get; set; }
+        public string NummerLokal { get; set; }
+        public string Nummer { get; set; }
+        public bool IstGruppe { get; set; }
+
+        public List<Kostenart> Kostenarten { get; set; }
+    }
+
+    public class NewKostenartInfo
+    {
+        public string Bezeichnung { get; set; }
+        public string Nummer { get; set; }
+        public bool IstGruppe { get; set; }
+    }
+
+    /// <summary>
+    /// Ein Speicherort (Ordner oder Datenbank).
+    /// </summary>
     public class Speicherort : BaseObject
     {
         public Guid Id { get; set; }
         public string Bezeichnung { get; set; }
         public OrdnerInfo OrdnerInfo { get; set; }
         public DatenbankInfo DatenbankInfo { get; set; }
+
+        /// <summary>
+        /// Liste von Projekten in diesem Speicherort.
+        /// </summary>
         public List<ProjektInfo> ProjektInfos { get; set; }
     }
 
+    /// <summary>
+    /// Beschreibt ein Projekt. Im Gegensatz zu <see cref="Projekt"/> enthält dieser Typ nur ID,
+    /// Nummer und Bezeichnung des Projekts und sonst keine Projektinhalte.
+    /// </summary>
     public class ProjektInfo : BaseObject
     {
         public string Id { get; set; }
@@ -62,12 +90,12 @@ namespace HttpApiClient.Client
 
     public class Leistungsverzeichnis : BaseObject
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } // ist die ID der Box
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
         public Norm? Norm { get; set; }
         public string Waehrung { get; set; }
-        public LVKnoten Wurzelknoten { get; set; }
+        public LVKnoten RootKnoten { get; set; }
     }
 
     public class LVItemBase : BaseObject
@@ -91,6 +119,7 @@ namespace HttpApiClient.Client
     {
         public string Einheit { get; set; }
         public decimal? Menge { get; set; }
+        // TODO Einheitspreis
     }
 
     public class Projekt : BaseObject
@@ -106,14 +135,7 @@ namespace HttpApiClient.Client
         public string Status { get; set; }
         public string Sparte { get; set; }
         public string Typ { get; set; }
-        public List<LeistungsverzeichnisItem> LeistungsverzeichnisItems { get; set; }
-    }
-
-    public class LeistungsverzeichnisItem : BaseObject
-    {
-        public Guid Id { get; set; }
-        public string Nummer { get; set; }
-        public string Bezeichnung { get; set; }
+        public List<Leistungsverzeichnis> Leistungsverzeichnisse { get; set; }
     }
 
     public enum GeräteArt
@@ -180,6 +202,13 @@ namespace HttpApiClient.Client
         public int? RechengenauigkeitBeträge { get; set; } // = NachkommastellenKostenPreise
         public int? DarstellungsgenauigkeitMengen { get; set; } // = NachkommastellenAnsatzUI
         public int? DarstellungsgenauigkeitBeträge { get; set; } // = NachkommastellenKostenPreiseUI
+
+        public Guid LohnRootGruppeId { get; set; }
+        public Guid MaterialRootGruppeId { get; set; }
+        public Guid GerätRootGruppeId { get; set; }
+        public Guid SonstigeKostenRootGruppeId { get; set; }
+        public Guid NachunternehmerRootGruppeId { get; set; }
+        public Guid BausteinRootGruppeId { get; set; }
 
         public BetriebsmittelStammBezeichnungen Bezeichnungen { get; set; }
 
@@ -327,6 +356,9 @@ namespace HttpApiClient.Client
 
     public class NewBetriebsmittelInfo : BaseObject
     {
+        /// <summary>
+        /// Optional: Die ID der Betriebsmittelgruppe, unter dem das neue Betriebsmittel angelegt wird.
+        /// </summary>
         public Guid? ParentGruppeId { get; set; }
 
         public BetriebsmittelArt Art { get; set; }
@@ -334,6 +366,9 @@ namespace HttpApiClient.Client
         public string Bezeichnung { get; set; }
     }
 
+    /// <summary>
+    /// Ein Betriebsmittel (kann auch eine Betriebsmittelgruppe sein).
+    /// </summary>
     public class Betriebsmittel : BaseObject
     {
         public BetriebsmittelArt Art { get; set; }
@@ -370,17 +405,15 @@ namespace HttpApiClient.Client
         public string StandardAnsatz { get; set; }
 
         public string DbBetriebsmittelGruppeBezeichnung; // = DBBetriebsmittelgruppe
+
+        public string KostenartNummer { get; set; }
     }
 
     public class BetriebsmittelZuschlag : BaseObject
     {
         public string ZuschlagsgruppenNummer { get; set; }
-        public string ZuschlagsgruppenBezeichnung { get; set; }
         public int ArtIndex { get; set; }
-        public string ArtBezeichnung { get; set; }
         public Guid ZuschlagsebeneId { get; set; }
-        public string ZuschlagsebeneTyp { get; set; }
-        public decimal? Wert { get; set; }
     }
 
     public class BetriebsmittelGruppeDetails : BaseObject
@@ -563,7 +596,8 @@ namespace HttpApiClient.Client
     public class KalkulationsZeileBetriebsmittelDetails : BaseObject
     {
         public Guid BetriebsmittelId { get; set; }
-        // TODO Betriebsmittelart
+        public BetriebsmittelArt? BetriebsmittelArt { get; set; } // aus Performancegründen speichern wir hier auch (optional) die Betriebsmittelart ab
+
         public string Ansatz { get; set; }
         public string BasNummer { get; set; }
     }

@@ -15,7 +15,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HttpApiClient.Client;
-using Nevaris.Build.HttpApiTestClient;
 
 namespace BetriebsmittelStammApp
 {

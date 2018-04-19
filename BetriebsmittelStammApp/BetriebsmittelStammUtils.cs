@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HttpApiClient.Client;
 using Newtonsoft.Json;
 
-namespace Nevaris.Build.HttpApiTestClient
+namespace BetriebsmittelStammApp
 {
     public class BetriebsmittelStammKopierEventArgs
     {
