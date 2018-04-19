@@ -399,7 +399,13 @@ namespace HttpApiClient.Client
 
     public class BetriebsmittelDetails : BaseObject
     {
+        /// <summary>
+        /// Die Beschreibung als Text (ohne Formatierungen).
+        /// </summary>
+        public string Beschreibung { get; set; }
+
         public string Stichwörter { get; set; }
+
         public string Markierungskennzeichen { get; set; }
 
         public string StandardAnsatz { get; set; }

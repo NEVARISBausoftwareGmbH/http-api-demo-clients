@@ -94,7 +94,8 @@ namespace BetriebsmittelStammApp
             {
                 messageCallback?.Invoke(new BetriebsmittelStammKopierEventArgs($"Abgleich der Betriebsmittel der Art '{betriebsmittelArt}'"));
 
-                // Hole Wurzelgruppen
+                // Hole für den Quell- und Zielstamm den Betriebsmittelbaum in strukturierter Form. Dieser Aufruf liefert ein
+                // Array mit einem Element, und zwar der Wurzelgruppe, die alle anderen Elemente in strukturierter Form enthält.
                 var quellWurzelGruppe = (await quellStammApi.GetBetriebsmittelList(quellStamm.Id, betriebsmittelArt)).Single();
                 var zielWurzelGruppe = (await zielStammApi.GetBetriebsmittelList(zielStamm.Id, betriebsmittelArt)).Single();
 
