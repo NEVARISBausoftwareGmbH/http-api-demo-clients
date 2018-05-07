@@ -14,15 +14,13 @@ namespace HttpApiClient.Client
     /// </summary>
     public class BaseObject
     {
-#pragma warning disable CS0169
         /// <summary>
         /// Dictionary, in dem beim Deserialisieren Feld-Werte abgespeichert werden, für die es keine entspechende
         /// Property im Model gibt. Ermöglicht ein versionierungstolerantes Serialisieren und Deserialisieren
         /// von Model-Objekten ohne Informationsverlust.
         /// </summary>
         [JsonExtensionData]
-        IDictionary<string, JToken> _additionalData;
-#pragma warning restore CS0169
+        public Dictionary<string, object> AdditionalProperties { get; set; }
     }
 
     /// <summary>
@@ -331,6 +329,10 @@ namespace HttpApiClient.Client
         ImHundert,
     }
 
+    /// <summary>
+    /// Beschreibt einen Zuschläg, der in einem Betriebsmittelstamm zur Verfügung steht. Der Wert des Zuschlags
+    /// wird per Zuschlagskatalog.ZuschlagsgruppenWerte festgelegt.
+    /// </summary>
     public class Zuschlagsgruppe : BaseObject
     {
         public string Nummer { get; set; }
@@ -338,16 +340,16 @@ namespace HttpApiClient.Client
         public int? Stufe { get; set; }
     }
 
-    public class NewZuschlagsgruppeInfo : BaseObject
-    {
-        public string Nummer { get; set; }
-        public string Bezeichnung { get; set; }
-        public int? Stufe { get; set; }
-    }
-
+    /// <summary>
+    /// Der Wert einer Zuschlagsgruppe innerhalb eines Zuschlagskatalogs.
+    /// </summary>
     public class ZuschlagsgruppenWert : BaseObject
     {
+        /// <summary>
+        /// Verweist auf eine Zuschlagsgruppe.
+        /// </summary>
         public string ZuschlagsgruppenNummer { get; set; }
+
         public decimal? Wert { get; set; }
     }
 
@@ -449,8 +451,9 @@ namespace HttpApiClient.Client
         public string Kostenart { get; set; }
 
         /// <summary>
-        /// Liste von Kosten (eine pro Kostenebene, auf der die Kosten für dieses Betriebsmittel definiert sind). Ist normalerweise eine Detailinfo,
-        /// das heißt, dieses Feld ist nur im Fall von Einzelabfragen befüllt. Allerdings erlaubt der Aufruf /build/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel
+        /// Liste von Kosten (eine pro Kostenebene, auf der die Kosten für dieses Betriebsmittel definiert sind).
+        /// Ist normalerweise eine Detailinfo, das heißt, dieses Feld ist nur im Fall von Einzelabfragen befüllt.
+        /// Allerdings erlaubt der Aufruf /build/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel
         /// über den "mitKosten"-Parameter das Auslesen meherer Betriebsmittel einschließlich Kosten.
         /// </summary>
         public List<BetriebsmittelKosten> Kosten { get; set; }
@@ -460,6 +463,9 @@ namespace HttpApiClient.Client
         /// </summary>
         public List<KalkulationsZeile> WeitereKosten { get; set; }
 
+        /// <summary>
+        /// (Detailinfo) Die Zuschläge, die auf diesem Betriebsmittel definiert sind.
+        /// </summary>
         public List<BetriebsmittelZuschlag> Zuschläge { get; set; }
 
         /// <summary>
@@ -521,10 +527,24 @@ namespace HttpApiClient.Client
         public string KostenartNummer { get; set; }
     }
 
+    /// <summary>
+    /// Ein Zuschlag , der auf einem Betriebsmittel definiert ist.
+    /// </summary>
     public class BetriebsmittelZuschlag : BaseObject
     {
+        /// <summary>
+        /// Verweist auf eine ZuschlagsartGruppe.
+        /// </summary>
         public string ZuschlagsgruppenNummer { get; set; }
+
+        /// <summary>
+        /// Verweist auf eine Zuschlagsart.
+        /// </summary>
         public int ArtIndex { get; set; }
+
+        /// <summary>
+        /// Die ID des Kosten- oder Zuschlagskatalogs.
+        /// </summary>
         public Guid ZuschlagsebeneId { get; set; }
     }
 
@@ -635,10 +655,29 @@ namespace HttpApiClient.Client
         /// </summary>
         public KostenebeneTyp? KostenebeneTyp { get; set; }
 
+        /// <summary>
+        /// Befüllt, wenn das Betriebsmittel ein Lohn ist.
+        /// </summary>
         public BetriebsmittelKostenLohnDetails LohnDetails { get; set; }
+
+        /// <summary>
+        /// Befüllt, wenn das Betriebsmittel ein Material ist.
+        /// </summary>
         public BetriebsmittelKostenMaterialDetails MaterialDetails { get; set; }
+
+        /// <summary>
+        /// Befüllt, wenn das Betriebsmittel ein Gerät ist.
+        /// </summary>
         public BetriebsmittelKostenGerätDetails GerätDetails { get; set; }
+
+        /// <summary>
+        /// Befüllt, wenn das Betriebsmittel ein Sonstige-Kosten-Objekt ist.
+        /// </summary>
         public BetriebsmittelKostenSonstigeKostenDetails SonstigeKostenDetails { get; set; }
+
+        /// <summary>
+        /// Befüllt, wenn das Betriebsmittel ein Nachunternehmer ist.
+        /// </summary>
         public BetriebsmittelKostenNachunternehmerDetails NachunternehmerDetails { get; set; }
     }
 
