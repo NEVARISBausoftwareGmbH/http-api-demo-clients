@@ -886,6 +886,18 @@ namespace HttpApiClient.Client
         Arbeitskalkulation
     }
 
+    public class NewKalkulationInfo
+    {
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public Guid LvId { get; set; }
+        public Guid? ParentKalkulationId { get; set; }
+        public KalkulationsArt? KalkulationsArt { get; set; }
+        public Guid BetriebsmittelStammId { get; set; }
+        public Guid? KostenkatalogId { get; set; }
+        public Guid? ZuschlagskatalogId { get; set; }
+    }
+
     public class Kalkulation : BaseObject
     {
         public Guid Id { get; set; }
