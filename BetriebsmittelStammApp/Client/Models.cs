@@ -754,13 +754,33 @@ namespace HttpApiClient.Client
         public int? Warengruppe5Nummer { get; set; }
     }
 
+    public class KalkulationsZeileDetails : BaseObject
+    {
+        public decimal? Ergebnis { get; set; }
+        public decimal? MengeGesamt { get; set; }
+        public decimal? LeistungsMenge { get; set; }
+        public Money KostenProEinheit { get; set; }
+        public Money Kosten { get; set; }
+        public Money Preis { get; set; }
+        public decimal? StundenProduktiv { get; set; }
+        public Money ZuschlagGesamt { get; set; }
+    }
+
     /// <summary>
-    /// Eine Zeile in den weiteren Kosten.
+    /// Eine Zeile in den weiteren Kosten oder in einem Kalkulationsblatt der Detailkalkulation.
     /// </summary>
     public class KalkulationsZeile : BaseObject
     {
         public string Nummer { get; set; }
+
         public string Bezeichnung { get; set; }
+
+        public string Einheit { get; set; }
+
+        /// <summary>
+        /// (Detailinfo) Enthält weitere Eigenschaften der Kalkulationszeile, insbesondere berechnete Werte.
+        /// </summary>
+        public KalkulationsZeileDetails Details { get; set; }
 
         /// <summary>
         /// Befüllt, wenn die Zeile einen Verweis auf ein Betriebsmittel enthält.
@@ -781,6 +801,11 @@ namespace HttpApiClient.Client
         /// Befüllt, wenn es sich um eine Unterposition handelt. Diese kann mehrere Unterzeilen enthalten.
         /// </summary>
         public KalkulationsZeileUnterpositionDetails UnterpositionDetails { get; set; }
+
+        /// <summary>
+        /// Befüllt, wenn es sich um einen Rückgriff handelt.
+        /// </summary>
+        public RückgriffZeileDetails RückgriffDetails { get; set; }
     }
 
     public class KalkulationsZeileBetriebsmittelDetails : BaseObject
@@ -801,6 +826,13 @@ namespace HttpApiClient.Client
     public class KalkulationsZeileKommentarDetails : BaseObject
     {
         public string Kommentar { get; set; }
+    }
+
+    public class RückgriffZeileDetails : BaseObject
+    {
+        public Guid PositionId { get; set; }
+
+        public Guid? UnterpositionId { get; set; }
     }
 
     public class KalkulationsZeileUnterpositionDetails : BaseObject
@@ -827,6 +859,89 @@ namespace HttpApiClient.Client
         Gaeb
     }
 
+    public enum LVArt
+    {
+        Ausschreibung,
+        FreieAusschreibung,
+        Vergabe,
+        Auftrag,
+        FreierAuftragEingehend,
+        FreierAuftragAusgehend,
+        Kostenschaetzung,
+        Anfrage,
+        Angebot,
+        FreiesAngebot,
+        AuftragAusfuehrend,
+        Subvergabe,
+        SubVergabeAusfuehren
+    }
+
+    public enum KalkulationsArt
+    {
+        NullKalkulation,
+        AbgestimmteNullKalkulation,
+        OptimierteKalkulation,
+        AngebotsKalkulation,
+        AuftragsKalkulation,
+        Arbeitskalkulation
+    }
+
+    public class Kalkulation : BaseObject
+    {
+        public Guid Id { get; set; }
+        public Guid LVId { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public KalkulationsArt? Art { get; set; }
+
+        /// <summary>
+        /// Liste von untergeordneten Kalkulationen. Ist nur befüllt, wenn die Kalkulationen
+        /// als Teil eines Leistungsverzeichnisses geladen wurden.
+        /// </summary>
+        public List<Kalkulation> Kalkulationen { get; set; }
+
+        /// <summary>
+        /// (Detailinfo) Liste von Kalkulationsbättern.
+        /// </summary>
+        public List<KalkulationsBlatt> KalkulationsBlätter { get; set; }
+    }
+
+    public class KalkulationsBlatt : BaseObject
+    {
+        public Guid Id { get; set; }
+
+        public Guid PositionId { get; set; }
+
+        public Guid KalkulationId { get; set; }
+
+        /// <summary>
+        /// (Detailinfo) Objekt mit weiteren Eigenschaften, insbesondere berechnete Werte (z.B. Einheitspreis).
+        /// </summary>
+        public KalkulationsBlattDetails Details { get; set; }
+
+        /// <summary>
+        /// (Detailinfo) Liste von Kalkulationszeilen (hierarchisch aufgebaut).
+        /// </summary>
+        public List<KalkulationsZeile> KalkulationsZeilen { get; set; }
+    }
+
+    public class KalkulationsBlattDetails : BaseObject
+    {
+        public string PositionsNummerKomplett { get; set; }
+
+        public decimal? Menge { get; set; }
+        public decimal? StundenProduktiv { get; set; }
+        public decimal? StundenProduktivGesamt { get; set; }
+        public Money Kosten { get; set; }
+        public Money KostenGesamt { get; set; }
+        public Money Preis { get; set; }
+        public Money PreisGesamt { get; set; }
+        public Money Einheitspreis { get; set; }
+        public Money EinheitspreisGesamt { get; set; }
+
+        public Dictionary<string, Money> Preisanteile { get; set; }
+    }
+
     /// <summary>
     /// Ein Leistungsverzeichnis (GAEB oder ÖNORM).
     /// </summary>
@@ -836,8 +951,18 @@ namespace HttpApiClient.Client
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
         public Norm? Norm { get; set; }
+        public LVArt? Art { get; set; }
         public string Waehrung { get; set; }
+
+        /// <summary>
+        /// (Detailinfo) Der Wurzelknoten einschließlich untergeordneter Knoten und Positionen.
+        /// </summary>
         public LVKnoten RootKnoten { get; set; }
+
+        /// <summary>
+        /// (Detailinfo) Die Wurzelkalkulationen einschließlich untergeordneter Kalkulationen.
+        /// </summary>
+        public List<Kalkulation> RootKalkulationen { get; set; }
     }
 
     public class LVItemBase : BaseObject
@@ -848,7 +973,7 @@ namespace HttpApiClient.Client
         public string NummerKomplett { get; set; }
         public string Kurztext { get; set; }
         public string Teilleistungsnummer { get; set; }
-        public decimal? Betrag { get; set; }
+        public Money Betrag { get; set; }
     }
 
     /// <summary>
@@ -896,15 +1021,29 @@ namespace HttpApiClient.Client
         {
         }
 
-        public Money(IEnumerable<(string Code, decimal? Value)> beträge)
+        public static Money FromValues(IEnumerable<(string Currency, decimal? Value)> values)
         {
-            foreach (var betrag in beträge)
+            if (values == null)
             {
-                Add(new SimpleMoney(betrag.Code, betrag.Value));
+                return null;
             }
+
+            Money result = null;
+
+            foreach (var betrag in values)
+            {
+                if (result == null)
+                {
+                    result = new Money();
+                }
+
+                result.Add(betrag.Currency, betrag.Value);
+            }
+
+            return result;
         }
 
-        public void Add(string currency, decimal value)
+        public void Add(string currency, decimal? value)
         {
             Add(new SimpleMoney(currency, value));
         }
