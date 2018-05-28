@@ -771,9 +771,19 @@ namespace HttpApiClient.Client
     /// </summary>
     public class KalkulationsZeile : BaseObject
     {
+        /// <summary>
+        /// Die ID ist bei GET-Zugriffen immer befüllt. Für PUT-Operationen, d.h. für
+        /// PUT /build/{projektId}/kalkulationen/{kalkulationId}/kalkulationsBlaetter/{positionId} und
+        /// PUT /build/global/betriebsmittel/{betriebsmittelId}
+        /// kann sie fehlen. In diesem Fall wird die Zeile neu angelegt.
+        /// </summary>
+        public Guid? Id { get; set; }
+
         public string Nummer { get; set; }
 
         public string Bezeichnung { get; set; }
+
+        public string Kommentar { get; set; }
 
         public string Einheit { get; set; }
 
@@ -825,14 +835,15 @@ namespace HttpApiClient.Client
 
     public class KalkulationsZeileKommentarDetails : BaseObject
     {
-        public string Kommentar { get; set; }
     }
 
     public class RückgriffZeileDetails : BaseObject
     {
         public Guid PositionId { get; set; }
 
-        public Guid? UnterpositionId { get; set; }
+        public Guid? UnterpositionsZeileId { get; set; }
+
+        public string Ansatz { get; set; }
     }
 
     public class KalkulationsZeileUnterpositionDetails : BaseObject
@@ -859,7 +870,7 @@ namespace HttpApiClient.Client
         Gaeb
     }
 
-    public enum LVArt
+    public enum LvArt
     {
         Ausschreibung,
         FreieAusschreibung,
@@ -890,41 +901,43 @@ namespace HttpApiClient.Client
     {
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
-        public Guid LvId { get; set; }
-        public Guid? ParentKalkulationId { get; set; }
         public KalkulationsArt? KalkulationsArt { get; set; }
         public Guid BetriebsmittelStammId { get; set; }
         public Guid? KostenkatalogId { get; set; }
         public Guid? ZuschlagskatalogId { get; set; }
     }
 
+    /// <summary>
+    /// Eine zu einem Leistungsverzeichnis gehörende Kalkulation.
+    /// </summary>
     public class Kalkulation : BaseObject
     {
         public Guid Id { get; set; }
-        public Guid LVId { get; set; }
+        public Guid LvId { get; set; }
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
         public KalkulationsArt? Art { get; set; }
 
         /// <summary>
         /// Liste von untergeordneten Kalkulationen. Ist nur befüllt, wenn die Kalkulationen
-        /// als Teil eines Leistungsverzeichnisses geladen wurden.
+        /// als Teil eines Leistungsverzeichnisses, d.h. per /build/{projektId}/leistungsverzeichnisse/{lvId} geladen wurden.
         /// </summary>
         public List<Kalkulation> Kalkulationen { get; set; }
-
-        /// <summary>
-        /// (Detailinfo) Liste von Kalkulationsbättern.
-        /// </summary>
-        public List<KalkulationsBlatt> KalkulationsBlätter { get; set; }
     }
 
+    /// <summary>
+    /// Ein Kalkulationsblatt. Dieses enthält die Kalkulationszeilen zu einer Position.
+    /// Als Id fungiert das Tupel (KalkulationId, PositionId).
+    /// </summary>
     public class KalkulationsBlatt : BaseObject
     {
-        public Guid Id { get; set; }
+        public Guid KalkulationId { get; set; }
 
         public Guid PositionId { get; set; }
 
-        public Guid KalkulationId { get; set; }
+        public string Nummer { get; set; }
+
+        public string Bezeichnung { get; set; }
 
         /// <summary>
         /// (Detailinfo) Objekt mit weiteren Eigenschaften, insbesondere berechnete Werte (z.B. Einheitspreis).
@@ -934,9 +947,17 @@ namespace HttpApiClient.Client
         /// <summary>
         /// (Detailinfo) Liste von Kalkulationszeilen (hierarchisch aufgebaut).
         /// </summary>
-        public List<KalkulationsZeile> KalkulationsZeilen { get; set; }
+        public List<KalkulationsZeile> Zeilen { get; set; }
     }
 
+    public class NewKalkulationsBlattInfo
+    {
+        public Guid PositionId { get; set; }
+    }
+
+    /// <summary>
+    /// Detailinformationen (insbesondere berechnete Werte) eines Kalkulationsblattes
+    /// </summary>
     public class KalkulationsBlattDetails : BaseObject
     {
         public string PositionsNummerKomplett { get; set; }
@@ -963,13 +984,13 @@ namespace HttpApiClient.Client
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
         public Norm? Norm { get; set; }
-        public LVArt? Art { get; set; }
+        public LvArt? Art { get; set; }
         public string Waehrung { get; set; }
 
         /// <summary>
         /// (Detailinfo) Der Wurzelknoten einschließlich untergeordneter Knoten und Positionen.
         /// </summary>
-        public LVKnoten RootKnoten { get; set; }
+        public LvKnoten RootKnoten { get; set; }
 
         /// <summary>
         /// (Detailinfo) Die Wurzelkalkulationen einschließlich untergeordneter Kalkulationen.
@@ -977,7 +998,7 @@ namespace HttpApiClient.Client
         public List<Kalkulation> RootKalkulationen { get; set; }
     }
 
-    public class LVItemBase : BaseObject
+    public class LvItemBase : BaseObject
     {
         public Guid Id { get; set; }
         public string Typ { get; set; }
@@ -991,16 +1012,16 @@ namespace HttpApiClient.Client
     /// <summary>
     /// Ein LV-Knoten (z.B. Titel oder Leistungsgruppe).
     /// </summary>
-    public class LVKnoten : LVItemBase
+    public class LvKnoten : LvItemBase
     {
-        public List<LVKnoten> Knoten { get; set; }
-        public List<LVPosition> Positionen { get; set; }
+        public List<LvKnoten> Knoten { get; set; }
+        public List<LvPosition> Positionen { get; set; }
     }
 
     /// <summary>
     /// Eine LV-Position.
     /// </summary>
-    public class LVPosition : LVItemBase
+    public class LvPosition : LvItemBase
     {
         public string Einheit { get; set; }
         public decimal? Menge { get; set; }
