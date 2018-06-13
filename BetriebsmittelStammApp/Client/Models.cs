@@ -975,6 +975,12 @@ namespace HttpApiClient.Client
         public Dictionary<string, Money> Preisanteile { get; set; }
     }
 
+    public class PreisanteilInfo : BaseObject
+    {
+        public string Code { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
     /// <summary>
     /// Ein Leistungsverzeichnis (GAEB oder ÖNORM).
     /// </summary>
@@ -986,6 +992,8 @@ namespace HttpApiClient.Client
         public Norm? Norm { get; set; }
         public LvArt? Art { get; set; }
         public string Waehrung { get; set; }
+
+        public List<PreisanteilInfo> PreisanteilInfos { get; set; }
 
         /// <summary>
         /// (Detailinfo) Der Wurzelknoten einschließlich untergeordneter Knoten und Positionen.
@@ -1005,8 +1013,11 @@ namespace HttpApiClient.Client
         public string Nummer { get; set; }
         public string NummerKomplett { get; set; }
         public string Kurztext { get; set; }
+        public string Langtext { get; set; }
         public string Teilleistungsnummer { get; set; }
         public Money Betrag { get; set; }
+        public bool IstFixpreis { get; set; }
+        public bool IstIntern { get; set; }
     }
 
     /// <summary>
@@ -1024,7 +1035,10 @@ namespace HttpApiClient.Client
     public class LvPosition : LvItemBase
     {
         public string Einheit { get; set; }
+        public string Art { get; set; }
         public decimal? Menge { get; set; }
+        public Dictionary<string, Money> PositionsPreisanteile { get; set; }
+        public Money PositionsEinheitspeis { get; set; }
     }
 
     /// <summary>
