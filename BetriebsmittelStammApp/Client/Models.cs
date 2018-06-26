@@ -787,6 +787,8 @@ namespace HttpApiClient.Client
 
         public string Einheit { get; set; }
 
+        public bool IstInaktiv { get; set; }
+
         /// <summary>
         /// (Detailinfo) Enthält weitere Eigenschaften der Kalkulationszeile, insbesondere berechnete Werte.
         /// </summary>
@@ -923,6 +925,19 @@ namespace HttpApiClient.Client
         /// als Teil eines Leistungsverzeichnisses, d.h. per /build/{projektId}/leistungsverzeichnisse/{lvId} geladen wurden.
         /// </summary>
         public List<Kalkulation> Kalkulationen { get; set; }
+
+        /// <summary>
+        /// Enthält Informationen über die Zahl der Nachkommastellen verschiedener Feldtypen.
+        /// </summary>
+        public KalkulationNachkommastellen Nachkommastellen { get; set; }
+    }
+
+    public class KalkulationNachkommastellen : BaseObject
+    {
+        public int? Ansatz { get; set; }
+        public int? AnsatzUI { get; set; }
+        public int? KostenPreise { get; set; }
+        public int? KostenPreiseUI { get; set; }
     }
 
     /// <summary>
@@ -1006,6 +1021,24 @@ namespace HttpApiClient.Client
         public List<Kalkulation> RootKalkulationen { get; set; }
     }
 
+    public enum Herkunftskennzeichen
+    {
+        /// <summary>
+        /// Position aus einem Leistungsbuch (LB).
+        /// </summary>
+        LB,
+
+        /// <summary>
+        /// + ... Position aus einem Ergänzungs-LB
+        /// </summary>
+        ErgLB,
+
+        /// <summary>
+        /// Z ... Frei formulierte Position (Z-Position)
+        /// </summary>
+        Z
+    }
+
     public class LvItemBase : BaseObject
     {
         public Guid Id { get; set; }
@@ -1018,6 +1051,8 @@ namespace HttpApiClient.Client
         public Money Betrag { get; set; }
         public bool IstFixpreis { get; set; }
         public bool IstIntern { get; set; }
+
+        public Herkunftskennzeichen? Herkunftskennzeichen { get; set; }
     }
 
     /// <summary>
