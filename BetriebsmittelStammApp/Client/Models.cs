@@ -1049,8 +1049,6 @@ namespace HttpApiClient.Client
         public string Langtext { get; set; }
         public string Teilleistungsnummer { get; set; }
         public Money Betrag { get; set; }
-        public bool IstFixpreis { get; set; }
-        public bool IstIntern { get; set; }
 
         public Herkunftskennzeichen? Herkunftskennzeichen { get; set; }
     }
@@ -1071,9 +1069,12 @@ namespace HttpApiClient.Client
     {
         public string Einheit { get; set; }
         public string Art { get; set; }
-        public decimal? Menge { get; set; }
-        public Dictionary<string, Money> PositionsPreisanteile { get; set; }
-        public Money PositionsEinheitspeis { get; set; }
+        public decimal? LvMenge { get; set; }
+        // TODO Prognosemengen
+        public Dictionary<string, Money> Preisanteile { get; set; }
+        public Money Einheitspeis { get; set; }
+        public bool IstFixpreis { get; set; }
+        public bool IstIntern { get; set; }
     }
 
     /// <summary>
@@ -1092,6 +1093,11 @@ namespace HttpApiClient.Client
 
         [JsonProperty("val")]
         public decimal? Value { get; private set; }
+
+        public override string ToString()
+        {
+            return Currency + " " + Value;
+        }
     }
 
     /// <summary>
@@ -1134,6 +1140,11 @@ namespace HttpApiClient.Client
         {
             get => this.FirstOrDefault()?.Value;
             set => this[0] = new SimpleMoney(this[0].Currency, value);
+        }
+
+        public override string ToString()
+        {
+            return string.Join("; ", this);
         }
     }
 }

@@ -96,8 +96,8 @@ namespace BetriebsmittelStammApp
 
                 // Hole für den Quell- und Zielstamm den Betriebsmittelbaum in strukturierter Form. Dieser Aufruf liefert ein
                 // Array mit einem Element, und zwar der Wurzelgruppe, die alle anderen Elemente in strukturierter Form enthält.
-                var quellWurzelGruppe = (await quellStammApi.GetBetriebsmittelList(quellStamm.Id, betriebsmittelArt)).Single();
-                var zielWurzelGruppe = (await zielStammApi.GetBetriebsmittelList(zielStamm.Id, betriebsmittelArt)).Single();
+                var quellWurzelGruppe = (await quellStammApi.GetAllBetriebsmittel(quellStamm.Id, betriebsmittelArt)).Single();
+                var zielWurzelGruppe = (await zielStammApi.GetAllBetriebsmittel(zielStamm.Id, betriebsmittelArt)).Single();
 
                 // Gleiche Betriebsmittel ab (auf Basis der Nummer)
                 await BetriebsmittelAbgleichen(quellStammApi, zielStammApi, abgleichInfo, quellWurzelGruppe, zielWurzelGruppe, messageCallback);

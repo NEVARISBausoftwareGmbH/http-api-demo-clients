@@ -9,43 +9,43 @@ namespace HttpApiClient.Client
 {
     public interface IStammApi
     {
-        [Get("/api/global/speicherorte")]
+        [Get("/build/global/speicherorte")]
         Task<List<Speicherort>> GetSpeicherorte();
 
-        [Get("/api/global/speicherorte/{id}")]
+        [Get("/build/global/speicherorte/{id}")]
         Task<Speicherort> GetSpeicherort(Guid id);
 
-        [Post("/api/global/speicherorte/{speicherortId}/projekte")]
+        [Post("/build/global/speicherorte/{speicherortId}/projekte")]
         Task<Projekt> CreateProjekt(Guid speicherortId, [Body] NewProjektInfo newProjekt);
 
-        [Get("/api/global/betriebsmittelstaemme")]
+        [Get("/build/global/betriebsmittelstaemme")]
         Task<List<BetriebsmittelStamm>> GetBetriebsmittelStämme();
 
-        [Get("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
+        [Get("/build/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
         Task<BetriebsmittelStamm> GetBetriebsmittelStamm(Guid betriebsmittelStammId);
 
-        [Post("/api/global/betriebsmittelstaemme")]
+        [Post("/build/global/betriebsmittelstaemme")]
         Task<BetriebsmittelStamm> CreateBetriebsmittelStamm([Body] NewBetriebsmittelStammInfo newBetriebsmittelstammInfo);
 
-        [Put("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
+        [Put("/build/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
         Task UpdateBetriebsmittelStamm(Guid betriebsmittelStammId, [Body] BetriebsmittelStamm betriebsmittelstamm);
 
-        [Delete("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
+        [Delete("/build/global/betriebsmittelstaemme/{betriebsmittelStammId}")]
         Task DeleteBetriebsmittelStamm(Guid betriebsmittelStammId);
 
-        [Get("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}")]
-        Task<List<Betriebsmittel>> GetBetriebsmittelList(Guid betriebsmittelStammId, BetriebsmittelArt? art, bool mitGruppen = true, bool mitKosten = false);
+        [Get("/build/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}")]
+        Task<List<Betriebsmittel>> GetAllBetriebsmittel(Guid betriebsmittelStammId, BetriebsmittelArt? art, bool mitGruppen = true, bool mitKosten = false);
 
-        [Get("/api/global/betriebsmittel/{betriebsmittelId}")]
+        [Get("/build/global/betriebsmittel/{betriebsmittelId}")]
         Task<Betriebsmittel> GetBetriebsmittel(Guid betriebsmittelId, BetriebsmittelArt? art = null);
 
-        [Post("/api/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel")]
+        [Post("/build/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel")]
         Task<Betriebsmittel> CreateBetriebsmittel(Guid betriebsmittelStammId, [Body] NewBetriebsmittelInfo newBetriebsmittelInfo);
 
-        [Put("/api/global/betriebsmittel/{betriebsmittelId}")]
+        [Put("/build/global/betriebsmittel/{betriebsmittelId}")]
         Task UpdateBetriebsmittel(Guid betriebsmittelId, [Body] Betriebsmittel betriebsmittel);
 
-        [Delete("/api/global/betriebsmittel/{betriebsmittelId}")]
+        [Delete("/build/global/betriebsmittel/{betriebsmittelId}")]
         Task DeleteBetriebsmittel(Guid betriebsmittelId);
     }
 }
