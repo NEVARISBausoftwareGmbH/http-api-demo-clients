@@ -48,14 +48,18 @@ namespace HttpApiClient.Client
         [Delete("/build/projekte/{projektId}/kalkulationen/{kalkulationId}/kalkulationsBlaetter/{positionId}")]
         Task DeleteKalkulationsBlatt(string projektId, Guid kalkulationId, Guid positionId);
 
-        [Get("/build/projekte/{projektId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}")]
-        Task<List<Betriebsmittel>> GetAllBetriebsmittel(string projektId, BetriebsmittelArt? art, bool mitGruppen = true, bool mitKosten = false);
+        [Get("/build/projekte/{projektId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}&mitWeiterenKosten={mitWeiterenKosten}&mitZuschlaegen={mitZuschlaegen}&mitDetails={mitDetails}")]
+        Task<List<Betriebsmittel>> GetAllBetriebsmittel(
+            string projektId,
+            BetriebsmittelArt? art,
+            bool mitGruppen = true, 
+            bool mitKosten = false,
+            bool mitWeiterenKosten = false,
+            bool mitZuschlaegen = false,
+            bool mitDetails = false);
 
         [Get("/build/projekte/{projektId}/betriebsmittel/{betriebsmittelId}?art={art}")]
         Task<Betriebsmittel> GetBetriebsmittel(string projektId, Guid betriebsmittelId, BetriebsmittelArt? art = null);
-
-        [Get("/build/projekte/{projektId}/betriebsmittel/list/{betriebsmittelIds}?art={art}")]
-        Task<List<Betriebsmittel>> GetBetriebsmittelList(string projektId, string betriebsmittelIds, BetriebsmittelArt? art = null);
 
         [Post("/build/projekte/{projektId}/betriebsmittel")]
         Task<Betriebsmittel> CreateBetriebsmittel(string projektId, [Body] NewBetriebsmittelInfo newBetriebsmittelInfo);

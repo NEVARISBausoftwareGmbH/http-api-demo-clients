@@ -193,6 +193,9 @@ namespace HttpApiClient.Client
         public string LohnKostenanteil1 { get; set; }
         public string LohnKostenanteil2 { get; set; }
 
+        public string ListenpreisGeraetKostenanteil1 { get; set; }
+        public string ListenpreisGeraetKostenanteil2 { get; set; }
+
         public string SonstigeKostenKostenanteil1 { get; set; }
         public string SonstigeKostenKostenanteil2 { get; set; }
         public string SonstigeKostenKostenanteil3 { get; set; }
@@ -689,7 +692,8 @@ namespace HttpApiClient.Client
         Lv,
         Umlagegruppe,
         Projekt,
-        Unterprojekt
+        Unterprojekt,
+        BetriebsmittelKalkulationsZeile
     }
 
     public class BetriebsmittelKostenLohnDetails : BaseObject
@@ -818,6 +822,11 @@ namespace HttpApiClient.Client
         /// Befüllt, wenn es sich um einen Rückgriff handelt.
         /// </summary>
         public RückgriffZeileDetails RückgriffDetails { get; set; }
+
+        /// <summary>
+        /// Befüllt, wenn es sich um eine Summenzeile handelt.
+        /// </summary>
+        public SummenKalkulationsZeileDetails SummenDetails { get; set; }
     }
 
     public class KalkulationsZeileBetriebsmittelDetails : BaseObject
@@ -846,6 +855,21 @@ namespace HttpApiClient.Client
         public Guid? UnterpositionsZeileId { get; set; }
 
         public string Ansatz { get; set; }
+    }
+
+    public enum SummenKalkulationsZeileArt
+    {
+        Relativ = 0,
+        Absolut = 1,
+    }
+
+    public class SummenKalkulationsZeileDetails : BaseObject
+    {
+        public SummenKalkulationsZeileArt? Art { get; set; }
+        public string Modifikator { get; set; }
+        public Money Kosten { get; set; }
+        public Money Preis { get; set; }
+        public decimal? StundenProduktiv { get; set; }
     }
 
     public class KalkulationsZeileUnterpositionDetails : BaseObject
