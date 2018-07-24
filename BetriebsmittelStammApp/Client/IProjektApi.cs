@@ -48,7 +48,7 @@ namespace HttpApiClient.Client
         [Delete("/build/projekte/{projektId}/kalkulationen/{kalkulationId}/kalkulationsBlaetter/{positionId}")]
         Task DeleteKalkulationsBlatt(string projektId, Guid kalkulationId, Guid positionId);
 
-        [Get("/build/projekte/{projektId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}&mitWeiterenKosten={mitWeiterenKosten}&mitZuschlaegen={mitZuschlaegen}&mitDetails={mitDetails}")]
+        [Get("/build/projekte/{projektId}/betriebsmittel?art={art}&mitGruppen={mitGruppen}&mitKosten={mitKosten}&mitWeiterenKosten={mitWeiterenKosten}&mitZuschlaegen={mitZuschlaegen}&mitDetails={mitDetails}&kostenebeneId={kostenebeneId}&zuschlagsebeneId={zuschlagsebeneId}")]
         Task<List<Betriebsmittel>> GetAllBetriebsmittel(
             string projektId,
             BetriebsmittelArt? art,
@@ -56,7 +56,9 @@ namespace HttpApiClient.Client
             bool mitKosten = false,
             bool mitWeiterenKosten = false,
             bool mitZuschlaegen = false,
-            bool mitDetails = false);
+            bool mitDetails = false,
+            Guid? kostenebeneId = null,
+            Guid? zuschlagsebeneId = null);
 
         [Get("/build/projekte/{projektId}/betriebsmittel/{betriebsmittelId}?art={art}")]
         Task<Betriebsmittel> GetBetriebsmittel(string projektId, Guid betriebsmittelId, BetriebsmittelArt? art = null);
