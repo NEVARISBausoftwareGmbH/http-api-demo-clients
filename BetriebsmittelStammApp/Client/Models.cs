@@ -475,6 +475,14 @@ namespace HttpApiClient.Client
         public List<BetriebsmittelKosten> Kosten { get; set; }
 
         /// <summary>
+        /// Enthält berechnete Kosten und Preise. Diese sind abhängig von der gewählten Kosten- und Zuschlagsebene.
+        /// Ist normalerweise eine Detailinfo, das heißt, dieses Feld ist nur im Fall von Einzelabfragen befüllt.
+        /// Allerdings erlaubt der Aufruf /build/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel
+        /// über den "mitKosten"-Parameter das Auslesen meherer Betriebsmittel einschließlich berechneter Kosten und Preise.
+        /// </summary>
+        public BetriebsmittelKostenDetails KostenDetails { get; set; }
+
+        /// <summary>
         /// (Detailinfo) Liste mit weiteren Kosten.
         /// </summary>
         public List<KalkulationsZeile> WeitereKosten { get; set; }
@@ -657,7 +665,38 @@ namespace HttpApiClient.Client
     }
 
     /// <summary>
-    /// Enthält die Kosten eines Betriebsmittels.
+    /// Enthält berechnete Betriebsmittelkosten.
+    /// </summary>
+    public class BetriebsmittelKostenDetails : BaseObject
+    {
+        /// <summary>
+        /// Die Betriebsmittelkosten (ohne Berücksichtigung der weiteren Kosten).
+        /// </summary>
+        public Money Kosten { get; set; }
+
+        /// <summary>
+        /// Der Betriebsmittelpreis (ohne Berücksichtigung der weiteren Kosten).
+        /// </summary>
+        public Money Preis { get; set; }
+
+        /// <summary>
+        /// Die Gesamtbetrag der weiteren Kosten.
+        /// </summary>
+        public Money WeitereKosten { get; set; }
+
+        /// <summary>
+        /// Die Gesamtkosten.
+        /// </summary>
+        public Money KostenGesamt { get; set; }
+
+        /// <summary>
+        /// Der Gesamtpreis.
+        /// </summary>
+        public Money PreisGesamt { get; set; }
+    }
+
+    /// <summary>
+    /// Enthält die Kostenebenen-spezifischen Kosten eines Betriebsmittels.
     /// </summary>
     public class BetriebsmittelKosten : BaseObject
     {

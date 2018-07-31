@@ -60,8 +60,13 @@ namespace HttpApiClient.Client
             Guid? kostenebeneId = null,
             Guid? zuschlagsebeneId = null);
 
-        [Get("/build/projekte/{projektId}/betriebsmittel/{betriebsmittelId}?art={art}")]
-        Task<Betriebsmittel> GetBetriebsmittel(string projektId, Guid betriebsmittelId, BetriebsmittelArt? art = null);
+        [Get("/build/projekte/{projektId}/betriebsmittel/{betriebsmittelId}?art={art}&kostenebeneId={kostenebeneId}&zuschlagsebeneId={zuschlagsebeneId}")]
+        Task<Betriebsmittel> GetBetriebsmittel(
+            string projektId, 
+            Guid betriebsmittelId, 
+            BetriebsmittelArt? art = null,
+            Guid? kostenebeneId = null,
+            Guid? zuschlagsebeneId = null);
 
         [Post("/build/projekte/{projektId}/betriebsmittel")]
         Task<Betriebsmittel> CreateBetriebsmittel(string projektId, [Body] NewBetriebsmittelInfo newBetriebsmittelInfo);

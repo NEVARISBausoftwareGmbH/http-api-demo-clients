@@ -48,8 +48,12 @@ namespace HttpApiClient.Client
             Guid? kostenebeneId = null,
             Guid? zuschlagsebeneId = null);
 
-        [Get("/build/global/betriebsmittel/{betriebsmittelId}")]
-        Task<Betriebsmittel> GetBetriebsmittel(Guid betriebsmittelId, BetriebsmittelArt? art = null);
+        [Get("/build/global/betriebsmittel/{betriebsmittelId}?art={art}&kostenebeneId={kostenebeneId}&zuschlagsebeneId={zuschlagsebeneId}")]
+        Task<Betriebsmittel> GetBetriebsmittel(
+            Guid betriebsmittelId, 
+            BetriebsmittelArt? art = null,
+            Guid? kostenebeneId = null,
+            Guid? zuschlagsebeneId = null);
 
         [Post("/build/global/betriebsmittelstaemme/{betriebsmittelStammId}/betriebsmittel")]
         Task<Betriebsmittel> CreateBetriebsmittel(Guid betriebsmittelStammId, [Body] NewBetriebsmittelInfo newBetriebsmittelInfo);
