@@ -9,6 +9,9 @@ namespace HttpApiClient.Client
 {
     public interface IStammApi
     {
+        [Get("/build/global/version")]
+        Task<VersionInfo> GetVersion();
+
         [Get("/build/global/speicherorte")]
         Task<List<Speicherort>> GetSpeicherorte();
 

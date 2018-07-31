@@ -23,6 +23,19 @@ namespace HttpApiClient.Client
         public Dictionary<string, object> AdditionalProperties { get; set; }
     }
 
+    public class VersionInfo : BaseObject
+    {
+        /// <summary>
+        /// Die NEVARIS Build-Programmversion.
+        /// </summary>
+        public string ProgramVersion { get; set; }
+
+        /// <summary>
+        /// Die Versionsnummer der HTTP API. Diese folgt den Regeln der sematischen Versionierung.
+        /// </summary>
+        public string ApiVersion { get; set; }
+    }
+
     /// <summary>
     /// Ein Speicherort (Ordner oder Datenbank).
     /// </summary>
