@@ -109,8 +109,6 @@ namespace Nevaris.Build.ClientApi
         public string SperrhinweisCode { get; set; }
         public string SpracheCode { get; set; }
         public string AdressQuelleCode { get; set; }
-        public string GruppeCode { get; set; }
-        public string BildCode { get; set; }
         public string VerweisAufAdresseCode { get; set; }
 
         public bool IstDebitorVorhanden { get; set; }
