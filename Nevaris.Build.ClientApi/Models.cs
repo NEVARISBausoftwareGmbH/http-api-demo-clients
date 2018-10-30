@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace HttpApiClient.Client
+namespace Nevaris.Build.ClientApi
 {
     /// <summary>
     /// Basisklasse aller Model-Klassen.

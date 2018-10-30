@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HttpApiClient.Client;
+using Nevaris.Build.ClientApi;
 using Newtonsoft.Json;
 
 namespace BetriebsmittelStammApp

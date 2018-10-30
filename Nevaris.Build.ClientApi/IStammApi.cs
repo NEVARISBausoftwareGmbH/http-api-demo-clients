@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Refit;
 
-namespace HttpApiClient.Client
+namespace Nevaris.Build.ClientApi
 {
+    /// <summary>
+    /// Interface zum Zugriff auf Stammdaten-Operationen über die NEVARIS Build API.
+    /// </summary>
     public interface IStammApi
     {
         [Get("/build/global/version")]
