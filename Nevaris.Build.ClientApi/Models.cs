@@ -36,6 +36,170 @@ namespace Nevaris.Build.ClientApi
         public string ApiVersion { get; set; }
     }
 
+    public enum AdressArt
+    {
+        Organisation,
+        Person
+    }
+
+    public enum GesperrtArt
+    {
+        Nein = 0,
+        Ja,
+        Bereich,
+        Hinweis
+    }
+
+    public class GeoCoordinate
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+
+    public class NewAdresseInfo
+    {
+        public AdressArt AdressArt { get; set; }
+    }
+
+    public class Adresse
+    {
+        public string Code { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+        public AdressArt AdressArt { get; set; }
+
+        public string Name { get; set; }
+        public string Vorname { get; set; }
+        public string Nachname { get; set; }
+        public string Kürzel { get; set; }
+        public string LandCode { get; set; }
+        public bool IstPostfachInVerwendung { get; set; }
+        public string Titel { get; set; }
+        public string UstId { get; set; }
+        public string Telefon { get; set; }
+        public string Fax { get; set; }
+        public string EMail { get; set; }
+        public string Name2 { get; set; }
+        public string Name3 { get; set; }
+        public string Name4 { get; set; }
+        public string Ort { get; set; }
+        public string Straße { get; set; }
+        public string Plz { get; set; }
+        public string Postfach { get; set; }
+        public string PostfachPlz { get; set; }
+        public string PostfachOrt { get; set; }
+        public string MobilFirma { get; set; }
+        public string MobilPrivat { get; set; }
+        public string Internet { get; set; }
+        public bool IstBauleistender { get; set; }
+        public string Skype { get; set; }
+        public string LoginName { get; set; }
+        public string Suchbegriff { get; set; }
+        public string Briefanschrift { get; set; }
+        public string SozialesNetzwerk1 { get; set; }
+        public string SozialesNetzwerk1Name { get; set; }
+        public string SozialesNetzwerk2 { get; set; }
+        public string SozialesNetzwerk2Name { get; set; }
+        public string Adresszusatz { get; set; }
+        public string BundeslandCode { get; set; }
+        public string LandkreisCode { get; set; }
+        public string AnredeCode { get; set; }
+        public string KonzernCode { get; set; }
+        public string ZentraleCode { get; set; }
+        public string SperrhinweisCode { get; set; }
+        public string SpracheCode { get; set; }
+        public string AdressQuelleCode { get; set; }
+        public string GruppeCode { get; set; }
+        public string BildCode { get; set; }
+        public string VerweisAufAdresseCode { get; set; }
+
+        public bool IstDebitorVorhanden { get; set; }
+        public bool IstKreditorVorhanden { get; set; }
+        public string Handelsregister { get; set; }
+        public string UnsereKundenNummerDort { get; set; }
+        public string SteuernummerGesellschaft { get; set; }
+        public string UrsprungsCode { get; set; }
+        public bool IstEigeneAdresse { get; set; }
+        public string TitelImAnschreiben { get; set; }
+        public DateTime? Geburtsdatum { get; set; }
+        public GesperrtArt GesperrtArt { get; set; }
+        public DateTime? GültigAb { get; set; }
+        public DateTime? GültigBis { get; set; }
+        public bool IstDuplikat { get; set; }
+        public int? VollständigkeitInProzent { get; set; }
+        public decimal? Saldo { get; set; }
+        public string ExternerCode { get; set; }
+        public string Auslandsvorwahl { get; set; }
+        public string DurchwahlFax { get; set; }
+        public string DurchwahlZentrale { get; set; }
+        public Guid? Guid { get; set; }
+        public string Hauptanschlussnummer { get; set; }
+        public bool? IsReadOnlyNumber { get; set; }
+        public string Ortskennzahl { get; set; }
+        public string OutlookEntryId { get; set; }
+        public int? Ähnlichkeit { get; set; }
+        public GeoCoordinate GeoPosition { get; set; }
+        public string Notiz { get; set; }
+        public string Beschreibung { get; set; }
+
+        public List<Adressat> Adressaten { get; set; }
+        public List<Bankverbindung> Bankverbindungen { get; set; }
+        public List<AdressBranche> Branchen { get; set; }
+        public List<AdressGewerk> Gewerke { get; set; }
+    }
+
+    public class Adressat
+    {
+        public string Code { get; set; }
+        public string AnredeCode { get; set; }
+        public string PrivatadresseCode { get; set; }
+        public string Titel { get; set; }
+        public string TitelImAnschreiben { get; set; }
+        public string Vorname { get; set; }
+        public string Nachname { get; set; }
+        public string Telefon { get; set; }
+        public string Fax { get; set; }
+        public string Mobil { get; set; }
+        public string EMail { get; set; }
+        public string EMailAbteilung { get; set; }
+        public string Url { get; set; }
+        public string Skype { get; set; }
+        public string AbteilungCode { get; set; }
+        public string FunktionCode { get; set; }
+        public bool IstInaktiv { get; set; }
+        public DateTime? Austrittsdatum { get; set; }
+        public string Raum { get; set; }
+        public string Info { get; set; }
+        public string Beschreibung { get; set; }
+        public string Notiz { get; set; }
+        public string SpracheCode { get; set; }
+        public string Briefanschrift { get; set; }
+        public string Durchwahl { get; set; }
+        public string DurchwahlFax { get; set; }
+        public Guid? Guid { get; internal set; }
+    }
+
+    public class Bankverbindung
+    {
+        public string Iban { get; set; }
+        public string Bic { get; set; }
+        public string Bankname { get; set; }
+    }
+
+    public class AdressBranche
+    {
+        public string BrancheCode { get; set; }
+        public string Bezeichnung { get; set; }
+        public string Beschreibung { get; set; }
+    }
+
+    public class AdressGewerk
+    {
+        public string GewerkCode { get; set; }
+        public string Bezeichnung { get; set; }
+        public string Beschreibung { get; set; }
+    }
+
     /// <summary>
     /// Ein Speicherort (Ordner oder Datenbank).
     /// </summary>

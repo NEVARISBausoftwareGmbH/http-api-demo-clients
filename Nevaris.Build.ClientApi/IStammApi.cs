@@ -15,6 +15,21 @@ namespace Nevaris.Build.ClientApi
         [Get("/build/global/version")]
         Task<VersionInfo> GetVersion();
 
+        [Get("/build/global/adressen")]
+        Task<List<Adresse>> GetAdressen();
+
+        [Get("/build/global/adressen/{code}")]
+        Task<Adresse> GetAdresse(string code);
+
+        [Post("/build/global/adressen")]
+        Task<Adresse> CreateAdresse([Body] NewAdresseInfo newAdresseInfo);
+
+        [Put("/build/global/adressen/{code}")]
+        Task UpdateAdresse(string code, [Body] Adresse adresse);
+
+        [Delete("/build/global/adressen/{code}")]
+        Task DeleteAdresse(string code);
+
         [Get("/build/global/speicherorte")]
         Task<List<Speicherort>> GetSpeicherorte();
 
