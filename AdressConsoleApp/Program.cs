@@ -58,24 +58,24 @@ namespace AdressConsoleApp
                 {
                     Console.WriteLine("Adresse nicht gefunden. Lege neue Adresse an.");
                     testAdresse = await client.StammApi.CreateAdresse(new NewAdresseInfo { AdressArt = AdressArt.Organisation });
+                    testAdresse.Name = nameTestAdresse; // Namen zuweisen
+                    await client.StammApi.UpdateAdresse(testAdresse.Code, testAdresse); // und geänderte Adresse speichern
                     Console.WriteLine($"Adresse mit Code {testAdresse.Code} angelegt.");
                 }
                 else
                 {
                     Console.WriteLine($"Adresse gefunden (Code = {testAdresse.Code}).");
+
+                    // Die Adresse vollständig laden. (Der Aufruf client.StammApi.GetAdressen lädt nämlich nur
+                    // die Basiseigenschaften, d.h. ohne Detailinfos wie Bankverbindungen, Adressaten usw.)
+                    Console.WriteLine($"Lade vollständige Adresse mit Code = {testAdresse.Code} ...");
+                    testAdresse = await client.StammApi.GetAdresse(testAdresse.Code);
                 }
-
-                // Die Adresse vollständig laden. (Der Aufruf client.StammApi.GetAdressen lädt nämlich nur
-                // die Basiseigenschaften, d.h. ohne Detailinfos wie Bankverbindungen, Adressaten usw.)
-
-                Console.WriteLine($"Lade vollständige Adresse mit Code = {testAdresse.Code} ...");
-                testAdresse = await client.StammApi.GetAdresse(testAdresse.Code);
 
                 // Ändere einige Eigenschaften
 
                 Console.WriteLine("Ändere einige Eigenschaften der Adresse ...");
 
-                testAdresse.Name = nameTestAdresse; // für den Fall, dass die Adresse neu angelegt wurde, müssen wir den Namen noch befüllen
                 testAdresse.Beschreibung = "Dies ist eine Beispieladresse";
                 testAdresse.GültigAb = DateTime.Now;
 
