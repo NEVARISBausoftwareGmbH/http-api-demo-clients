@@ -25,6 +25,7 @@ namespace AdressConsoleApp
 
             try
             {
+                Console.WriteLine("Lese Einstellungen aus Settings.json ...");
                 string settingsJson = File.ReadAllText("Settings.json");
                 settings = JsonConvert.DeserializeObject<Settings>(settingsJson);
             }
