@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +26,25 @@ namespace Nevaris.Build.ClientApi
 
         [Post("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/kalkulationen")]
         Task<Kalkulation> CreateKalkulation(string projektId, Guid lvId, [Body] NewKalkulationInfo newKalkulationInfo);
+
+        [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/abrechnungsMerkmale")]
+        Task<IEnumerable<AbrechnungsMerkmal>> GetAbrechnungsMerkmale(string projektId, Guid lvId);
+
+        [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/aufmassblaetter?mengenArt={mengenArt}")]
+        Task<IEnumerable<Aufmaßblatt>> GetAufmaßblätter(string projektId, Guid lvId, MengenArt mengenArt = MengenArt.Abrechnung);
+
+        [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/rechnungen")]
+        Task<IEnumerable<Rechnung>> GetRechnungen(string projektId, Guid lvId);
+
+        [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/positionsbloecke?mengenArt?{mengenArt}&mitZeilen={mitZeilen}&aufmassblattId={aufmassblattId}&leistungszeitraumId={leistungszeitraumId}&rechnungId={rechnungId}")]
+        Task<IEnumerable<Positionsblock>> GetPositionsblöcke(
+            string projektId,
+            Guid lvId, 
+            MengenArt mengenArt = MengenArt.Abrechnung,
+            bool mitZeilen = true,
+            Guid? aufmassblattId = null,
+            Guid? leistungszeitraumId = null,
+            Guid? rechnungId = null);
 
         [Get("/build/projekte/{projektId}/kalkulationen/{kalkulationId}")]
         Task<Kalkulation> GetKalkulation(string projektId, Guid kalkulationId);

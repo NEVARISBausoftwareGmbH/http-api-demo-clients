@@ -109,6 +109,11 @@ namespace Nevaris.Build.ClientApi
         public string SperrhinweisCode { get; set; }
         public string SpracheCode { get; set; }
         public string AdressQuelleCode { get; set; }
+
+        // TODO
+        //public string GruppeCode { get; set; }
+        //public Guid? BildId { get; set; }
+
         public string VerweisAufAdresseCode { get; set; }
 
         public bool IstDebitorVorhanden { get; set; }
@@ -270,6 +275,8 @@ namespace Nevaris.Build.ClientApi
         /// Liste von Leistungsverzeichnissen, die in diesem Projekt enthalten sind.
         /// </summary>
         public List<Leistungsverzeichnis> Leistungsverzeichnisse { get; set; }
+
+        public List<Leistungszeitraum> Leistungszeiträume { get; set; }
     }
 
     public class NewProjektInfo : BaseObject
@@ -1107,8 +1114,24 @@ namespace Nevaris.Build.ClientApi
     public enum Norm
     {
         Oenorm,
-        Gaeb
+        Gaeb,
+        Frei
     }
+
+    public enum NormExakt
+    {
+        None = 0,
+        OENORMA2063 = 1,
+        OENORMB2063BIS2018R1 = 2,
+        GAEB90 = 3,
+        GAEBXML = 4,
+        GAEB2000 = 5,
+        FREIEFORM = 6,
+        GAEBXML32 = 7,
+        OENORMA2063V2015 = 8,
+        OENORMB2063 = 9
+    }
+
 
     public enum LvArt
     {
@@ -1243,6 +1266,7 @@ namespace Nevaris.Build.ClientApi
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
         public Norm? Norm { get; set; }
+        public NormExakt? NormExakt { get; set; }
         public LvArt? Art { get; set; }
         public string Waehrung { get; set; }
 
@@ -1313,6 +1337,159 @@ namespace Nevaris.Build.ClientApi
         public Money Einheitspeis { get; set; }
         public bool IstFixpreis { get; set; }
         public bool IstIntern { get; set; }
+    }
+
+    public class Aufmaßblatt : BaseObject
+    {
+        public Guid Id { get; set; }
+        public MengenArt? MengenArt { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
+    public enum RechnungsStatus
+    {
+        Eingegangen = 0,
+        Geprüft = 1,
+        Freigegeben = 2,
+        Bezahlt = 3,
+        Ersetzt = 4,
+        Gesendet = 10,
+        Erfasst = 11,
+    }
+
+    public enum RechnungsArt
+    {
+        Einzelrechnung = 0,
+        Abschlagsrechnung = 1,
+        Teilschlussrechnung = 2,
+        Schlussrechnung = 3,
+        Regierechnung = 4,
+        Vorauszahlung = 6,
+        Pauschalrechnung = 7,
+        AbschlagsrechnungPauschal = 8,
+        AbschlagsrechnungNichtKumuliert = 9,
+        AbschlagsrechnungNichtKumuliertPauschal = 10,
+        SchlussrechnungPauschal = 11,
+        TeilschlussrechnungPauschal = 12,
+    }
+
+    public class Rechnung : BaseObject
+    {
+        public Guid Id { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public DateTime? Rechnungsdatum { get; set; }
+        public string ExterneRechnungsnummer { get; set; }
+        public DateTime? Eingangsdatum { get; set; }
+        public DateTime? GesendetAm { get; set; }
+        public RechnungsStatus? Status { get; set; }
+        public List<Zahlung> Zahlungen { get; set; }
+        public int? LaufendeNummerKapsel { get; set; }
+        public RechnungsArt? Art { get; set; }
+        public decimal? ProzentDerAuftragssumme { get; set; }
+        public bool? IstInforechnung { get; set; }
+        public decimal? NettoUngeprüft { get; set; }
+        public decimal? NettoForderungKorrektur { get; set; }
+        public bool? IstGeschützt { get; set; }
+        public bool? BürgschaftBankhaftbrief { get; set; }
+        public DateTime? GewährleistungBis { get; set; }
+        public DateTime? RückgabeGewährleistungseinbehaltBar { get; set; }
+    }
+
+    public class Zahlung : BaseObject
+    {
+        public DateTime? Zahlungsdatum { get; set; }
+        public decimal? Zahlbetrag { get; set; }
+        public decimal? Skontobetrag { get; set; }
+        public string Bemerkung { get; set; }
+    }
+
+    public class AbrechnungsMerkmal
+    {
+        public Guid Id { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public string BezeichnungKomplett { get; set; }
+        public List<AbrechnungsMerkmal> Merkmale { get; set; }
+    }
+
+    public class Leistungszeitraum : BaseObject
+    {
+        public Guid Id { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public DateTime? Beginn { get; set; }
+        public DateTime? Ende { get; set; }
+    }
+
+    public class Positionsblock : BaseObject
+    {
+        public Guid Id { get; set; }
+        public Guid? PositionId { get; set; }
+
+        /// <summary>
+        /// Die vollständige Positionsnummer.
+        /// </summary>
+        public string Nummer { get; set; }
+        public string Kurztext { get; set; }
+        public string Einheit { get; set; }
+
+        public Guid? AufmaßblattId { get; set; }
+        public Guid? LeistungszeitraumId { get; set; }
+        public Guid? RechnungId { get; set; }
+
+        public List<Aufmaßzeile> Aufmaßzeilen { get; set; }
+
+        public List<Guid> MerkmalIds { get; set; }
+    }
+
+    public enum MengenArt
+    {
+        Lv,
+        Abrechnung,
+        Umlagemenge,
+        Bautagebuch,
+        Prognose1,
+        Prognose2,
+        Prognose3,
+        Prognose4,
+        Prognose5,
+        Prognose6,
+        Prognose7,
+        Prognose8,
+        Prognose9,
+        Prognose10
+    }
+
+    public class Aufmaßzeile : BaseObject
+    {
+        public Guid Id { get; set; }
+
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
+        public AufmaßzeilenArt Art { get; set; }
+        public string InternerKommentar { get; set; }
+        public string Inhalt { get; set; }
+        public string Variable { get; set; }
+        public string AdresseVon { get; set; }
+        public string AdresseBis { get; set; }
+        public decimal? Faktor { get; set; }
+        public Formel Formel { get; set; }
+        // TODO korrigierte Werte
+        public decimal? Menge { get; set; }
+    }
+
+    public enum AufmaßzeilenArt
+    {
+        Ansatz = 0,
+        Formel,
+        Kommentar
+    }
+
+    public class Formel
+    {
+        public int Id { get; set; }
+        public Dictionary<string, decimal?> Arguments { get; set; }
     }
 
     /// <summary>
