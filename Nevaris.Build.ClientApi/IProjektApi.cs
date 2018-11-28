@@ -24,7 +24,7 @@ namespace Nevaris.Build.ClientApi
         [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}?mitKnoten={mitKnoten}&mitKalkulationen={mitKalkulationen}")]
         Task<Leistungsverzeichnis> GetLeistungsverzeichnis(string projektId, Guid lvId, bool mitKnoten = true, bool mitKalkulationen = true);
 
-        [Post("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}")]
+        [Post("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/kalkulationen")]
         Task<Kalkulation> CreateKalkulation(string projektId, Guid lvId, [Body] NewKalkulationInfo newKalkulationInfo);
 
         [Get("/build/projekte/{projektId}/kalkulationen/{kalkulationId}")]
