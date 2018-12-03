@@ -1374,6 +1374,12 @@ namespace Nevaris.Build.ClientApi
         TeilschlussrechnungPauschal = 12,
     }
 
+    public class NewRechnungInfo : BaseObject
+    {
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
     public class Rechnung : BaseObject
     {
         public Guid Id { get; set; }
@@ -1399,6 +1405,7 @@ namespace Nevaris.Build.ClientApi
 
     public class Zahlung : BaseObject
     {
+        public Guid Id { get; set; }
         public DateTime? Zahlungsdatum { get; set; }
         public decimal? Zahlbetrag { get; set; }
         public decimal? Skontobetrag { get; set; }
@@ -1421,6 +1428,16 @@ namespace Nevaris.Build.ClientApi
         public string Bezeichnung { get; set; }
         public DateTime? Beginn { get; set; }
         public DateTime? Ende { get; set; }
+    }
+
+    public class NewPositionsblockInfo : BaseObject
+    {
+        public MengenArt? MengenArt { get; set; }
+        public Guid? PositionId { get; set; }
+        public Guid? VerherigePositionId { get; set; }
+        public Guid? AufmaßblattId { get; set; }
+        public Guid? LeistungszeitraumId { get; set; }
+        public Guid? RechnungId { get; set; }
     }
 
     public class Positionsblock : BaseObject
@@ -1489,7 +1506,14 @@ namespace Nevaris.Build.ClientApi
     public class Formel
     {
         public int Id { get; set; }
-        public Dictionary<string, decimal?> Arguments { get; set; }
+        public List<FormelParameter> Params { get; set; }
+    }
+
+    public class FormelParameter
+    {
+        public string Name { get; set; }
+        public decimal? Value { get; set; }
+        public string Variable { get; set; }
     }
 
     /// <summary>

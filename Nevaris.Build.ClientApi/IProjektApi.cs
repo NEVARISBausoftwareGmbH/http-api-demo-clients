@@ -36,15 +36,33 @@ namespace Nevaris.Build.ClientApi
         [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/rechnungen")]
         Task<IEnumerable<Rechnung>> GetRechnungen(string projektId, Guid lvId);
 
+        [Post("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/rechnungen")]
+        Task<Rechnung> CreateRechnung(string projektId, Guid lvId, [Body] NewRechnungInfo newRechnungInfo);
+
+        [Get("/build/projekte/{projektId}/rechnungen/{rechnungId}")]
+        Task<Rechnung> GetRechnung(string projektId, Guid rechnungId);
+
+        [Get("/build/projekte/{projektId}/rechnungen/{rechnungId}")]
+        Task DeleteRechnung(string projektId, Guid rechnungId);
+
         [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/positionsbloecke?mengenArt?{mengenArt}&mitZeilen={mitZeilen}&aufmassblattId={aufmassblattId}&leistungszeitraumId={leistungszeitraumId}&rechnungId={rechnungId}")]
         Task<IEnumerable<Positionsblock>> GetPositionsblöcke(
             string projektId,
-            Guid lvId, 
+            Guid lvId,
             MengenArt mengenArt = MengenArt.Abrechnung,
             bool mitZeilen = true,
             Guid? aufmassblattId = null,
             Guid? leistungszeitraumId = null,
             Guid? rechnungId = null);
+
+        [Post("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/positionsbloecke")]
+        Task<Positionsblock> CreatePositionsblock(string projektId, Guid lvId, [Body]NewPositionsblockInfo newPositionsblockInfo);
+
+        [Get("/build/projekte/{projektId}/positionsbloecke/{positionsblockId}")]
+        Task<Positionsblock> GetPositionsblock(string projektId, Guid positionsblockId);
+
+        [Get("/build/projekte/{projektId}/positionsbloecke/{positionsblockId}")]
+        Task DeletePositionsblock(string projektId, Guid positionsblockId);
 
         [Get("/build/projekte/{projektId}/kalkulationen/{kalkulationId}")]
         Task<Kalkulation> GetKalkulation(string projektId, Guid kalkulationId);
@@ -74,7 +92,7 @@ namespace Nevaris.Build.ClientApi
         Task<List<Betriebsmittel>> GetAllBetriebsmittel(
             string projektId,
             BetriebsmittelArt? art,
-            bool mitGruppen = true, 
+            bool mitGruppen = true,
             bool mitKosten = false,
             bool mitWeiterenKosten = false,
             bool mitZuschlaegen = false,
@@ -84,8 +102,8 @@ namespace Nevaris.Build.ClientApi
 
         [Get("/build/projekte/{projektId}/betriebsmittel/{betriebsmittelId}?art={art}&kostenebeneId={kostenebeneId}&zuschlagsebeneId={zuschlagsebeneId}")]
         Task<Betriebsmittel> GetBetriebsmittel(
-            string projektId, 
-            Guid betriebsmittelId, 
+            string projektId,
+            Guid betriebsmittelId,
             BetriebsmittelArt? art = null,
             Guid? kostenebeneId = null,
             Guid? zuschlagsebeneId = null);
