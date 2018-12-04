@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace AbrechnungConsoleApp
         static async Task Main(string[] args)
         {
             Settings settings = null;
+
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
 
             try
             {
@@ -73,13 +76,48 @@ namespace AbrechnungConsoleApp
         static async Task VerarbeiteAuftrag(IProjektApi api, Projekt projekt, Leistungsverzeichnis lv)
         {
             var idToLeistungszeitraum = projekt.Leistungszeiträume.ToDictionary(lz => lz.Id);
+            var idToRechungen = (await api.GetRechnungen(projekt.Id, lv.Id)).ToDictionary(r => r.Id);
+            var idToAufmaßblätter = (await api.GetAufmaßblätter(projekt.Id, lv.Id)).ToDictionary(r => r.Id);
 
             var merkmale = await api.GetAbrechnungsMerkmale(projekt.Id, lv.Id);
-            var rechungen = await api.GetRechnungen(projekt.Id, lv.Id);
-            var aufmaßblätter = await api.GetAufmaßblätter(projekt.Id, lv.Id);
             var positionsblöcke = await api.GetPositionsblöcke(projekt.Id, lv.Id);
 
-            // TODO Daten verarbeiten oder ausgeben
+            Console.WriteLine();
+
+            foreach (var p in positionsblöcke)
+            {
+                StringBuilder sp = new StringBuilder();
+                if (p.AufmaßblattId != null) sp.Append($"; Blatt = {idToAufmaßblätter[p.AufmaßblattId.Value].Bezeichnung}");
+                if (p.LeistungszeitraumId != null) sp.Append($"; LZ = {idToLeistungszeitraum[p.LeistungszeitraumId.Value].Bezeichnung}");
+                if (p.RechnungId != null) sp.Append($"; Rechnung = {idToRechungen[p.RechnungId.Value].Bezeichnung}");
+
+                Console.WriteLine($"Positionsblock {p.Nummer}: Menge = {p.Menge}; Einheit = {p.Einheit}{sp}");
+
+                foreach (var z in p.Aufmaßzeilen)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    if (z.Menge != null) sb.Append($"; Menge = {z.Menge}");
+                    if (z.Variable != null) sb.Append($"; Variable = {z.Variable}");
+
+                    if (z.Art == AufmaßzeilenArt.Kommentar)
+                    {
+                        Console.WriteLine($"    Kommentar: {z.Inhalt}");
+                    }
+                    else if (z.Art == AufmaßzeilenArt.Ansatz)
+                    {
+                        Console.WriteLine($"    Ansatz: {z.Inhalt}{sb}");
+                    }
+                    else if (z.Art == AufmaßzeilenArt.Formel && z.Formel != null)
+                    {
+                        Console.WriteLine($"    Formel: {FormelToString(z.Formel)}{sb}");
+                    }
+                }
+            }
+        }
+
+        static string FormelToString(Formel formel)
+        {
+            return formel.Id + "[" + string.Join(", ", formel.Params.Select(p => $"{p.Name}={p.Value?.ToString() ?? p.Variable}")) + "]";
         }
     }
 }

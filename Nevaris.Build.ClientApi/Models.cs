@@ -1456,6 +1456,8 @@ namespace Nevaris.Build.ClientApi
         public Guid? LeistungszeitraumId { get; set; }
         public Guid? RechnungId { get; set; }
 
+        public decimal? Menge { get; set; }
+
         public List<Aufmaßzeile> Aufmaßzeilen { get; set; }
 
         public List<Guid> MerkmalIds { get; set; }
