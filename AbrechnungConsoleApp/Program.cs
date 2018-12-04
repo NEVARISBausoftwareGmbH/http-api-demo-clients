@@ -78,8 +78,8 @@ namespace AbrechnungConsoleApp
             var idToLeistungszeitraum = projekt.Leistungszeiträume.ToDictionary(lz => lz.Id);
             var idToRechungen = (await api.GetRechnungen(projekt.Id, lv.Id)).ToDictionary(r => r.Id);
             var idToAufmaßblätter = (await api.GetAufmaßblätter(projekt.Id, lv.Id)).ToDictionary(r => r.Id);
+            var idToMerkmal = GetMerkmalMap(await api.GetAbrechnungsMerkmale(projekt.Id, lv.Id));
 
-            var merkmale = await api.GetAbrechnungsMerkmale(projekt.Id, lv.Id);
             var positionsblöcke = await api.GetPositionsblöcke(projekt.Id, lv.Id);
 
             Console.WriteLine();
@@ -90,8 +90,9 @@ namespace AbrechnungConsoleApp
                 if (p.AufmaßblattId != null) sp.Append($"; Blatt = {idToAufmaßblätter[p.AufmaßblattId.Value].Bezeichnung}");
                 if (p.LeistungszeitraumId != null) sp.Append($"; LZ = {idToLeistungszeitraum[p.LeistungszeitraumId.Value].Bezeichnung}");
                 if (p.RechnungId != null) sp.Append($"; Rechnung = {idToRechungen[p.RechnungId.Value].Bezeichnung}");
+                if (p.MerkmalIds.Count > 0) sp.Append($"; Merkmale = {string.Join(", ", p.MerkmalIds.Select(m => idToMerkmal[m].Bezeichnung))}");
 
-                Console.WriteLine($"Positionsblock {p.Nummer}: Menge = {p.Menge}; Einheit = {p.Einheit}{sp}");
+                Console.WriteLine($"Positionsblock {p.Nummer} ({p.Kurztext}): Menge = {p.Menge}; Einheit = {p.Einheit}{sp}");
 
                 foreach (var z in p.Aufmaßzeilen)
                 {
@@ -118,6 +119,24 @@ namespace AbrechnungConsoleApp
         static string FormelToString(Formel formel)
         {
             return formel.Id + "[" + string.Join(", ", formel.Params.Select(p => $"{p.Name}={p.Value?.ToString() ?? p.Variable}")) + "]";
+        }
+
+        static Dictionary<Guid, AbrechnungsMerkmal> GetMerkmalMap(IEnumerable<AbrechnungsMerkmal> rootMerkmale)
+        {
+            var result = new Dictionary<Guid, AbrechnungsMerkmal>();
+
+            ProcessMerkmale(rootMerkmale);
+
+            void ProcessMerkmale(IEnumerable<AbrechnungsMerkmal> merkmale)
+            {
+                foreach (var merkmal in merkmale)
+                {
+                    result.Add(merkmal.Id, merkmal);
+                    ProcessMerkmale(merkmal.Merkmale);
+                }
+            }
+
+            return result;
         }
     }
 }

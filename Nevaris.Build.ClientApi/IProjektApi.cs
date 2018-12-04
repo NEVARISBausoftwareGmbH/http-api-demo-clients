@@ -27,11 +27,17 @@ namespace Nevaris.Build.ClientApi
         [Post("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/kalkulationen")]
         Task<Kalkulation> CreateKalkulation(string projektId, Guid lvId, [Body] NewKalkulationInfo newKalkulationInfo);
 
-        [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/abrechnungsMerkmale")]
-        Task<IEnumerable<AbrechnungsMerkmal>> GetAbrechnungsMerkmale(string projektId, Guid lvId);
+        [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/abrechnungsMerkmale?mengenArt={mengenArt}")]
+        Task<IEnumerable<AbrechnungsMerkmal>> GetAbrechnungsMerkmale(string projektId, Guid lvId, MengenArt mengenArt = MengenArt.Abrechnung);
+
+        [Put("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/abrechnungsMerkmale?mengenArt={mengenArt}")]
+        Task<AbrechnungsMerkmal> UpdateAbrechnungsMerkmale(string projektId, Guid lvId, [Body] IEnumerable<AbrechnungsMerkmal> abrechnungsMerkmale, MengenArt mengenArt = MengenArt.Abrechnung);
 
         [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/aufmassblaetter?mengenArt={mengenArt}")]
         Task<IEnumerable<Aufmaßblatt>> GetAufmaßblätter(string projektId, Guid lvId, MengenArt mengenArt = MengenArt.Abrechnung);
+
+        [Put("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/aufmassblaetter?mengenArt={mengenArt}")]
+        Task<Aufmaßblatt> UpdateAufmaßblätter(string projektId, Guid lvId, [Body] IEnumerable<Aufmaßblatt> aufmaßblätter, MengenArt mengenArt = MengenArt.Abrechnung);
 
         [Get("/build/projekte/{projektId}/leistungsverzeichnisse/{lvId}/rechnungen")]
         Task<IEnumerable<Rechnung>> GetRechnungen(string projektId, Guid lvId);
