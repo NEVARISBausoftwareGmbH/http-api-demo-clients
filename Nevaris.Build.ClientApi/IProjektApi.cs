@@ -67,7 +67,10 @@ namespace Nevaris.Build.ClientApi
         [Get("/build/projekte/{projektId}/positionsbloecke/{positionsblockId}")]
         Task<Positionsblock> GetPositionsblock(string projektId, Guid positionsblockId);
 
-        [Get("/build/projekte/{projektId}/positionsbloecke/{positionsblockId}")]
+        [Put("/build/projekte/{projektId}/positionsbloecke/{positionsblockId}")]
+        Task UpdatePositionsblock(string projektId, Guid positionsblockId, [Body] Positionsblock positionsblock);
+
+        [Delete("/build/projekte/{projektId}/positionsbloecke/{positionsblockId}")]
         Task DeletePositionsblock(string projektId, Guid positionsblockId);
 
         [Get("/build/projekte/{projektId}/kalkulationen/{kalkulationId}")]
