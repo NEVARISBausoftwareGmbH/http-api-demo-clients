@@ -1444,6 +1444,7 @@ namespace Nevaris.Build.ClientApi
     {
         public Guid Id { get; set; }
         public Guid? PositionId { get; set; }
+        public Guid? PositionKorrigiertId { get; set; }
 
         /// <summary>
         /// Die vollständige Positionsnummer.
@@ -1461,6 +1462,8 @@ namespace Nevaris.Build.ClientApi
         public List<Aufmaßzeile> Aufmaßzeilen { get; set; }
 
         public List<Guid> MerkmalIds { get; set; }
+
+        public bool? ErzeugtInKorrektur { get; set; }
     }
 
     public enum MengenArt
@@ -1487,14 +1490,18 @@ namespace Nevaris.Build.ClientApi
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Include)]
         public AufmaßzeilenArt Art { get; set; }
+        public AufmaßzeilenArt? ArtKorrigiert { get; set; }
         public string InternerKommentar { get; set; }
         public string Inhalt { get; set; }
+        public string InhaltKorrigiert { get; set; }
         public string Variable { get; set; }
         public string AdresseVon { get; set; }
         public string AdresseBis { get; set; }
         public decimal? Faktor { get; set; }
+        public decimal? FaktorKorrigiert { get; set; }
         public Formel Formel { get; set; }
-        // TODO korrigierte Werte
+        public Formel FormelKorrigiert { get; set; }
+        public bool? ErzeugtInKorrektur { get; set; }
         public decimal? Menge { get; set; }
     }
 

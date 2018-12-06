@@ -75,10 +75,15 @@ namespace AbrechnungConsoleApp
 
         static async Task VerarbeiteAuftrag(IProjektApi api, Projekt projekt, Leistungsverzeichnis lv)
         {
+            Console.WriteLine($"Lese Mengenermttlung zu Auftrag '{lv.Bezeichnung}' aus ...");
+
             var idToLeistungszeitraum = projekt.Leistungszeiträume.ToDictionary(lz => lz.Id);
             var idToRechungen = (await api.GetRechnungen(projekt.Id, lv.Id)).ToDictionary(r => r.Id);
             var idToAufmaßblätter = (await api.GetAufmaßblätter(projekt.Id, lv.Id)).ToDictionary(r => r.Id);
             var idToMerkmal = GetMerkmalMap(await api.GetAbrechnungsMerkmale(projekt.Id, lv.Id));
+
+            Console.WriteLine($"{idToRechungen.Count} Rechnungen, {idToAufmaßblätter.Count} Aufmaßblätter, {idToLeistungszeitraum.Count} Leistungszeiträume, {idToMerkmal.Count} Merkmale");
+            Console.WriteLine("Ermittle Positionsblöcke mit Aufmaßzeilen ...");
 
             var positionsblöcke = await api.GetPositionsblöcke(projekt.Id, lv.Id);
 
