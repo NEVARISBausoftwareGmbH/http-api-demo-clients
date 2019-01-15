@@ -1056,6 +1056,7 @@ namespace Nevaris.Build.ClientApi
         public BetriebsmittelArt? BetriebsmittelArt { get; set; } // aus Performancegründen speichern wir hier auch (optional) die Betriebsmittelart ab
 
         public string Ansatz { get; set; }
+        public string Variable { get; set; }
         public string BasNummer { get; set; }
     }
 
@@ -1076,6 +1077,7 @@ namespace Nevaris.Build.ClientApi
         public Guid? UnterpositionsZeileId { get; set; }
 
         public string Ansatz { get; set; }
+        public string Variable { get; set; }
     }
 
     public enum SummenKalkulationsZeileArt
@@ -1096,6 +1098,7 @@ namespace Nevaris.Build.ClientApi
     public class KalkulationsZeileUnterpositionDetails : BaseObject
     {
         public string Ansatz { get; set; }
+        public string Variable { get; set; }
         public string BasNummer { get; set; }
 
         /// <summary>
