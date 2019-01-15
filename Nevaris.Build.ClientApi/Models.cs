@@ -1412,7 +1412,7 @@ namespace Nevaris.Build.ClientApi
         public string Bemerkung { get; set; }
     }
 
-    public class AbrechnungsMerkmal
+    public class AbrechnungsMerkmal : BaseObject
     {
         public Guid Id { get; set; }
         public string Nummer { get; set; }
