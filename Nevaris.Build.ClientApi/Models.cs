@@ -1453,6 +1453,7 @@ namespace Nevaris.Build.ClientApi
         /// Die vollständige Positionsnummer.
         /// </summary>
         public string Nummer { get; set; }
+        public string NummerKorrigiert { get; set; }
         public string Kurztext { get; set; }
         public string Einheit { get; set; }
 
@@ -1471,20 +1472,23 @@ namespace Nevaris.Build.ClientApi
 
     public enum MengenArt
     {
-        Lv,
-        Abrechnung,
-        Umlagemenge,
-        Bautagebuch,
-        Prognose1,
-        Prognose2,
-        Prognose3,
-        Prognose4,
-        Prognose5,
-        Prognose6,
-        Prognose7,
-        Prognose8,
-        Prognose9,
-        Prognose10
+        Lv = 0,
+        Abrechnung = 1,
+        Umlagemenge = 2,
+        Bautagebuch = 3,
+        AbrechnungKorrigiert = 4,
+        Rechnung = 5,
+        Rechnungkorrigiert = 6,
+        Prognose1 = 10,
+        Prognose2 = 11,
+        Prognose3 = 12,
+        Prognose4 = 13,
+        Prognose5 = 14,
+        Prognose6 = 15,
+        Prognose7 = 16,
+        Prognose8 = 17,
+        Prognose9 = 18,
+        Prognose10 = 19
     }
 
     public class Aufmaßzeile : BaseObject
