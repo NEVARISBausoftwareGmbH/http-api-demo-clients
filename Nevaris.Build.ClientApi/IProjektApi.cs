@@ -125,5 +125,8 @@ namespace Nevaris.Build.ClientApi
 
         [Delete("/build/projekte/{projektId}/betriebsmittel/{betriebsmittelId}")]
         Task DeleteBetriebsmittel(string projektId, Guid betriebsmittelId);
+
+        [Get("/build/projekte/{projektId}/bautagesberichte/projektdaten")]
+        Task<BautagebuchProjektdaten> GetBautagesberichtProjektdaten(string projektId);
     }
 }

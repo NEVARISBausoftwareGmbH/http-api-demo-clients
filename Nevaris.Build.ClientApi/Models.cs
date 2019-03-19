@@ -61,7 +61,7 @@ namespace Nevaris.Build.ClientApi
         public AdressArt AdressArt { get; set; }
     }
 
-    public class Adresse
+    public class Adresse : BaseObject
     {
         public string Code { get; set; }
 
@@ -151,7 +151,7 @@ namespace Nevaris.Build.ClientApi
         public List<AdressGewerk> Gewerke { get; set; }
     }
 
-    public class Adressat
+    public class Adressat : BaseObject
     {
         public string Code { get; set; }
         public string AnredeCode { get; set; }
@@ -182,14 +182,14 @@ namespace Nevaris.Build.ClientApi
         public Guid? Guid { get; internal set; }
     }
 
-    public class Bankverbindung
+    public class Bankverbindung : BaseObject
     {
         public string Iban { get; set; }
         public string Bic { get; set; }
         public string Bankname { get; set; }
     }
 
-    public class AdressBranche
+    public class AdressBranche : BaseObject
     {
         public string BrancheCode { get; set; }
         public string Bezeichnung { get; set; }
@@ -442,6 +442,27 @@ namespace Nevaris.Build.ClientApi
         public string Bezeichnung { get; set; }
         public string Nummer { get; set; }
         public bool IstGruppe { get; set; }
+    }
+
+    /// <summary>
+    /// Objekt für einen Bautagesbericht
+    /// </summary>
+    public class Bauarbeitsschluessel : BaseObject
+    {
+        /// <summary>
+        /// Die eindeutige Nummer des Bauarbeitsschluessels (BAS).
+        /// </summary>
+        public string Nummer { get; set; }
+
+        /// <summary>
+        /// Die Bezeichnung des Bauarbeitsschluessels (BAS).
+        /// </summary>
+        public string Bezeichnung { get; set; }
+
+        /// <summary>
+        /// Falls true, ist der Bauarbeitsschlüssel (BAS) als Standard gekennzeichnet.
+        /// </summary>
+        public bool IsStandard { get; set; }
     }
 
     public enum GeräteArt
@@ -717,7 +738,6 @@ namespace Nevaris.Build.ClientApi
 
         public string DbBetriebsmittelGruppeBezeichnung; // = DBBetriebsmittelgruppe
 
-        public string KostenartNummer { get; set; }
     }
 
     /// <summary>
@@ -754,11 +774,29 @@ namespace Nevaris.Build.ClientApi
         public bool? IstProduktiv { get; set; }
         public decimal? EinheitenFaktor { get; set; } // = Umrechnung auf Stunden(1/x)
         public string BasNummer { get; set; } // Nummer des Bauarbeitsschlüssels
+
+        public string KostenartKostenanteil1 { get; set; }
+
+        public string KostenartKostenanteil2 { get; set; }
+
+        public int? WarengruppeKostenanteil1 { get; set; }
+
+        public int? WarengruppeKostenanteil2 { get; set; }
+
     }
 
     public class BetriebsmittelMaterialDetails : BaseObject
     {
         public decimal? Ladezeit { get; set; }
+
+
+        public string Kostenart { get; set; }
+
+        public int? WarengruppePreisAbLieferer { get; set; }
+
+        public int? WarengruppeTransport { get; set; }
+
+        public int? WarengruppeManipulation { get; set; }
     }
 
     public class BetriebsmittelGerätDetails : BaseObject
@@ -770,6 +808,18 @@ namespace Nevaris.Build.ClientApi
         public string KostenartAV { get; set; }
         public string KostenartRepLohn { get; set; }
         public string KostenartRepMaterial { get; set; }
+
+        public string KostenartListenpreisGeraetKostenanteil1 { get; set; }
+        public string KostenartListenpreisGeraetKostenanteil2 { get; set; }
+
+
+        public int? WarengruppeAbschreibungVerzinsung { get; set; }
+        public int? WarengruppeReparaturLohn { get; set; }
+        public int? WarengruppeReparaturMaterial { get; set; }
+
+        public int? WarengruppeListenpreisGeraetKostenanteil1 { get; set; }
+        public int? WarengruppeListenpreisGeraetKostenanteil2 { get; set; }
+
 
         /// <summary>
         /// (Detailinfo) Enthält zusätzliche Geräte-Eigenschaften.
@@ -817,6 +867,14 @@ namespace Nevaris.Build.ClientApi
         public string Kostenart4 { get; set; }
         public string Kostenart5 { get; set; }
         public string Kostenart6 { get; set; }
+
+        public int? WarengruppeKostenanteil1 { get; set; }
+        public int? WarengruppeKostenanteil2 { get; set; }
+        public int? WarengruppeKostenanteil3 { get; set; }
+        public int? WarengruppeKostenanteil4 { get; set; }
+        public int? WarengruppeKostenanteil5 { get; set; }
+        public int? WarengruppeKostenanteil6 { get; set; }
+
     }
 
     public class BetriebsmittelNachunternehmerDetails : BaseObject
@@ -827,6 +885,13 @@ namespace Nevaris.Build.ClientApi
         public string Kostenart4 { get; set; }
         public string Kostenart5 { get; set; }
         public string Kostenart6 { get; set; }
+
+        public int? WarengruppeKostenanteil1 { get; set; }
+        public int? WarengruppeKostenanteil2 { get; set; }
+        public int? WarengruppeKostenanteil3 { get; set; }
+        public int? WarengruppeKostenanteil4 { get; set; }
+        public int? WarengruppeKostenanteil5 { get; set; }
+        public int? WarengruppeKostenanteil6 { get; set; }
     }
 
     public class BetriebsmittelBausteinDetails : BaseObject
@@ -921,8 +986,6 @@ namespace Nevaris.Build.ClientApi
     {
         public Money Kostenanteil1 { get; set; }
         public Money Kostenanteil2 { get; set; }
-
-        public int? WarengruppeNummer { get; set; }
     }
 
     public class BetriebsmittelKostenMaterialDetails : BaseObject
@@ -932,8 +995,6 @@ namespace Nevaris.Build.ClientApi
         public decimal? Verlust { get; set; }
         public Money Manipulation { get; set; }
         public Money Transportkosten { get; set; }
-
-        public int? WarengruppeNummer { get; set; }
     }
 
     public class BetriebsmittelKostenGerätDetails : BaseObject
@@ -953,13 +1014,6 @@ namespace Nevaris.Build.ClientApi
         public Money Kostenanteil4 { get; set; }
         public Money Kostenanteil5 { get; set; }
         public Money Kostenanteil6 { get; set; }
-
-        public int? Warengruppe0Nummer { get; set; }
-        public int? Warengruppe1Nummer { get; set; }
-        public int? Warengruppe2Nummer { get; set; }
-        public int? Warengruppe3Nummer { get; set; }
-        public int? Warengruppe4Nummer { get; set; }
-        public int? Warengruppe5Nummer { get; set; }
     }
 
     public class BetriebsmittelKostenNachunternehmerDetails : BaseObject
@@ -970,13 +1024,6 @@ namespace Nevaris.Build.ClientApi
         public Money Kostenanteil4 { get; set; }
         public Money Kostenanteil5 { get; set; }
         public Money Kostenanteil6 { get; set; }
-
-        public int? Warengruppe0Nummer { get; set; }
-        public int? Warengruppe1Nummer { get; set; }
-        public int? Warengruppe2Nummer { get; set; }
-        public int? Warengruppe3Nummer { get; set; }
-        public int? Warengruppe4Nummer { get; set; }
-        public int? Warengruppe5Nummer { get; set; }
     }
 
     public class KalkulationsZeileDetails : BaseObject
@@ -1602,4 +1649,175 @@ namespace Nevaris.Build.ClientApi
             return string.Join("; ", this);
         }
     }
+
+    #region Bautagebuch classes
+
+    public class NewBautagesberichtInfo : BaseObject
+    {
+    }
+
+    /// <summary>
+    /// Objekt für einen Bautagesbericht
+    /// </summary>
+    public class Bautagesbericht : BaseObject
+    {
+        public Guid Id { get; set; }
+        public string Nummer { get; set; }
+        public DateTime? Datum { get; set; }
+        public DateTime? ErfasstAm { get; set; }
+        public string ErstelltVon { get; set; }
+        public string Bauaufsicht { get; set; }
+        public bool? Geprueft { get; set; }
+        public string Notiz { get; set; }
+
+        public BautagesberichtArbeitszeit ArbeitsZeit { get; set; }
+        public List<BautagesberichtPausenzeit> PausenZeiten { get; set; }
+
+        public BautagesberichtWetter WetterGanztags { get; set; }
+        public BautagesberichtWetter WetterMorgens { get; set; }
+        public BautagesberichtWetter WetterMittags { get; set; }
+        public BautagesberichtWetter WetterAbends { get; set; }
+        public decimal? Luftfeuchtigkeit { get; set; }
+
+        public List<BautagesberichtSchlechtwetter> Schlechtwetter { get; set; }
+
+        public List<BautagesberichtSchnellerfassung> Arbeiter { get; set; }
+        public List<BautagesberichtSchnellerfassung> Angestellte { get; set; }
+        public List<BautagesberichtSchnellerfassung> Geraete { get; set; }
+
+        public List<BautagesberichtBauarbeitsschluessel> Bauarbeitsschluessel { get; set; }
+
+        public List<BautagesberichtBaustoffe> Baustoffe { get; set; }
+
+        public string Leistungstext { get; set; }
+        public List<BautagesberichtLeistungsabrechnung> Leistungsabrechnung { get; set; }
+
+        public string Regietext { get; set; }
+        public List<BautagesberichtLeistungsabrechnung> Regieabrechnung { get; set; }
+    }
+
+    public class BautagesberichtArbeitszeit : BaseObject
+    {
+        public DateTime? ArbeitszeitBeginn { get; set; }
+        public DateTime? ArbeitszeitEnde { get; set; }
+    }
+
+    public class BautagesberichtPausenzeit : BaseObject
+    {
+        public DateTime? PausenzeitBeginn { get; set; }
+        public DateTime? PausenzeitEnde { get; set; }
+        public int? Index { get; set; }
+    }
+
+    public class BautagesberichtWetter : BaseObject
+    {
+        public string Bezeichnung { get; set; }
+        public decimal? TemperaturMin { get; set; }
+        public decimal? TemperaturMax { get; set; }
+    }
+
+    public class BautagesberichtSchlechtwetter : BaseObject
+    {
+        public DateTime? SchlechtwetterBeginn { get; set; }
+        public DateTime? SchlechtwetterEnde { get; set; }
+        public int? Index { get; set; }
+    }
+
+    public class BautagesberichtSchnellerfassung : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public Guid? DataId { get; set; }
+        public string Bezeichnung { get; set; }
+        public decimal? Anzahl { get; set; }
+    }
+
+    public class BautagesberichtBauarbeitsschluessel : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public Guid? BauarbeitsschluesselId { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public decimal? Stunden { get; set; }
+    }
+
+    public class BautagesberichtBaustoffe : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public Guid? BaustoffId { get; set; }
+        public string Bezeichnung { get; set; }
+        public BaustoffArt? Art { get; set; }
+        public string Ansatz { get; set; }
+        public decimal? Menge { get; set; }
+        public string Einheit { get; set; }
+        public string Kommentar { get; set; }
+    }
+
+    public enum BaustoffArt
+    {
+        Verbrauch = 0,
+        Zugang = 1,
+    }
+
+    public class BautagesberichtLeistungsabrechnung : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public Guid? PosBlockid { get; set; }
+        public Guid? PositionId { get; set; }
+        public string Nummer { get; set; }
+        public string Bezeichnung { get; set; }
+        public decimal? LvMenge { get; set; }
+        public string Einheit { get; set; }
+        public string Ansatz { get; set; }
+        public decimal? Menge { get; set; }
+        public string Kommentar { get; set; }
+    }
+
+    /// <summary>
+    /// Objekt für die Projektdaten zu einem Projekt für die Bautagesberichte
+    /// </summary>
+    public class BautagebuchProjektdaten : BaseObject
+    {
+        public List<BautagebuchWetterProjektdaten> WetterProjektdaten { get; set; }
+        public List<BautagebuchArbeiterProjektdaten> ArbeiterProjektdaten { get; set; }
+        public List<BautagebuchAngestellteProjektdaten> AngestellteProjektdaten { get; set; }
+        public List<BautagebuchGeraeteProjektdaten> GeraeteProjektdaten { get; set; }
+    }
+
+    /// <summary>
+    /// Objekt für die Wetter Projektdaten zu einem Projekt für die Bautagesberichte
+    /// </summary>
+    public class BautagebuchWetterProjektdaten : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
+    /// <summary>
+    /// Objekt für die Arbeiter Projektdaten zu einem Projekt für die Bautagesberichte
+    /// </summary>
+    public class BautagebuchArbeiterProjektdaten : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
+    /// <summary>
+    /// Objekt für die Angestellte Projektdaten zu einem Projekt für die Bautagesberichte
+    /// </summary>
+    public class BautagebuchAngestellteProjektdaten : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
+    /// <summary>
+    /// Objekt für die Geräte Projektdaten zu einem Projekt für die Bautagesberichte
+    /// </summary>
+    public class BautagebuchGeraeteProjektdaten : BaseObject
+    {
+        public Guid? Id { get; set; }
+        public string Bezeichnung { get; set; }
+    }
+
+    #endregion Bautagebuch classes
 }
