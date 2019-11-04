@@ -110,10 +110,6 @@ namespace Nevaris.Build.ClientApi
         public string SpracheCode { get; set; }
         public string AdressQuelleCode { get; set; }
 
-        // TODO
-        //public string GruppeCode { get; set; }
-        //public Guid? BildId { get; set; }
-
         public string VerweisAufAdresseCode { get; set; }
 
         public bool IstDebitorVorhanden { get; set; }
@@ -196,11 +192,744 @@ namespace Nevaris.Build.ClientApi
         public string Beschreibung { get; set; }
     }
 
-    public class AdressGewerk
+    public class AdressGewerk : BaseObject
     {
         public string GewerkCode { get; set; }
         public string Bezeichnung { get; set; }
         public string Beschreibung { get; set; }
+    }
+
+    public class NewDebitorInfo
+    {
+        /// <summary>
+        /// Die eindeutige Nummer der Debitors. Kann identisch sein mit dem AdressCode.
+        /// </summary>
+        public string DebitorId { get; set; }
+
+        /// <summary>
+        /// Die Nummer der zugehörigen Adresse.
+        /// </summary>
+        public string AdressCode { get; set; }
+    }
+
+    /// <summary>
+    /// Ein Debitor aus Finance.
+    /// </summary>
+    public class Debitor : BaseObject
+    {
+        public string Id { get; set; }
+        public string AdressCode { get; set; }
+
+        public string Name { get; set; }
+        public string Suchbegriff { get; set; }
+        public string Name_2 { get; set; }
+        public string Adresse { get; set; }
+        public string Adresse_2 { get; set; }
+        public string Ort { get; set; }
+        public string Kontaktperson { get; set; }
+        public string Telefonnr { get; set; }
+        public string Telexnr { get; set; }
+        public string Unsere_Kontonr { get; set; }
+        public string Gebietscode { get; set; }
+        public string Kostenstelle { get; set; }
+        public string Kostenträger { get; set; }
+        public string Kette { get; set; }
+        public decimal? Budgetierter_Betrag { get; set; }
+        public decimal? Kreditlimit_MW { get; set; }
+        public string Debitorenbuchungsgruppe { get; set; }
+        public string Währungscode { get; set; }
+        public string Preisgruppencode { get; set; }
+        public string Sprachcode { get; set; }
+        public int? Statistikgruppe { get; set; }
+        public string Zlg_Bedingungscode { get; set; }
+        public string Zinskonditionencode { get; set; }
+        public string Verkäufercode { get; set; }
+        public string Lieferbedingungscode { get; set; }
+        public string Spediteurcode { get; set; }
+        public string Transitstelle { get; set; }
+        public string Rechnungsrabattcode { get; set; }
+        public string Deb_Artikelrabattgr { get; set; }
+        public string Ländercode { get; set; }
+        public string Einzugsverfahren { get; set; }
+        public decimal? Betrag { get; set; }
+        public bool? Bemerkung { get; set; }
+        public bool? Gesperrt { get; set; }
+        public int? Anzahl_Rechnungskopien { get; set; }
+        public int? Letzte_Kontoauszugsnr { get; set; }
+        public bool? Kontoauszüge_drucken { get; set; }
+        public string Rech_an_Deb_Nr { get; set; }
+        public int? Priorität { get; set; }
+        public string Zahlungsform { get; set; }
+        public DateTime? Korrigiert_am { get; set; }
+        public decimal? Saldo { get; set; }
+        public decimal? Saldo_MW { get; set; }
+        public decimal? Bewegung { get; set; }
+        public decimal? Bewegung_MW { get; set; }
+        public decimal? Verkauf_MW { get; set; }
+        public decimal? DB_MW { get; set; }
+        public decimal? Rechnungsrabatte_MW { get; set; }
+        public decimal? Skonto_MW { get; set; }
+        public decimal? Fälliger_Saldo { get; set; }
+        public decimal? Fälliger_Saldo_MW { get; set; }
+        public decimal? Zahlungen { get; set; }
+        public decimal? Fakturierter_Betrag { get; set; }
+        public decimal? Gutgeschriebener_Betrag { get; set; }
+        public decimal? Zinsrechnungsbetrag { get; set; }
+        public decimal? Bezahlt_MW { get; set; }
+        public decimal? Fakturierter_Betrag_MW { get; set; }
+        public decimal? Gutgeschriebener_Betrag_MW { get; set; }
+        public decimal? Zinsrechnungsbetrag_MW { get; set; }
+        public decimal? Auftragsbestand { get; set; }
+        public decimal? Nicht_fakt_Lieferungen { get; set; }
+        public AusgleichsmethodeOption? Ausgleichsmethode { get; set; }
+        public bool? Mengenrabatt_zulassen { get; set; }
+        public bool? VK_Preise_inkl_MWSt { get; set; }
+        public string Lagerortcode { get; set; }
+        public string Faxnr { get; set; }
+        public string Telex_Namengeber { get; set; }
+        public string USt_IdNr { get; set; }
+        public bool? Sammelrechnung { get; set; }
+        public string Geschäftsbuchungsgruppe { get; set; }
+        public string PLZ_Code { get; set; }
+        public string Bundesregion { get; set; }
+        public decimal? Sollbetrag { get; set; }
+        public decimal? Habenbetrag { get; set; }
+        public decimal? Sollbetrag_MW { get; set; }
+        public decimal? Habenbetrag_MW { get; set; }
+        public string E_Mail { get; set; }
+        public string Homepage { get; set; }
+        public string Mahnmethodencode { get; set; }
+        public decimal? Mahnbeträge { get; set; }
+        public decimal? Mahnbeträge_MW { get; set; }
+        public string Nummernserie { get; set; }
+        public string Steuergebietscode { get; set; }
+        public bool? Steuerpflichtig { get; set; }
+        public string MWSt_Geschäftsbuchungsgruppe { get; set; }
+        public decimal? Auftragsbestand_MW { get; set; }
+        public decimal? Nicht_fakt_Lieferungen_MW { get; set; }
+        public ReservierenOption? Reservieren { get; set; }
+        public string Aktuelles_Bankkonto { get; set; }
+        public string Versicherung { get; set; }
+        public string Risikonr { get; set; }
+        public string Adressnr_Avise { get; set; }
+        public string Adressnr_Mahnungen { get; set; }
+        public string Adressnr_Mahnungen_Kopie { get; set; }
+        public decimal? DR_Prozent { get; set; }
+        public string DR_Fälligkeitsformel { get; set; }
+        public bool? Konto_pro_Diverse { get; set; }
+        public string Nummernserie_global { get; set; }
+        public string Kundengruppe { get; set; }
+        public bool? Trab_Debitor { get; set; }
+        public bool? Notleidend { get; set; }
+        public string Debitorenzuschlagsgruppe { get; set; }
+        public string Zielmandant_Belegübertragung { get; set; }
+        public string Zielkreditor_Belegübertragung { get; set; }
+        public bool? Leistungsempfänger { get; set; }
+        public string Rech_an_abw_Adressnr { get; set; }
+        public string Bankname { get; set; }
+        public string BLZ { get; set; }
+        public string Bankkontonr { get; set; }
+        public string SWIFT_Code { get; set; }
+        public string IBAN { get; set; }
+        public bool? Konto_mit_Bewegung { get; set; }
+        public bool? Konto_mit_offenen_Posten { get; set; }
+        public decimal? Saldo_bis_Datum { get; set; }
+        public decimal? Saldo_bis_Datum_MW { get; set; }
+        public ESR_SystemOption? ESR_System { get; set; }
+        public string Bankkonto { get; set; }
+        public bool? Gutschriftsverfahren { get; set; }
+        public string Dtaus_Fülldefinition { get; set; }
+        public string Adressat_Avise { get; set; }
+        public string Adressat_Mahnung { get; set; }
+        public string Adressat_Mahnung_Kopie { get; set; }
+        public ZeilenrabattberechnungOption? Zeilenrabattberechnung { get; set; }
+        public int? Anzahl_Lieferscheinkopien { get; set; }
+        public bool? Öffentlicher_Auftraggeber { get; set; }
+        public string Steuernummer_IT { get; set; }
+        public string Transportzeit { get; set; }
+        public bool? Ist_Niederlassung { get; set; }
+        public VersicherbarkeitOption? Versicherbarkeit { get; set; }
+        public string Provisionsberechtigter { get; set; }
+        public bool? Überarbeiten { get; set; }
+        public int? Anzahl_Posten_pro_Zahlsatz { get; set; }
+        public string max_Anzahl_Zahlsätze { get; set; }
+        public Datensatz_GesperrtOption? Datensatz_Gesperrt { get; set; }
+        public string Sperrhinweis { get; set; }
+        public DateTime? Gültig_ab { get; set; }
+        public DateTime? Gültig_bis { get; set; }
+        public DateTime? Freistellung_LE_bis { get; set; }
+        public string Bauabzugssteuer_Adressnr { get; set; }
+        public DateTime? Freistellung_LE_von { get; set; }
+        public string Verwendungszweck_SEPA { get; set; }
+        public string Mandatreferenz { get; set; }
+        public string USt_IdNr_Betriebsstätte { get; set; }
+        public string Steuernummer { get; set; }
+        public string Neuanlagesystem { get; set; }
+        public string Neuanlagebenutzer { get; set; }
+        public DateTime? Neuanlagedatum { get; set; }
+        public string Änderungssystem { get; set; }
+        public string Änderungsbenutzer { get; set; }
+        public DateTime? Änderungsdatum { get; set; }
+        public DateTime? Datumsfilter { get; set; }
+        public string Kostenstellenfilter { get; set; }
+        public string Kostenträgerfilter { get; set; }
+        public string Währungsfilter { get; set; }
+        public bool? Statistischfilter { get; set; }
+        public decimal? Betragsfilter { get; set; }
+        public string Niederlassungsfilter { get; set; }
+        public string DebitorenbuchungsgruppenFilter { get; set; }
+        public bool? Bonusberechnungsfilter { get; set; }
+        public string Bauleiterfilter { get; set; }
+        public EinbehaltsartFilterOption? EinbehaltsartFilter { get; set; }
+        public bool? Umsatzfilter { get; set; }
+
+        public List<DebitorBankkonto> Bankkonten { get; set; }
+    }
+
+    public class DebitorBankkonto
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Name_2 { get; set; }
+        public string Adresse { get; set; }
+        public string Adresse_2 { get; set; }
+        public string Ort { get; set; }
+        public string PLZ_Code { get; set; }
+        public string Kontaktperson { get; set; }
+        public string Telefonnr { get; set; }
+        public string Telexnr { get; set; }
+        public string BLZ_alt { get; set; }
+        public string Bankkontonummer { get; set; }
+        public string Transit_Nr { get; set; }
+        public string Währungscode { get; set; }
+        public string Ländercode { get; set; }
+        public string Bundesregion { get; set; }
+        public string Faxnr { get; set; }
+        public string Telex_Namengeber { get; set; }
+        public string Sprachcode { get; set; }
+        public string E_Mail { get; set; }
+        public string Homepage { get; set; }
+        public string BLZ { get; set; }
+        public string Land_BLZ { get; set; }
+        public string SWIFT_Code { get; set; }
+        public string IBAN { get; set; }
+        public string Kontoinhaber { get; set; }
+        public Datensatz_GesperrtOption? Datensatz_Gesperrt { get; set; }
+        public string Sperrhinweis { get; set; }
+        public DateTime? Gültig_ab { get; set; }
+        public DateTime? Gültig_bis { get; set; }
+        public string Mandatreferenz { get; set; }
+        public string Neuanlagesystem { get; set; }
+        public string Neuanlagebenutzer { get; set; }
+        public DateTime? Neuanlagedatum { get; set; }
+        public string Änderungssystem { get; set; }
+        public string Änderungsbenutzer { get; set; }
+        public DateTime? Änderungsdatum { get; set; }
+    }
+
+    public class NewKreditorInfo
+    {
+        /// <summary>
+        /// Die eindeutige Nummer der Kreditors. Kann identisch sein mit dem AdressCode.
+        /// </summary>
+        public string KreditorId { get; set; }
+
+        /// <summary>
+        /// Die Nummer der zugehörigen Adresse.
+        /// </summary>
+        public string AdressCode { get; set; }
+    }
+
+    /// <summary>
+    /// Ein Kreditor aus Finance.
+    /// </summary>
+    public class Kreditor : BaseObject
+    {
+        public string Id { get; set; }
+        public string AdressCode { get; set; }
+
+        public string Name { get; set; }
+        public string Suchbegriff { get; set; }
+        public string Name_2 { get; set; }
+        public string Adresse { get; set; }
+        public string Adresse_2 { get; set; }
+        public string Ort { get; set; }
+        public string Kontaktperson { get; set; }
+        public string Telefonnr { get; set; }
+        public string Telexnr { get; set; }
+        public string Unsere_Kontonr { get; set; }
+        public string Gebietscode { get; set; }
+        public string Kostenstelle { get; set; }
+        public string Kostenträger { get; set; }
+        public decimal? Budgetierter_Betrag { get; set; }
+        public string Kreditorenbuchungsgruppe { get; set; }
+        public string Währungscode { get; set; }
+        public string Sprachcode { get; set; }
+        public int? Statistikgruppe { get; set; }
+        public string Zlg_Bedingungscode { get; set; }
+        public string Zinskonditionencode { get; set; }
+        public string Einkäufercode { get; set; }
+        public string Lieferbedingungscode { get; set; }
+        public string Spediteurcode { get; set; }
+        public string Rechnungsrabattcode { get; set; }
+        public string Ländercode { get; set; }
+        public bool? Bemerkung { get; set; }
+        public bool? Gesperrt { get; set; }
+        public string Zahlung_an_Kred_Nr { get; set; }
+        public int? Priorität { get; set; }
+        public string Zahlungsform { get; set; }
+        public DateTime? Korrigiert_am { get; set; }
+        public decimal? Saldo { get; set; }
+        public decimal? Saldo_MW { get; set; }
+        public decimal? Bewegung { get; set; }
+        public decimal? Bewegung_MW { get; set; }
+        public decimal? Einkauf_MW { get; set; }
+        public decimal? Rechnungsrabatte_MW { get; set; }
+        public decimal? Skonto_MW { get; set; }
+        public decimal? Fälliger_Saldo { get; set; }
+        public decimal? Fälliger_Saldo_MW { get; set; }
+        public decimal? Zahlungen { get; set; }
+        public decimal? Fakturierter_Betrag { get; set; }
+        public decimal? Gutgeschriebener_Betrag { get; set; }
+        public decimal? Zinsrechnungsbetrag { get; set; }
+        public decimal? Bezahlt_MW { get; set; }
+        public decimal? Fakturierter_Betrag_MW { get; set; }
+        public decimal? Gutgeschriebener_Betrag_MW { get; set; }
+        public decimal? Zinsrechnungsbetrag_MW { get; set; }
+        public decimal? Bestellungsbestand { get; set; }
+        public decimal? Nicht_fakt_Lieferbetrag { get; set; }
+        public AusgleichsmethodeOption? Ausgleichsmethode { get; set; }
+        public string Faxnr { get; set; }
+        public string Telex_Namengeber { get; set; }
+        public string USt_IdNr { get; set; }
+        public string Geschäftsbuchungsgruppe { get; set; }
+        public string PLZ_Code { get; set; }
+        public string Bundesregion { get; set; }
+        public decimal? Sollbetrag { get; set; }
+        public decimal? Habenbetrag { get; set; }
+        public decimal? Sollbetrag_MW { get; set; }
+        public decimal? Habenbetrag_MW { get; set; }
+        public string E_Mail { get; set; }
+        public string Homepage { get; set; }
+        public decimal? Mahnbeträge { get; set; }
+        public decimal? Mahnbeträge_MW { get; set; }
+        public string Nummernserie { get; set; }
+        public string Steuergebietscode { get; set; }
+        public bool? Steuerpflichtig { get; set; }
+        public string MWSt_Geschäftsbuchungsgruppe { get; set; }
+        public decimal? Bestellungsbestand_MW { get; set; }
+        public decimal? Nicht_fakt_Lieferbetrag_MW { get; set; }
+        public ReservierenOption? Reservieren { get; set; }
+        public string Adressnr_Avise { get; set; }
+        public string Adressnr_Mahnungen { get; set; }
+        public decimal? DR_Prozent { get; set; }
+        public string DR_Fälligkeitsformel { get; set; }
+        public int? Rahmenvereinbarung { get; set; }
+        public string Übernommen_als_Kreditor { get; set; }
+        public DateTime? Datum_Übernahme_als_Kreditor { get; set; }
+        public decimal? Mindestbestellbetrag { get; set; }
+        public Lieferant_SubunternehmerOption? Lieferant_Subunternehmer { get; set; }
+        public bool? GAEB_Preisanfrage { get; set; }
+        public string Aktuelles_Bankkonto { get; set; }
+        public bool? Konto_pro_Diverse { get; set; }
+        public string Nummernserie_global { get; set; }
+        public bool? Notleidend { get; set; }
+        public string Kundengruppe { get; set; }
+        public string Bankname { get; set; }
+        public string BLZ { get; set; }
+        public string Bankkontonr { get; set; }
+        public string SWIFT_Code { get; set; }
+        public string IBAN { get; set; }
+        public string Kontoinhaber { get; set; }
+        public ZahlungsartOption? Zahlungsart { get; set; }
+        public ESR_ArtOption? ESR_Art { get; set; }
+        public string Postcheckkonto { get; set; }
+        public string ESR_Konto { get; set; }
+        public string Ausland_BLZ { get; set; }
+        public int? Rechnungsnr_Startpos { get; set; }
+        public int? Rechnungsnr_Länge { get; set; }
+        public string Verwendungszweck_SEPA { get; set; }
+        public string Dtaus_Fülldefinition { get; set; }
+        public string Gruppe { get; set; }
+        public string Bestelladreßcode { get; set; }
+        public SperrkennzeichenOption? Sperrkennzeichen { get; set; }
+        public string Steuernummer { get; set; }
+        public string Adressat_Avise { get; set; }
+        public string Steuernummer_IT { get; set; }
+        public DateTime? AGH_Freistellung_ab { get; set; }
+        public DateTime? AGH_Freistellung_bis { get; set; }
+        public bool? Prüfung_gültige_Kostenarten { get; set; }
+        public bool? Gültige_Kostenarten { get; set; }
+        public int? Anzahl_Posten_pro_Zahlsatz { get; set; }
+        public string max_Anzahl_Zahlsätze { get; set; }
+        public SkontobasisOption? Skontobasis { get; set; }
+        public Datensatz_GesperrtOption? Datensatz_Gesperrt { get; set; }
+        public string Sperrhinweis { get; set; }
+        public DateTime? Gültig_ab { get; set; }
+        public DateTime? Gültig_bis { get; set; }
+        public bool? Bauleistender_13b { get; set; }
+        public DateTime? Freistellung_bis { get; set; }
+        public bool? Grenzunterschreitung { get; set; }
+        public string Bauabzugssteuer_Adressnr { get; set; }
+        public DateTime? Freistellung_von { get; set; }
+        public decimal? Skontierfähiger_Saldo_MW { get; set; }
+        public decimal? Saldo_bis_Datum { get; set; }
+        public decimal? Saldo_bis_Datum_MW { get; set; }
+        public bool? Konto_mit_Bewegung { get; set; }
+        public bool? Konto_mit_offenen_Posten { get; set; }
+        public decimal? Bewegung_MW_Plus { get; set; }
+        public bool? Eintrag_EPU_in_HFU_Gesamtliste { get; set; }
+        public string USt_IdNr_Betriebsstätte { get; set; }
+        public string Steuernummer_Freistellung { get; set; }
+        public string Finanzamt_Freistellung { get; set; }
+        public string Versicherungsnummer_VSNR { get; set; }
+        public string Dienstleistungszentrum { get; set; }
+        public string DG_Nummer { get; set; }
+        public bool? Eintrag_in_HFU_Gesamtliste { get; set; }
+        public bool? Haftungsübernahme { get; set; }
+        public bool? Ist_Niederlassung { get; set; }
+        public string Neuanlagesystem { get; set; }
+        public string Neuanlagebenutzer { get; set; }
+        public DateTime? Neuanlagedatum { get; set; }
+        public string Änderungssystem { get; set; }
+        public string Änderungsbenutzer { get; set; }
+        public DateTime? Änderungsdatum { get; set; }
+        public DateTime? Datumsfilter { get; set; }
+        public string Kostenstellenfilter { get; set; }
+        public string Kostenträgerfilter { get; set; }
+        public string Währungsfilter { get; set; }
+        public bool? Bonusberechnungsfilter { get; set; }
+        public EinbehaltsartFilterOption? EinbehaltsartFilter { get; set; }
+        public decimal? Betragsfilter { get; set; }
+        public bool? Statistischfilter { get; set; }
+        public string Niederlassungsfilter { get; set; }
+        public bool? Umsatzfilter { get; set; }
+        public string Kreditorenbuchungsgruppenfilter { get; set; }
+
+        public List<KreditorBankkonto> Bankkonten { get; set; }
+    }
+
+    public class KreditorBankkonto
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Name_2 { get; set; }
+        public string Adresse { get; set; }
+        public string Adresse_2 { get; set; }
+        public string Ort { get; set; }
+        public string PLZ_Code { get; set; }
+        public string Kontaktperson { get; set; }
+        public string Telefonnr { get; set; }
+        public string Telexnr { get; set; }
+        public string BLZ_alt { get; set; }
+        public string Bankkontonummer { get; set; }
+        public string Transit_Nr { get; set; }
+        public string Währungscode { get; set; }
+        public string Ländercode { get; set; }
+        public string Bundesregion { get; set; }
+        public string Faxnr { get; set; }
+        public string Telex_Namengeber { get; set; }
+        public string Sprachcode { get; set; }
+        public string E_Mail { get; set; }
+        public string Homepage { get; set; }
+        public string BLZ { get; set; }
+        public string Land_BLZ { get; set; }
+        public ZahlungsartOption? Zahlungsart { get; set; }
+        public ESR_ArtOption? ESR_Art { get; set; }
+        public string Postcheckkonto { get; set; }
+        public string ESR_Konto { get; set; }
+        public string Ausland_BLZ { get; set; }
+        public string SWIFT_Code { get; set; }
+        public string Gegenkonto { get; set; }
+        public int? Rechnungsnr_Startpos { get; set; }
+        public int? Rechnungsnr_Länge { get; set; }
+        public string Kontoinhaber { get; set; }
+        public string IBAN { get; set; }
+        public EntgeltreglungOption? Entgeltreglung { get; set; }
+        public string Weisungsschlüssel_1 { get; set; }
+        public string Weisungsschlüssel_2 { get; set; }
+        public Datensatz_GesperrtOption? Datensatz_Gesperrt { get; set; }
+        public string Sperrhinweis { get; set; }
+        public DateTime? Gültig_ab { get; set; }
+        public DateTime? Gültig_bis { get; set; }
+        public bool? Aktuelles_Bankkonto { get; set; }
+        public string Neuanlagesystem { get; set; }
+        public string Neuanlagebenutzer { get; set; }
+        public DateTime? Neuanlagedatum { get; set; }
+        public string Änderungssystem { get; set; }
+        public string Änderungsbenutzer { get; set; }
+        public DateTime? Änderungsdatum { get; set; }
+    }
+
+    public enum Lieferant_SubunternehmerOption
+    {
+        /// <summary>
+        /// Lieferant
+        /// </summary>
+        Lieferant = 0,
+
+        /// <summary>
+        /// Subunternehmer
+        /// </summary>
+        Subunternehmer = 1,
+
+        /// <summary>
+        /// Beides
+        /// </summary>
+        Beides = 2
+    }
+
+    public enum SkontobasisOption
+    {
+        /// <summary>
+        /// V
+        /// </summary>
+        V = 0,
+
+        /// <summary>
+        /// W
+        /// </summary>
+        W = 1
+    }
+
+    public enum SperrkennzeichenOption
+    {
+        _ = 0,
+
+        /// <summary>
+        /// Exekution
+        /// </summary>
+        Exekution = 1,
+
+        /// <summary>
+        /// Insolvenz
+        /// </summary>
+        Insolvenz = 2,
+
+        /// <summary>
+        /// Konkurs
+        /// </summary>
+        Konkurs = 3,
+
+        /// <summary>
+        /// Zession
+        /// </summary>
+        Zession = 4
+    }
+
+    public enum ESR_ArtOption
+    {
+        _ = 0,
+
+        /// <summary>
+        /// 5/15
+        /// </summary>
+        _5_15 = 1,
+
+        /// <summary>
+        /// 9/27
+        /// </summary>
+        _9_27 = 2,
+
+        /// <summary>
+        /// 9/16
+        /// </summary>
+        _9_16 = 3
+    }
+
+    public enum ZahlungsartOption
+    {
+        /// <summary>
+        /// ESR
+        /// </summary>
+        ESR = 0,
+
+        /// <summary>
+        /// ESR+
+        /// </summary>
+        ESR_2 = 1,
+
+        /// <summary>
+        /// EZ Post
+        /// </summary>
+        EZ_Post = 2,
+
+        /// <summary>
+        /// EZ Bank
+        /// </summary>
+        EZ_Bank = 3,
+
+        /// <summary>
+        /// ZA Inland
+        /// </summary>
+        ZA_Inland = 4,
+
+        /// <summary>
+        /// PC Ausland
+        /// </summary>
+        PC_Ausland = 5,
+
+        /// <summary>
+        /// Bank Ausland
+        /// </summary>
+        Bank_Ausland = 6,
+
+        /// <summary>
+        /// SWIFT
+        /// </summary>
+        SWIFT = 7,
+
+        /// <summary>
+        /// Postanweisung Ausland
+        /// </summary>
+        Postanweisung_Ausland = 8
+    }
+
+    public enum AusgleichsmethodeOption
+    {
+        /// <summary>
+        /// Offener Posten
+        /// </summary>
+        Offener_Posten = 0,
+
+        /// <summary>
+        /// Saldomethode
+        /// </summary>
+        Saldomethode = 1
+    }
+
+    public enum ReservierenOption
+    {
+        /// <summary>
+        /// Nie
+        /// </summary>
+        Nie = 0,
+
+        /// <summary>
+        /// Optional
+        /// </summary>
+        Optional = 1,
+
+        /// <summary>
+        /// Immer
+        /// </summary>
+        Immer = 2
+    }
+
+    public enum VersicherbarkeitOption
+    {
+        _ = 0,
+
+        /// <summary>
+        /// nicht versicherbar
+        /// </summary>
+        nicht_versicherbar = 1,
+
+        /// <summary>
+        /// bedingt versicherbar
+        /// </summary>
+        bedingt_versicherbar = 2,
+
+        /// <summary>
+        /// versicherbar
+        /// </summary>
+        versicherbar = 3
+    }
+
+    public enum ESR_SystemOption
+    {
+        _ = 0,
+
+        /// <summary>
+        /// ESR
+        /// </summary>
+        ESR = 1,
+
+        /// <summary>
+        /// ESR+
+        /// </summary>
+        ESR_2 = 2
+    }
+
+    public enum EntgeltreglungOption
+    {
+        _ = 0,
+        _00 = 1,
+        _01 = 2,
+        _02 = 3
+    }
+
+    public enum Datensatz_GesperrtOption
+    {
+        /// <summary>
+        /// Nein
+        /// </summary>
+        Nein = 0,
+
+        /// <summary>
+        /// Ja
+        /// </summary>
+        Ja = 1,
+
+        /// <summary>
+        /// Bereich
+        /// </summary>
+        Bereich = 2,
+
+        /// <summary>
+        /// Hinweis
+        /// </summary>
+        Hinweis = 3
+    }
+
+    public enum ZeilenrabattberechnungOption
+    {
+        _ = 0,
+
+        /// <summary>
+        /// Mengenrabatt + Deb.-/Artikelrabatt
+        /// </summary>
+        Mengenrabatt_Deb_Artikelrabatt = 1,
+
+        /// <summary>
+        /// Mengenrabatt * Deb.-/Artikelrabatt
+        /// </summary>
+        Mengenrabatt_Deb_Artikelrabatt_2 = 2
+    }
+
+    public enum EinbehaltsartFilterOption
+    {
+        _ = 0,
+
+        /// <summary>
+        /// Einbehalt
+        /// </summary>
+        Einbehalt = 1,
+
+        /// <summary>
+        /// Deckungsrücklass
+        /// </summary>
+        Deckungsrücklass = 2,
+
+        /// <summary>
+        /// Haftrücklass
+        /// </summary>
+        Haftrücklass = 3,
+
+        /// <summary>
+        /// Sicherheitseinbehalt
+        /// </summary>
+        Sicherheitseinbehalt = 4,
+
+        /// <summary>
+        /// Vertragserfüllungsbürgschaft
+        /// </summary>
+        Vertragserfüllungsbürgschaft = 5,
+
+        /// <summary>
+        /// Gewährleistungsbürgschaft
+        /// </summary>
+        Gewährleistungsbürgschaft = 6
     }
 
     /// <summary>
@@ -266,10 +995,13 @@ namespace Nevaris.Build.ClientApi
         public DateTime? Bauende { get; set; }
         public string Ampel { get; set; }
         public string Art { get; set; }
-        public string Auschreibungsart { get; set; }
+        public string Ausschreibungsart { get; set; }
         public string Status { get; set; }
         public string Sparte { get; set; }
         public string Typ { get; set; }
+
+        [Obsolete("Tippfehler")]
+        public string Auschreibungsart { get; set; }
 
         /// <summary>
         /// Liste von Leistungsverzeichnissen, die in diesem Projekt enthalten sind.
@@ -653,8 +1385,6 @@ namespace Nevaris.Build.ClientApi
         public bool? Leistungsfähig { get; set; }
 
         public string Einheit { get; set; }
-
-        public string Kostenart { get; set; }
 
         /// <summary>
         /// Liste von Kosten (eine pro Kostenebene, auf der die Kosten für dieses Betriebsmittel definiert sind).
@@ -1197,7 +1927,8 @@ namespace Nevaris.Build.ClientApi
         FreiesAngebot,
         AuftragAusfuehrend,
         Subvergabe,
-        SubVergabeAusfuehren
+        SubVergabeAusfuehren,
+        VereinfachterModus,
     }
 
     public enum KalkulationsArt
@@ -1360,7 +2091,31 @@ namespace Nevaris.Build.ClientApi
         public string Kurztext { get; set; }
         public string Langtext { get; set; }
         public string Teilleistungsnummer { get; set; }
+
+        /// <summary>
+        /// Gesamtbetrag (netto) inkl. Aufschläge/Nachlässe.
+        /// </summary>
         public Money Betrag { get; set; }
+
+        /// <summary>
+        /// Gesamtbetrag (brutto) inkl. Aufschläge/Nachlässe.
+        /// </summary>
+        public Money BetragBrutto { get; set; }
+
+        /// <summary>
+        /// USt-Betrag (= Defferenz aus BetragBrutto und Betrag).
+        /// </summary>
+        public Money UstBetrag { get; set; }
+
+        /// <summary>
+        /// Gesamtbetrag (netto) ohne Aufschläge/Nachlässe.
+        /// </summary>
+        public Money Listenpreis { get; set; }
+
+        /// <summary>
+        /// Gesamtbetrag (brutto) ohne Aufschläge/Nachlässe.
+        /// </summary>
+        public Money ListenpreisBrutto { get; set; }
 
         public Herkunftskennzeichen? Herkunftskennzeichen { get; set; }
     }
@@ -1384,9 +2139,12 @@ namespace Nevaris.Build.ClientApi
         public decimal? LvMenge { get; set; }
         // TODO Prognosemengen
         public Dictionary<string, Money> Preisanteile { get; set; }
-        public Money Einheitspeis { get; set; }
+        public Money Einheitspreis { get; set; }
         public bool IstFixpreis { get; set; }
         public bool IstIntern { get; set; }
+
+        [Obsolete("Tippfehler")]
+        public Money Einheitspeis { get; set; }
     }
 
     public class Aufmaßblatt : BaseObject
@@ -1671,7 +2429,9 @@ namespace Nevaris.Build.ClientApi
         public string Notiz { get; set; }
 
         public BautagesberichtArbeitszeit ArbeitsZeit { get; set; }
-        public List<BautagesberichtPausenzeit> PausenZeiten { get; set; }
+
+        public BautagesberichtPausenzeit PausenZeit1 { get; set; }
+        public BautagesberichtPausenzeit PausenZeit2 { get; set; }
 
         public BautagesberichtWetter WetterGanztags { get; set; }
         public BautagesberichtWetter WetterMorgens { get; set; }
@@ -1679,7 +2439,8 @@ namespace Nevaris.Build.ClientApi
         public BautagesberichtWetter WetterAbends { get; set; }
         public decimal? Luftfeuchtigkeit { get; set; }
 
-        public List<BautagesberichtSchlechtwetter> Schlechtwetter { get; set; }
+        public BautagesberichtSchlechtwetter SchlechtWetter1 { get; set; }
+        public BautagesberichtSchlechtwetter SchlechtWetter2 { get; set; }
 
         public List<BautagesberichtSchnellerfassung> Arbeiter { get; set; }
         public List<BautagesberichtSchnellerfassung> Angestellte { get; set; }
@@ -1706,7 +2467,6 @@ namespace Nevaris.Build.ClientApi
     {
         public DateTime? PausenzeitBeginn { get; set; }
         public DateTime? PausenzeitEnde { get; set; }
-        public int? Index { get; set; }
     }
 
     public class BautagesberichtWetter : BaseObject
@@ -1720,7 +2480,6 @@ namespace Nevaris.Build.ClientApi
     {
         public DateTime? SchlechtwetterBeginn { get; set; }
         public DateTime? SchlechtwetterEnde { get; set; }
-        public int? Index { get; set; }
     }
 
     public class BautagesberichtSchnellerfassung : BaseObject
@@ -1767,9 +2526,9 @@ namespace Nevaris.Build.ClientApi
         public string Bezeichnung { get; set; }
         public decimal? LvMenge { get; set; }
         public string Einheit { get; set; }
-        public string Ansatz { get; set; }
+        public string Inhalt { get; set; }
         public decimal? Menge { get; set; }
-        public string Kommentar { get; set; }
+        public string InternerKommentar { get; set; }
     }
 
     /// <summary>

@@ -200,7 +200,6 @@ namespace BetriebsmittelStammApp
                 zielChild.Bezeichnung = quellChild.Bezeichnung;
                 zielChild.Leistungsfähig = quellChild.Leistungsfähig;
                 zielChild.Einheit = quellChild.Einheit;
-                zielChild.Kostenart = quellChild.Kostenart;
 
                 zielChild.Kosten = quellChild.Kosten?.Select(k => new BetriebsmittelKosten
                 {
