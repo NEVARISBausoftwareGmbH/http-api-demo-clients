@@ -2103,11 +2103,6 @@ namespace Nevaris.Build.ClientApi
         public Money BetragBrutto { get; set; }
 
         /// <summary>
-        /// USt-Betrag (= Defferenz aus BetragBrutto und Betrag).
-        /// </summary>
-        public Money UstBetrag { get; set; }
-
-        /// <summary>
         /// Gesamtbetrag (netto) ohne Aufschläge/Nachlässe.
         /// </summary>
         public Money Listenpreis { get; set; }
@@ -2153,6 +2148,14 @@ namespace Nevaris.Build.ClientApi
         public MengenArt? MengenArt { get; set; }
         public string Nummer { get; set; }
         public string Bezeichnung { get; set; }
+    }
+
+    public enum DBKostenart
+    {
+        EinmaligeKosten = 100,
+        MengenabhaengigeKosten = 200,
+        ZeitabhaengigeKosten = 300,
+        UmsatzabhaengigeKosten = 400,
     }
 
     public enum RechnungsStatus
@@ -2406,6 +2409,78 @@ namespace Nevaris.Build.ClientApi
         {
             return string.Join("; ", this);
         }
+    }
+
+    /// <summary>
+    /// Ein berechneter Wert (z.B. Nettobetrag einer Leistungsgruppe). Es sind nur die für den jeweiligen Wertetyp
+    /// relevanten Felder befüllt.
+    /// </summary>
+    public class Rechenwert
+    {
+        /// <summary>
+        /// Identifiziert den Wertetyp (z.B. "Lv_Listenpreis_Brutto").
+        /// </summary>
+        public string Id { get; set; }
+
+        public decimal? Wert { get; set; }
+
+        public decimal? Basiswert { get; set; }
+
+        public string Währung { get; set; }
+
+        public string PreisanteilCode { get; set; }
+
+        public string UmsatzsteuerCode { get; set; }
+
+        public int? ZuschlagIndex { get; set; }
+
+        public ZuschlagsTyp? ZuschlagsTyp { get; set; }
+
+        public decimal? PreisanteilUmrechnungssatz { get; set; }
+
+        public Guid? PreisperiodeId { get; set; }
+
+        public int? PreisperiodeNummer { get; set; }
+
+        public Guid? PositionId { get; set; }
+
+        public string Kostenart { get; set; }
+
+        public Guid? WarengruppeId { get; set; }
+
+        public DBKostenart? DBKostenart { get; set; }
+    }
+
+    /// <summary>
+    /// Enthält alle Rechenwerte des Projekts einschließlich der Leistungsverzeichnisse.
+    /// </summary>
+    public class ProjektRechenwerte
+    {
+        /// <summary>
+        /// Die Rechenwerte, gegliedert nach LV-Art.
+        /// </summary>
+        public Dictionary<LvArt, List<Rechenwert>> Werte { get; set; }
+
+        /// <summary>
+        /// Rechenwerte aller Leistungsverzeichnisse.
+        /// </summary>
+        public List<LvRechenwerte> LvWerte { get; set; }
+    }
+
+    /// <summary>
+    /// Enthält die Rechenwerte eines Leistungsverzeichnisses.
+    /// </summary>
+    public class LvRechenwerte
+    {
+        /// <summary>
+        /// ID des Leistungsverzeichnisses.
+        /// </summary>
+        public Guid LvId { get; set; }
+
+        /// <summary>
+        /// Die Rechenwerte, gegliedert nach LV-Art.
+        /// </summary>
+        public Dictionary<LvArt, List<Rechenwert>> Werte { get; set; }
     }
 
     #region Bautagebuch classes

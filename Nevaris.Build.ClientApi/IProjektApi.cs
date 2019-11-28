@@ -128,5 +128,8 @@ namespace Nevaris.Build.ClientApi
 
         [Get("/build/projekte/{projektId}/bautagesberichte/projektdaten")]
         Task<BautagebuchProjektdaten> GetBautagesberichtProjektdaten(string projektId);
+
+        [Get("/build/projekte/{projektId}/rechenwerte")]
+        Task<ProjektRechenwerte> GetRechenwerte(string projektId);
     }
 }
