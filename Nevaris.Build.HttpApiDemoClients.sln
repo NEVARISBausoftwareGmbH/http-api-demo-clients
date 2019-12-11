@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetriebsmittelStammApp", "BetriebsmittelStammApp\BetriebsmittelStammApp.csproj", "{337264FD-2862-4E1A-B37D-A09974AFF9B8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nevaris.Build.ClientApi", "Nevaris.Build.ClientApi\Nevaris.Build.ClientApi.csproj", "{FADE66F2-8413-44DC-B804-52E10F46E9CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdressConsoleApp", "AdressConsoleApp\AdressConsoleApp.csproj", "{FA05AA35-119B-403F-975C-52333DB38E3B}"
 EndProject
@@ -21,10 +19,6 @@ Global
 		{337264FD-2862-4E1A-B37D-A09974AFF9B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{337264FD-2862-4E1A-B37D-A09974AFF9B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{337264FD-2862-4E1A-B37D-A09974AFF9B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FADE66F2-8413-44DC-B804-52E10F46E9CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FADE66F2-8413-44DC-B804-52E10F46E9CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FADE66F2-8413-44DC-B804-52E10F46E9CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FADE66F2-8413-44DC-B804-52E10F46E9CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA05AA35-119B-403F-975C-52333DB38E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA05AA35-119B-403F-975C-52333DB38E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA05AA35-119B-403F-975C-52333DB38E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU

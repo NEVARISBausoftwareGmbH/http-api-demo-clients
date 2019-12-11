@@ -59,14 +59,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nevaris.Build.ClientApi\Nevaris.Build.ClientApi.csproj">
-      <Project>{fade66f2-8413-44dc-b804-52e10f46e9cf}</Project>
-      <Name>Nevaris.Build.ClientApi</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="Nevaris.Build.ClientApi">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

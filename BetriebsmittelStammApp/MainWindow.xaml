@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BetriebsmittelStammApp"
         mc:Ignorable="d"
-        Title="HTTP API Test Client" Height="750" Width="1100" MinHeight="400" MinWidth="700" Background="Beige">
+        Title="Betriebsmitteltransfer" Height="750" Width="1100" MinHeight="400" MinWidth="700" Background="Beige">
 
     <Window.Resources>
         <Style TargetType="Button">
