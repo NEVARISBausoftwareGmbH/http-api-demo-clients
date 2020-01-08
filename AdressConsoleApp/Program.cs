@@ -43,6 +43,13 @@ namespace AdressConsoleApp
 
                 var client = new NevarisBuildClient(baseUrl);
 
+                // API-Version abfragen und auf Kompatibilität mit Client überprüfen
+                var versionCheckResult = await client.CheckVersion();
+                if (!versionCheckResult.AreVersionsCompatible)
+                {
+                    throw new InvalidOperationException($"Versionskonflikt: API: {versionCheckResult.ApiVersion}, client: {versionCheckResult.ClientVersion}");
+                }
+
                 // Alle Adressen laden
 
                 Console.WriteLine("Lade Adressen ...");
