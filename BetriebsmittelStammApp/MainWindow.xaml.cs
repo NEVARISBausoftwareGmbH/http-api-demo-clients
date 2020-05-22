@@ -84,6 +84,8 @@ namespace BetriebsmittelStammApp
 
         async void OnBetriebsmittelstämmeLaden(object sender, RoutedEventArgs e)
         {
+            _meldungenParagraph.Inlines.Clear();
+
             try
             {
                 QuellStammViewModels = (await QuellClient.StammApi.GetBetriebsmittelStämme()).Select(stamm => new BetriebsmittelStammViewItem(stamm)).OrderBy(v => v.VollständigeBezeichnung).ToList();
