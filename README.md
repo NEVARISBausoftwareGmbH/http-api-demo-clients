@@ -8,4 +8,4 @@ Diese Visual Studio-Solution enthält Projekte, die den Zugriff auf NEVARIS Buil
 
 ## Voraussetzungen ##
 
-Informationen zur Installation der RESTful API finden sich hier: [Nevaris.Build.ClientApi](https://github.com/NEVARISBausoftwareGmbH/http-api-client-libs).
+Informationen zur Installation der RESTful API befinden sich hier: [Nevaris.Build.ClientApi](https://github.com/NEVARISBausoftwareGmbH/http-api-client-libs).
