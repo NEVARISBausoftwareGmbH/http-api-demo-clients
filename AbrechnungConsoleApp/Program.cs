@@ -71,6 +71,9 @@ namespace AbrechnungConsoleApp
             {
                 Console.WriteLine($"Fehler: {ex.Message}");
             }
+
+            Console.WriteLine("Zum Beenden bitte eine Taste drücken ...");
+            Console.ReadKey(intercept: true);
         }
 
         static async Task VerarbeiteAuftrag(IProjektApi api, Projekt projekt, Leistungsverzeichnis lv)

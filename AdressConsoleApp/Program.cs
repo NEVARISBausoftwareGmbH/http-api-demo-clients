@@ -65,9 +65,11 @@ namespace AdressConsoleApp
                 if (testAdresse == null)
                 {
                     Console.WriteLine("Adresse nicht gefunden. Lege neue Adresse an.");
-                    testAdresse = await client.StammApi.CreateAdresse(new NewAdresseInfo { AdressArt = AdressArt.Organisation });
-                    testAdresse.Name = nameTestAdresse; // Namen zuweisen
-                    await client.StammApi.UpdateAdresse(testAdresse.Code, testAdresse); // und geänderte Adresse speichern
+                    testAdresse = await client.StammApi.CreateAdresse(new NewAdresseInfo
+                    {
+                        AdressArt = AdressArt.Organisation,
+                        Name = nameTestAdresse
+                    });
                     Console.WriteLine($"Adresse mit Code {testAdresse.Code} angelegt.");
                 }
                 else
@@ -89,7 +91,12 @@ namespace AdressConsoleApp
 
                 if (testAdresse.Bankverbindungen.Count == 0)
                 {
-                    testAdresse.Bankverbindungen.Add(new Bankverbindung { Bankname = "Berliner Sparkasse", Iban = "DE19123412341234123412", Bic = "BELADEBEXXX" });
+                    testAdresse.Bankverbindungen.Add(new Bankverbindung
+                    {
+                        Bankname = "Deutsche Kreditbank Berlin",
+                        Iban = "DE02120300000000202051",
+                        Bic = "BYLADEM1001"
+                    });
                 }
 
                 // Speichere die geänderte Adresse
@@ -103,6 +110,9 @@ namespace AdressConsoleApp
             {
                 Console.WriteLine($"Fehler: {ex.Message}");
             }
+
+            Console.WriteLine("Zum Beenden bitte eine Taste drücken ...");
+            Console.ReadKey(intercept: true);
         }
     }
 }
