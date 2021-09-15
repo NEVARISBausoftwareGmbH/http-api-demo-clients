@@ -1,7 +1,8 @@
 {
   "baseUrl": "http://localhost:8500",
 
-  "speicherortBezeichnung": "B19R1",
-  "projektNummer": "2018-004",
-  "projektBezeichnung": "Demoprojekt Ausführer AT 2018"
+  "README-Anpassung": null,
+  "speicherortBezeichnung": "NEVARIS_Build",
+  "projektNummer": "2021-004",
+  "projektBezeichnung": "Demoprojekt Ausführer AT 2021"
 }
