@@ -61,7 +61,7 @@ namespace AbrechnungConsoleApp
 
                 foreach (var lv in projekt.Leistungsverzeichnisse)
                 {
-                    if (lv.Art == LvArt.AuftragAusfuehrend || lv.Art == LvArt.VereinfachterModus)
+                    if (lv.Art == LvArt.AuftragErhalten || lv.Art == LvArt.AuftragErteilt)
                     {
                         await VerarbeiteAuftrag(client.ProjektApi, projekt, lv);
                     }
