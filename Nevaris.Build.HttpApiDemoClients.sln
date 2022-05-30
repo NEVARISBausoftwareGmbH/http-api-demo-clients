@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LvKopierenApp", "LvKopierenApp\LvKopierenApp.csproj", "{00646B82-F317-4998-817D-BE25AF126BB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6B9D668A-D277-4594-9A3E-388B3F16BE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B9D668A-D277-4594-9A3E-388B3F16BE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B9D668A-D277-4594-9A3E-388B3F16BE27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00646B82-F317-4998-817D-BE25AF126BB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00646B82-F317-4998-817D-BE25AF126BB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00646B82-F317-4998-817D-BE25AF126BB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00646B82-F317-4998-817D-BE25AF126BB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

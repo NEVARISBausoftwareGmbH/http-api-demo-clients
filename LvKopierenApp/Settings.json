@@ -1,0 +1,7 @@
+﻿{
+  "baseUrl": "http://localhost:8500",
+  "speicherortBezeichnung": "B22_2",
+  "projektBezeichnung": "API Test",
+  "lvBezeichnungQuelle": "ÖNORM API Test",
+  "lvBezeichnungZiel": "ÖNORM API Test Kopie"
+}
