@@ -106,13 +106,13 @@
                 <local:UcSpinnerApple x:Name="WaitSpinner" Visibility="Collapsed" Margin="7 0 0 0"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Margin="7 0 0 3">
+            <StackPanel Grid.Row="1" Margin="7 0 0 3" Orientation="Horizontal" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Width="100" FontWeight="DemiBold">Währung:</TextBlock>
+                    <TextBlock Width="60" FontWeight="DemiBold">Währung:</TextBlock>
                     <TextBlock Text="{Binding LvDetails.Waehrung}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Width="100" FontWeight="DemiBold">Umsatzsteuer:</TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="30 0 0 0">
+                    <TextBlock Width="80" FontWeight="DemiBold">Umsatzsteuer:</TextBlock>
                     <TextBlock Text="{Binding LvDetails.Umsatzsteuer}"/>
                 </StackPanel>
             </StackPanel>

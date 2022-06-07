@@ -13,7 +13,7 @@ namespace HttpApi_Wpf_Bommhardt
         public LvPosition(Nevaris.Build.ClientApi.LvPosition? lvPosition, MengenArtViewItem? mengenArt) 
             : base(lvPosition)
         {            
-            Menge = lvPosition?.LvMenge;
+           Menge = lvPosition?.LvMenge;
             Einheit = lvPosition?.Einheit;
             Einheitspreis = lvPosition?.Ergebnisse?.Einheitspreis?.FirstValue;
             _itemType = lvPosition?.ItemTyp;
@@ -31,7 +31,7 @@ namespace HttpApi_Wpf_Bommhardt
         public decimal? Menge { get; set; }
         public string? Einheit { get; set; }
         public decimal? Einheitspreis { get; set; }
-        public string? MengenArt => IsMengenPosition(_itemType) ? $"{_mengenArt?.Bezeichnung}:" : null;
+        public string? MengenArt => "LV-Menge";
         public string? EinheitText => IsMengenPosition(_itemType) ? "Eh:" : null;
         public string? EinheitspreisText => IsMengenPosition(_itemType) ? "EP:" : null;
     }
