@@ -27,35 +27,34 @@ namespace HttpApi_Wpf_Bommhardt
             Model = new(this);            
         }
 
-        private ViewModel _model;
+        private ViewModel? _model;
 
-        public ViewModel Model
+        public ViewModel? Model
         {
             get { return _model; }
             set { DataContext = _model = value; }
         }
 
         public void SetTreeViewSource()
-            => tv.ItemsSource = Model.LvDetails?.RootNodes;
+            => tv.ItemsSource = Model?.LvDetails?.RootNodes;
 
         public void SetWaitSpinner(bool visible)
             => WaitSpinner.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Model.Dispose();
+            Model?.Dispose();
             Close();
         }
 
         private void tv_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             //Langetext angezeigen
-            if (e.NewValue != null)
+            if (e.NewValue != null && Model?.LvDetails != null)
             {
-                TxtLangtext.Text = (e.NewValue as LvItem)?.Langtext;
+                Model.LvDetails.SelectedLvItem = e.NewValue as LvItem;
             }
 
         }
-         public void ResetText() => TxtLangtext.Text = null;        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Nevaris.Build.ClientApi;
+﻿using Lv_Viewer;
+using Nevaris.Build.ClientApi;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,7 @@ namespace HttpApi_Wpf_Bommhardt
     public class ViewModel : NotifyPropertyChangedBase
     {
         private MainWindow _mainWindow;
-        private NevarisBuildClient Client { get; set; }
+        private NevarisBuildClient? Client { get; set; }
 
         public ViewModel(MainWindow mainView)
         {
@@ -34,7 +35,10 @@ namespace HttpApi_Wpf_Bommhardt
             IEnumerable<Speicherort>? speicherOrte = null;
             try
             {
-                speicherOrte = (await Client.StammApi.GetSpeicherorte()).Where(_ => _.DatenbankInfo != null);
+                if (Client != null)
+                {
+                    speicherOrte = (await Client.StammApi.GetSpeicherorte())?.Where(_ => _.DatenbankInfo != null);
+                }
             }
             catch (Exception ex)
             {
@@ -53,7 +57,7 @@ namespace HttpApi_Wpf_Bommhardt
 
         public void Dispose()
         {
-            Client.Dispose();
+            Client?.Dispose();
         }
 
         private ObservableCollection<Speicherort?> _SpeicherOrte = new();        
@@ -81,11 +85,11 @@ namespace HttpApi_Wpf_Bommhardt
         {
             Projekte.Clear();
             Lvs.Clear();
-            if (SelectedSpeicherOrt != null)
+            if (SelectedSpeicherOrt != null && Client != null)
             {
                 Speicherort? speicherort = null;
                 try
-                {
+                {                    
                     speicherort = await Client.StammApi.GetSpeicherort(SelectedSpeicherOrt.Id);
                 }
                 catch (Exception ex)
@@ -111,9 +115,9 @@ namespace HttpApi_Wpf_Bommhardt
             set { _projekte = value; OnPropertyChanged(nameof(Projekte)); }
         }
 
-        private ProjektInfo _selectedProjekt;
+        private ProjektInfo? _selectedProjekt;
 
-        public ProjektInfo SelectedProjekt
+        public ProjektInfo? SelectedProjekt
         {
             get { return _selectedProjekt; }
             set 
@@ -124,12 +128,45 @@ namespace HttpApi_Wpf_Bommhardt
             }
         }
 
+        private MengenArtViewItem? _selectedMenge;
+
+        public MengenArtViewItem? SelectedMenge
+        {
+            get { return _selectedMenge; }
+            set 
+            { 
+                _selectedMenge = value; 
+                OnPropertyChanged(nameof(SelectedMenge));
+                //LV mit neuer Menge neu laden.
+                LoadLv(SelectedLv);
+            }
+        }
+
+        private ObservableCollection<MengenArtViewItem> _mengen = new();
+
+        public ObservableCollection<MengenArtViewItem> Mengen
+        {
+            get { return _mengen; }
+            set { _mengen = value; OnPropertyChanged(nameof(Mengen)); }
+        }
+
+        private void LoadMengen()
+        {
+            Mengen.Clear();
+            foreach (var art in MengenArtViewItem.Arten)
+            {
+                Mengen.Add(new MengenArtViewItem(art));
+            }
+            _selectedMenge = Mengen.First(_ => _.Art == MengenArt.Lv);
+            OnPropertyChanged(nameof(SelectedMenge));
+        }
+
         private async void LoadLvs()
         {
             _mainWindow.SetWaitSpinner(false);
             Lvs.Clear();           
-            if (SelectedProjekt != null)
-            {
+            if (SelectedProjekt != null && Client != null)
+            {                
                 Projekt? projekt = null;
                 try
                 {
@@ -159,16 +196,17 @@ namespace HttpApi_Wpf_Bommhardt
             set { _lvs = value; OnPropertyChanged(nameof(Lvs)); }
         }
 
-        private Leistungsverzeichnis _selectedLv;
+        private Leistungsverzeichnis? _selectedLv;
 
-        public Leistungsverzeichnis SelectedLv
+        public Leistungsverzeichnis? SelectedLv
         {
             get { return _selectedLv; }
             set 
             {
                 _selectedLv = value;
-                OnPropertyChanged(nameof(SelectedLv));
-                LoadLv(value);                
+                OnPropertyChanged(nameof(SelectedLv));               
+                LoadLv(value);
+                LoadMengen();
             }
         }
         private LeistungsverzeichnisWrapper? _lvDetails;
@@ -179,17 +217,17 @@ namespace HttpApi_Wpf_Bommhardt
             set { _lvDetails = value; OnPropertyChanged(nameof(LvDetails)); }
         }
 
-        private async void LoadLv(Leistungsverzeichnis lv)
+        private async void LoadLv(Leistungsverzeichnis? lv)
         {
-            LvDetails?.Dispose();
-            _mainWindow.ResetText();
-            _mainWindow.SetWaitSpinner(true);
-            if (lv != null && SelectedProjekt != null)
+            LvDetails?.Dispose();                      
+            if (lv != null && SelectedProjekt != null && Client != null)
             {                
+                _mainWindow.SetWaitSpinner(true);                
                 Leistungsverzeichnis? newLv = null;
                 try
                 {
-                    newLv = await Client.ProjektApi.GetLeistungsverzeichnis(SelectedProjekt.Id, lv.Id);
+                    newLv = await Client.ProjektApi.GetLeistungsverzeichnis
+                        (SelectedProjekt.Id, lv.Id, SelectedMenge?.Art ?? MengenArt.Lv);
                 }
                 catch (Exception ex)
                 {
@@ -202,7 +240,7 @@ namespace HttpApi_Wpf_Bommhardt
 
                 if (newLv != null)
                 {
-                    LvDetails = new LeistungsverzeichnisWrapper(newLv);
+                    LvDetails = new LeistungsverzeichnisWrapper(newLv, SelectedMenge);
                     _mainWindow.SetTreeViewSource();                    
                 }
             }            
