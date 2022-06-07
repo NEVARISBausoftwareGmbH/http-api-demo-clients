@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace HttpApi_Wpf_Bommhardt
 {
-    public class NotifyPropertyChangedBase
+    public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged(string property)
+        protected void OnPropertyChanged(string property)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
     }
 }
