@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Lv_Viewer;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,8 +55,32 @@ namespace HttpApi_Wpf_Bommhardt
             if (e.NewValue != null && Model?.LvDetails != null)
             {
                 Model.LvDetails.SelectedLvItem = e.NewValue as LvItem;
+                LoadHtmlText(Model?.LvDetails?.SelectedLvItem?.FormattedLangtext);
+            }
+        }
+
+        private void LoadHtmlText(string? xmlText = null)
+        {
+            var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "GaebLvItemText.htm");
+
+            StringBuilder sb = new(FormattedTextTemplate.GetVorlage());
+            if (xmlText != null)
+            {
+                sb.Append(xmlText);
             }
 
+            using (FileStream fs = new(path, FileMode.Create))
+            {
+                using StreamWriter w = new(fs, Encoding.UTF8);
+                w.WriteLine(sb.ToString());
+            }
+
+            WebBrowserLt.Navigate(new Uri(path));
+        }
+
+        internal void ClearFormattedText()
+        {
+            LoadHtmlText();
         }
     }
 }

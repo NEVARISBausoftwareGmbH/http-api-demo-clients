@@ -12,7 +12,7 @@ namespace HttpApi_Wpf_Bommhardt
 {
     public class LeistungsverzeichnisWrapper : NotifyPropertyChangedBase
     {
-        private Leistungsverzeichnis _lv;
+        private Leistungsverzeichnis? _lv;
         private MengenArtViewItem _mengenArt;
         public LeistungsverzeichnisWrapper(Leistungsverzeichnis lv, MengenArtViewItem? mengenArt)
         {
@@ -27,6 +27,7 @@ namespace HttpApi_Wpf_Bommhardt
         private void LoadItemNodes()
         {
             RootNodes.Clear();
+            if (_lv == null) { return; }
             foreach (var item in _lv.RootKnotenListe)
             {
                 var rootLvItem = new LvNode(item);
@@ -65,20 +66,12 @@ namespace HttpApi_Wpf_Bommhardt
         {
             OnPropertyChanged(nameof(Umsatzsteuer));
             OnPropertyChanged(nameof(Waehrung));
-            OnPropertyChanged(nameof(PlainLangtext));
             OnPropertyChanged(nameof(FormattedLangtext));
         }
 
-        public string? Waehrung => _lv.LvDetails.Währung;
-        public string? Umsatzsteuer => _lv.LvDetails.Umsatzsteuer;
-        public string? PlainLangtext => SelectedLvItem?.Langtext;
-        private string? _formattedLangtext;
-
-        public string? FormattedLangtext
-        {
-            get { return _formattedLangtext; }
-            set { _formattedLangtext = value; OnPropertyChanged(nameof(FormattedLangtext)); }
-        }
+        public string? Waehrung => _lv?.LvDetails?.Währung;
+        public string? Umsatzsteuer => _lv?.LvDetails?.Umsatzsteuer;
+        public string? FormattedLangtext => SelectedLvItem?.FormattedLangtext;
 
         private LvItem? _selectedLvItem;
 
@@ -89,7 +82,6 @@ namespace HttpApi_Wpf_Bommhardt
             {
                 _selectedLvItem = value; 
                 OnPropertyChanged(nameof(SelectedLvItem));
-                OnPropertyChanged(nameof(PlainLangtext));
             }
         }
 
@@ -97,6 +89,7 @@ namespace HttpApi_Wpf_Bommhardt
         {
             RootNodes.Clear();
             SelectedLvItem = null;
+            _lv = null;
             RefreshUI();
         }
     }

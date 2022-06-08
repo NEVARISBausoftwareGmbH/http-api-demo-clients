@@ -31,7 +31,7 @@ namespace HttpApi_Wpf_Bommhardt
         public decimal? Menge { get; set; }
         public string? Einheit { get; set; }
         public decimal? Einheitspreis { get; set; }
-        public string? MengenArt => "LV-Menge";
+        public string? MengenArt => IsMengenPosition(_itemType) ? "LV-Menge" : null;
         public string? EinheitText => IsMengenPosition(_itemType) ? "Eh:" : null;
         public string? EinheitspreisText => IsMengenPosition(_itemType) ? "EP:" : null;
     }

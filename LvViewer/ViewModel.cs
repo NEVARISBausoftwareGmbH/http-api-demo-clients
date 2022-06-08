@@ -152,6 +152,7 @@ namespace HttpApi_Wpf_Bommhardt
 
         private void LoadMengen()
         {
+            if (Mengen.Count > 0) { return; }
             Mengen.Clear();
             foreach (var art in MengenArtViewItem.Arten)
             {
@@ -219,7 +220,8 @@ namespace HttpApi_Wpf_Bommhardt
 
         private async void LoadLv(Leistungsverzeichnis? lv)
         {
-            LvDetails?.Dispose();                      
+            LvDetails?.Dispose();
+            _mainWindow.ClearFormattedText();
             if (lv != null && SelectedProjekt != null && Client != null)
             {                
                 _mainWindow.SetWaitSpinner(true);                
