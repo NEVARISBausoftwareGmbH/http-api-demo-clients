@@ -14,15 +14,15 @@ namespace HttpApi_Wpf_Bommhardt
         {
             Nummer = lvItemBase?.NummerKomplett;
             Bezeichnung = GetText(lvItemBase?.Stichwort ?? lvItemBase?.FormatierteTexte?.Kurztext);
-            Langtext = GetText(lvItemBase?.FormatierteTexte?.Langtext, false);
-
+            var langtext = GetText(lvItemBase?.FormatierteTexte?.Langtext, false);
+            FormattedLangtext = lvItemBase?.FormatierteTexte?.Langtext;
             //Wenn keine Anzeige möglich in der Liste dann Teile vom Langtext nehmen.
             if (Nummer == null && Bezeichnung == null)
             {
-                NummerUndBezeichnung = Langtext;
-                if (Langtext?.Length > 60)
+                NummerUndBezeichnung = langtext;
+                if (langtext?.Length > 60)
                 {
-                    NummerUndBezeichnung = Langtext?.PadLeft(60);
+                    NummerUndBezeichnung = langtext?.PadLeft(60);
                 }                
             }
             else if (Nummer != null && Bezeichnung != null)
@@ -83,6 +83,6 @@ namespace HttpApi_Wpf_Bommhardt
         private string? Nummer { get; set; }
         private string? Bezeichnung { get; set; }
         public string? NummerUndBezeichnung { get; set; }
-        public string? Langtext { get; set; }
+        public string? FormattedLangtext { get; set; }
     }
 }
