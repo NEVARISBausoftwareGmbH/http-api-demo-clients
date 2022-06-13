@@ -62,8 +62,15 @@ namespace HttpApi_Wpf_Bommhardt
         private void LoadHtmlText(string? xmlText = null)
         {
             var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "GaebLvItemText.htm");
+            //Ausschreiberlücken werden gelb dargestellt.
+            StringBuilder sb = new(FormattedTextTemplate.GetVorlageAusschreiber());
+            if (Model?.SelectedLv?.Norm == Nevaris.Build.ClientApi.Norm.Gaeb &&
+                xmlText?.Contains("Kind=\"Bidder\"") == true)
+            {
+                //Bieterlücken werden grün dargestellt.
+                sb = new(FormattedTextTemplate.GetVorlageBieter());
+            }            
 
-            StringBuilder sb = new(FormattedTextTemplate.GetVorlage());
             if (xmlText != null)
             {
                 sb.Append(xmlText);

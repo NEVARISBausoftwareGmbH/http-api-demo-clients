@@ -10,9 +10,12 @@ namespace HttpApi_Wpf_Bommhardt
 {
     public class LvItem : NotifyPropertyChangedBase
     {
+        public static int _numberLength = 60;
         public LvItem(LvItemBase? lvItemBase)
         {
             Nummer = lvItemBase?.NummerKomplett;
+            if (Nummer != null)
+                _numberLength  = Nummer.Length;
             Bezeichnung = GetText(lvItemBase?.Stichwort ?? lvItemBase?.FormatierteTexte?.Kurztext);
             var langtext = GetText(lvItemBase?.FormatierteTexte?.Langtext, false);
             FormattedLangtext = lvItemBase?.FormatierteTexte?.Langtext;
@@ -31,7 +34,7 @@ namespace HttpApi_Wpf_Bommhardt
             }
             else if (Nummer == null)
             {
-                NummerUndBezeichnung = Bezeichnung;
+                NummerUndBezeichnung = "".PadRight(_numberLength + 10) + Bezeichnung;
             }
             else if (Bezeichnung == null)
             {

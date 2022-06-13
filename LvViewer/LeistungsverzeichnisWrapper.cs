@@ -28,12 +28,40 @@ namespace HttpApi_Wpf_Bommhardt
         {
             RootNodes.Clear();
             if (_lv == null) { return; }
+
+            var lvRootNode = CreateLvNode();
+
             foreach (var item in _lv.RootKnotenListe)
             {
-                var rootLvItem = new LvNode(item);
-                RootNodes.Add(rootLvItem);
-                LoadNodesRecursive(item, rootLvItem);                
-            }            
+                var rootNode = new LvNode(item);
+                lvRootNode.ItemNodes.Add(rootNode);
+
+                LoadNodesRecursive(item, rootNode);
+            }
+        }
+
+        private LvNode CreateLvNode()
+        {
+            //LV Knoten Element
+            LvNode? lvRootNodeItem = null;            
+            
+            if (_lv != null)
+            {
+                lvRootNodeItem = new(null);
+                lvRootNodeItem.NummerUndBezeichnung = String.Join(" - ", _lv.Nummer, _lv.Bezeichnung);
+                lvRootNodeItem.Betrag = _lv?.Ergebnisse?.Betrag?.FirstValue;
+                RootNodes.Add(lvRootNodeItem);
+                //Texte auf LV Ebene
+                if (_lv != null)
+                {
+                    foreach (var pos in _lv.RootPositionen)
+                    {
+                        var position = new LvPosition(pos, _mengenArt);
+                        lvRootNodeItem.ItemNodes.Add(position);
+                    }
+                }
+            }
+            return lvRootNodeItem!;
         }
 
         private void LoadNodesRecursive(LvKnoten? root, LvNode rootLvItem)
@@ -43,16 +71,20 @@ namespace HttpApi_Wpf_Bommhardt
             {
                 var nodeLvItem = new LvNode(node);
                 rootLvItem.ItemNodes.Add(nodeLvItem);
-
-                foreach (var pos in node.Positionen)
-                {
-                    var position = new LvPosition(pos, _mengenArt);
-                    nodeLvItem.ItemNodes.Add(position);                    
-                }
+                CreatePositionen(node, nodeLvItem);
 
                 LoadNodesRecursive(node, nodeLvItem);
-            }            
-        }        
+            }
+        }
+
+        private void CreatePositionen(LvKnoten node, LvNode nodeLvItem)
+        {
+            foreach (var pos in node.Positionen)
+            {
+                var position = new LvPosition(pos, _mengenArt);
+                nodeLvItem.ItemNodes.Add(position);
+            }
+        }
 
         private ObservableCollection<LvNode> _rootNodes = new();
 
