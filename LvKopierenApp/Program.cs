@@ -73,24 +73,22 @@ static class Program
                 Status = quellLv.Status,
                 BildDetails = quellLv.BildDetails
             });
-
-            //var zielLv = projekt.Leistungsverzeichnisse.FirstOrDefault(l => l.Bezeichnung == settings.LvBezeichnungZiel)
-            //    ?? throw new InvalidOperationException($"{settings.LvBezeichnungZiel}: LV nicht gefunden");
-
-            // Ziel-LV vollständig (d.h. mit allen Knoten und Positionen laden)
-            //zielLv = await client.ProjektApi.GetLeistungsverzeichnis(projekt.Id, zielLv.Id, mitKalkulationen: false, mitFormatiertenTexten: true);
-
-            //foreach (var zielRootKnoten in zielLv.RootKnotenListe)
-            //{
-            //    await client.ProjektApi.DeleteLvKnoten(projekt.Id, zielRootKnoten.Id);
-            //}
+            
+            foreach (var quellPosition in quellLv.RootPositionen)
+            {
+                await KopierePosition(
+                    client.ProjektApi, 
+                    projektId: projekt.Id,
+                    quellPosition, 
+                    zielLvId: zielLv.Id,
+                    zielParentKnoten: null);
+            }
 
             foreach (var quellKnoten in quellLv.RootKnotenListe)
             {
                 await KopiereKnoten(
                     client.ProjektApi,
                     projektId: projekt.Id,
-                    quellLvId: quellLv.Id,
                     quellKnoten: quellKnoten,
                     zielLvId: zielLv.Id,
                     zielParentKnoten: null);
@@ -105,7 +103,6 @@ static class Program
     static async Task KopiereKnoten(
         IProjektApi api, 
         string projektId,
-        Guid quellLvId,
         LvKnoten quellKnoten,
         Guid zielLvId,
         LvKnoten? zielParentKnoten)
@@ -126,42 +123,13 @@ static class Program
             Zuordnungskennzeichen = quellKnoten.Zuordnungskennzeichen,
             Variante = quellKnoten.Variante,
             NachlassInfo = quellKnoten.NachlassInfo,
-            Schreibgeschützt = quellKnoten.Schreibgeschützt
+            Schreibgeschützt = quellKnoten.Schreibgeschützt,
+            Entfällt = quellKnoten.Entfällt
         });
 
         foreach (var quellPosition in quellKnoten.Positionen)
         {
-            await api.CreateLvPosition(
-                projektId, zielLvId, new NewLvPositionInfo
-                {
-                    ItemTyp = quellPosition.ItemTyp,
-                    ParentKnotenId = zielKnoten.Id,
-                    Herkunftskennzeichen = quellPosition.Herkunftskennzeichen,
-                    IstFixpreis = quellPosition.IstFixpreis,
-                    IstIntern = quellPosition.IstIntern,
-                    Schreibgeschützt = quellPosition.Schreibgeschützt,
-                    Stichwort = quellPosition.Stichwort, // nur für ÖNorm-LVs relevant
-                    FormatierteTexte = quellPosition.FormatierteTexte,
-                    Markierungskennzeichen = quellPosition.Markierungskennzeichen,
-                    LbInfo = quellPosition.LbInfo,
-                    Nummer = quellPosition.Nummer,
-                    Teilleistungsnummer = quellPosition.Teilleistungsnummer,
-                    LvMenge = quellPosition.LvMenge,
-                    Positionsart = quellPosition.Positionsart,
-                    Einheit = quellPosition.Einheit,
-                    IstWesentlichePosition = quellPosition.IstWesentlichePosition,
-                    Preisanteile = quellPosition.Preisanteile,
-                    GliederungsKnotenList = quellPosition.GliederungsKnotenList,
-                    Zuordnungskennzeichen = quellPosition.Zuordnungskennzeichen,
-                    Variante = quellPosition.Variante,
-                    NachlassInfo = quellPosition.NachlassInfo,
-                    EinheitSchreibgeschützt = quellPosition.EinheitSchreibgeschützt,
-                    EinheitspreisSchreibgeschützt = quellPosition.EinheitspreisSchreibgeschützt,
-                    LvMengeSchreibgeschützt = quellPosition.LvMengeSchreibgeschützt,
-                    Mehrfachverwendung = quellPosition.Mehrfachverwendung,
-                    Stichwortluecke = quellPosition.Stichwortluecke,
-                    TexteSchreibgeschützt = quellPosition.TexteSchreibgeschützt
-                });
+            await KopierePosition(api, projektId, quellPosition, zielLvId, zielKnoten);
         }
 
         foreach (var childQuellKnoten in quellKnoten.Knoten)
@@ -169,10 +137,58 @@ static class Program
             await KopiereKnoten(
                 api,
                 projektId: projektId, 
-                quellLvId: quellLvId, 
                 quellKnoten: childQuellKnoten, 
                 zielLvId: zielLvId,
                 zielParentKnoten: zielKnoten);
         }
+    }
+    
+    static async Task KopierePosition(
+        IProjektApi api,
+        string projektId,
+        LvPosition quellPosition,
+        Guid zielLvId,
+        LvKnoten? zielParentKnoten)
+    {
+        await api.CreateLvPosition(
+            projektId, zielLvId, new NewLvPositionInfo
+            {
+                ItemTyp = quellPosition.ItemTyp,
+                ParentKnotenId = zielParentKnoten?.Id,
+                Herkunftskennzeichen = quellPosition.Herkunftskennzeichen,
+                IstFixpreis = quellPosition.IstFixpreis,
+                IstIntern = quellPosition.IstIntern,
+                Schreibgeschützt = quellPosition.Schreibgeschützt,
+                Stichwort = quellPosition.Stichwort, // nur für ÖNorm-LVs relevant
+                FormatierteTexte = quellPosition.FormatierteTexte,
+                Markierungskennzeichen = quellPosition.Markierungskennzeichen,
+                LbInfo = quellPosition.LbInfo,
+                Nummer = quellPosition.Nummer,
+                Teilleistungsnummer = quellPosition.Teilleistungsnummer,
+                LvMenge = quellPosition.LvMenge,
+                Positionsart = quellPosition.Positionsart,
+                Einheit = quellPosition.Einheit,
+                IstWesentlichePosition = quellPosition.IstWesentlichePosition,
+                Preisanteile = quellPosition.Preisanteile,
+                GliederungsKnotenList = quellPosition.GliederungsKnotenList,
+                Zuordnungskennzeichen = quellPosition.Zuordnungskennzeichen,
+                Variante = quellPosition.Variante,
+                NachlassInfo = quellPosition.NachlassInfo,
+                EinheitSchreibgeschützt = quellPosition.EinheitSchreibgeschützt,
+                EinheitspreisSchreibgeschützt = quellPosition.EinheitspreisSchreibgeschützt,
+                LvMengeSchreibgeschützt = quellPosition.LvMengeSchreibgeschützt,
+                Mehrfachverwendung = quellPosition.Mehrfachverwendung,
+                Stichwortluecke = quellPosition.Stichwortluecke,
+                TexteSchreibgeschützt = quellPosition.TexteSchreibgeschützt,
+                BedarfspositionArt = quellPosition.BedarfspositionArt,
+                IstBeauftragt = quellPosition.IstBeauftragt,
+                IstSchwerpunktposition = quellPosition.IstSchwerpunktposition,
+                IstStundenlohnarbeiten = quellPosition.IstStundenlohnarbeiten,
+                WirdBezuschlagt = quellPosition.WirdBezuschlagt,
+                IstFreieBietermenge = quellPosition.IstFreieBietermenge,
+                IstNichtAngeboten = quellPosition.IstNichtAngeboten,
+                Entfällt = quellPosition.Entfällt,
+                Zuschlagsprozentsatz = quellPosition.Zuschlagsprozentsatz
+            });
     }
 }

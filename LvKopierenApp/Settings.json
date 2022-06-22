@@ -1,7 +1,7 @@
 ﻿{
   "baseUrl": "http://localhost:8500",
-  "speicherortBezeichnung": "B22_2",
+  "speicherortBezeichnung": "SQL Server",
   "projektBezeichnung": "API Test",
-  "lvBezeichnungQuelle": "ÖNORM API Test",
-  "lvBezeichnungZiel": "ÖNORM API Test Kopie"
+  "lvBezeichnungQuelle": "LV Quelle",
+  "lvBezeichnungZiel": "LV Ziel"
 }
