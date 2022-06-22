@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <LangVersion>default</LangVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nevaris.Build.ClientApi" Version="4.1.0-2022.2.1" />
+    <PackageReference Include="Nevaris.Build.ClientApi" Version="4.1.0" />
   </ItemGroup>
 
 </Project>
