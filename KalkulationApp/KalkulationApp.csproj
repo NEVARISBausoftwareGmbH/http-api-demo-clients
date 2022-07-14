@@ -5,12 +5,18 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <LangVersion>default</LangVersion>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="KalkulationszeileUpdateInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Nevaris.Build.ClientApi" Version="4.1.0-2022.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LvViewer\Lv Viewer.csproj" />
   </ItemGroup>
 
 </Project>

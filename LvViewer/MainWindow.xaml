@@ -72,7 +72,7 @@
                 <ComboBox ItemsSource="{Binding Lvs}" SelectedItem="{Binding SelectedLv}"
                           ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1"/>
 
-                <TextBlock Text="Mengen wählen:" FontSize="14" Grid.Column="1" Margin="7 0 0 3"/>
+                <TextBlock Text="Menge wählen:" FontSize="14" Grid.Column="1" Margin="7 0 0 3"/>
                 <ComboBox ItemsSource="{Binding Mengen}" SelectedItem="{Binding SelectedMenge}"                          
                           Grid.Row="1" Grid.Column="1" Margin="7 0 0 0">
                     <ComboBox.ItemTemplate>

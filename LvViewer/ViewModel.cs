@@ -1,4 +1,4 @@
-﻿using Lv_Viewer;
+﻿    using Lv_Viewer;
 using Nevaris.Build.ClientApi;
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace HttpApi_Wpf_Bommhardt
         {
             IEnumerable<Speicherort>? speicherOrte = null;
             try
-            {
+            {                
                 if (Client != null)
                 {
                     speicherOrte = (await Client.StammApi.GetSpeicherorte())?.Where(_ => _.DatenbankInfo != null);
