@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:KalkulationApp"
         mc:Ignorable="d"
         Title="Kalkulation" Height="1000" Width="1100"
-        FontFamily="Segoe UI">
+        FontFamily="Segoe UI"
+        WindowState="Maximized">
 
     <Window.Resources>
         <DataTemplate x:Key="comboBoxItemTemplate">
@@ -58,9 +59,12 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -72,66 +76,69 @@
                 <ComboBox ItemsSource="{Binding Lvs}" SelectedItem="{Binding SelectedLv}"
                           ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1"/>
 
+                <local:UcSpinnerApple x:Name="WaitSpinner1" Visibility="Collapsed" Margin="7 0 7 0" Grid.Column="1" Grid.Row="1"/>
 
-                <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="7 0 0 3">
+                <StackPanel Orientation="Horizontal" Grid.Column="2" Margin="7 0 0 3">
                     <TextBlock Text="Kalkulation wählen: " FontSize="14" Margin="0 0 0 3"/>
                     <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Kalkulationen.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Kalkulationen}" SelectedItem="{Binding SelectedKalkulation}"
                           ItemTemplate="{StaticResource comboBoxItemTemplate}"
-                          Grid.Row="1" Grid.Column="1" Margin="7 0 0 0"/>
+                          Grid.Row="1" Grid.Column="2" Margin="7 0 0 0"/>
+
+                <local:UcSpinnerApple x:Name="WaitSpinner2" Visibility="Collapsed" Margin="7 0 7 0" Grid.Column="3" Grid.Row="1"/>
+
+                <!--Suchen und ersetzen von Variablen-->
+                <Grid Grid.Column="2" Grid.Row="2" Margin="14">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox x:Name="CheckVarErsetzen"
+                    Content="Ansatz der Variable &quot;sk&quot; ersetzen durch die Kosten der Eigenleistung" 
+                    IsChecked="True" VerticalAlignment="Center" IsEnabled="False"/>
+                    <Button Click="Go_Click" Content="Ausführen" Grid.Column="1" Margin="7 0 0 0" Height="25" Width="100"/>
+                    <local:UcSpinnerApple x:Name="WaitSpinner3" Visibility="Collapsed" Margin="7 0 0 0" Grid.Column="2"/>
+
+                    <CheckBox Grid.Column="0" Grid.Row="1" Margin="21 0 0 0"
+                    IsChecked="{Binding ErsetzeNurGefiltertePositionen, UpdateSourceTrigger=PropertyChanged}" 
+                    Content="Nur gefilterte Positionen ersetzen"/>
+                    <TextBlock x:Name="TxtErsetzenOk" Grid.Row="2" VerticalAlignment="Center" Margin="21 0 0 0"/>
+                </Grid>
             </Grid>
         </StackPanel>
 
         <!--Kalkulationsdetails-->
-        <Grid Grid.Row="3" Margin="0 28 0 0">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".30*"/>
+                <ColumnDefinition Width=".50*"/>
                 <ColumnDefinition Width="3"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--Suchen und ersetzen von Variablen-->
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <CheckBox x:Name="CheckVarErsetzen"
-                    Content="Ansatz der Variable &quot;sk&quot; ersetzen durch die Kosten der Eigenleistung" 
-                    IsChecked="True" VerticalAlignment="Center" IsEnabled="False"/>
-                <Button Click="Go_Click" Content="Ausführen" Grid.Column="1" Margin="14 0 0 0" Height="25" Width="100"/>
-                <local:UcSpinnerApple x:Name="WaitSpinner1" Visibility="Collapsed" Margin="7 0 0 0" Grid.Column="2"/>
-                <CheckBox Grid.Column="0" Grid.Row="1" Margin="14 0 0 0"
-                    IsChecked="{Binding ErsetzeNurGefiltertePositionen, UpdateSourceTrigger=PropertyChanged}" 
-                    Content="Nur gefilterte Positionen ersetzen"/>
-                <TextBlock x:Name="TxtErsetzenOk" Grid.Row="2" VerticalAlignment="Center" Margin="21 0 0 0"/>
-            </Grid>
-                
             <!--Überschrift Kalkulation-->
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="LV-Positionen" FontSize="14"/>
+                <TextBlock Text="Suchen" FontSize="14"/>
                 <TextBox Text="{Binding LvDetails.SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="7 0 7 0"/>
             </Grid>
             
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 3" Grid.Column="2" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 3" Grid.Column="2">
                 <TextBlock Text="Kalkulationsblatt: " FontSize="14"/>
                 <TextBlock FontSize="14">
                     <TextBlock.Text>
@@ -141,12 +148,11 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <local:UcSpinnerApple x:Name="WaitSpinner" Visibility="Collapsed" Margin="7 0 0 0"/>
             </StackPanel>
 
             <!--Selektierte LV-Position anzeigen-->
-            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2">
-                <TextBlock Text="Ausgewählte LV-Position:" FontSize="14"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1">
+                <TextBlock Text="Ausgewählte LV-Position:" FontSize="14" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding SelectedLvPosition, UpdateSourceTrigger=PropertyChanged}" Margin="7 0 0 0"/>
             </StackPanel>
             
@@ -160,6 +166,7 @@
                     <HierarchicalDataTemplate DataType="{x:Type local:LvNode}" ItemsSource="{Binding ItemNodes}">
                         <TextBlock Text="{Binding NummerUndBezeichnung}" FontWeight="DemiBold" Margin="3"/>
                     </HierarchicalDataTemplate>
+                    
                 </TreeView.Resources>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
@@ -173,7 +180,7 @@
                 </TreeView.ItemContainerStyle>
             </TreeView>
 
-            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Grid.Row="3" Grid.RowSpan="3" Background="LightGray"/>
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Grid.Row="3" Margin="0 7 0 0" Background="LightGray"/>
             
             <!--Kalkulationsblatt anzeigen zur ausgewählten Position-->
             <DataGrid x:Name="Datagrid" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True"

@@ -96,6 +96,7 @@ namespace KalkulationApp
                 //Werte zum Ersetzen zwischenspeichern.
                 if (Variable == "sk" && Kalkblatt != null)
                 {
+                    //Hier den Merker auf false setzen damit er weiter unten ausgewertet werden kann.
                     Kalkblatt.MustUpdateKalkblatt = false;
                 }
             }
@@ -108,8 +109,10 @@ namespace KalkulationApp
                 Nummer = SummeDetails.Art == SummenKalkulationsZeileArt.Relativ ? "T" : "Z";
 
                 //Werte zum Ersetzen zwischenspeichern.
-                if (Nummer == "T" && Bezeichnung == "Eigenleistung" && 
-                    Kosten != null && Kalkblatt?.MustUpdateKalkblatt != null)
+                if (Kalkblatt != null && 
+                    ViewModel.IsEigenleistung(_zeile) && 
+                    Kosten != null && 
+                    Kalkblatt.MustUpdateKalkblatt != null)
                 {
                     Kalkblatt.MustUpdateKalkblatt = true;
                 }

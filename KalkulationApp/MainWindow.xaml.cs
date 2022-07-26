@@ -33,9 +33,12 @@ namespace KalkulationApp
         public void ResetTreeViewSource()
             => Tv.ItemsSource = null;
 
-        public void SetWaitSpinner(bool visible)
-           => WaitSpinner.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        public void SetWaitSpinner2(bool visible)
+           => WaitSpinner2.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
 
+        public void SetWaitSpinner1(bool visible)
+           => WaitSpinner1.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        
         private ViewModel? _model;
 
         public ViewModel? Model
@@ -50,27 +53,34 @@ namespace KalkulationApp
             Close();
         }        
 
-        private void Go_Click(object sender, RoutedEventArgs e)
+        private async void Go_Click(object sender, RoutedEventArgs e)
         {
             if (CheckVarErsetzen.IsChecked == true && Model != null)
             {
-                WaitSpinner1.Visibility = Visibility.Visible;
+                WaitSpinner3.Visibility = Visibility.Visible;
 
-                var result = Model.ErsetzeVariable();
+                if (Model.SelectedKalkulation == null)
+                { TxtErsetzenOk.Text = "Die Kalkulation ist nicht vorhanden."; }
 
-                TxtErsetzenOk.Text = result.Message;
+                await Task.Run(() =>  Model.ErsetzeVariable());
+
+                TxtErsetzenOk.Text = "Es wurden keine Zeilen geändert.";
                 TxtErsetzenOk.Foreground = Brushes.Red;
 
                 if (Model?.SelectedProjekt == null || Model?.SelectedKalkulation == null)
                 { return; }
 
-                if (result.Success)
+                if (Model.ProtokollItems.Count > 0)
                 {
+                    TxtErsetzenOk.Text = $"Es wurden {Model.ProtokollItems.Count} Kalkulationszeilen geändert.";
                     TxtErsetzenOk.Foreground = Brushes.Green;
                     Model.ReloadKalkulation();
                 }
 
-                WaitSpinner1.Visibility = Visibility.Collapsed;
+                WaitSpinner3.Visibility = Visibility.Collapsed;
+
+                string nrBezeichnung = $"{Model.SelectedProjekt.Nummer} - {Model.SelectedProjekt.Bezeichnung}";
+                ProtokollLogger.WriterProtokoll(Model.ProtokollItems.OrderBy(_ => _.Nummer).ToList(), nrBezeichnung);
             }
         }
 

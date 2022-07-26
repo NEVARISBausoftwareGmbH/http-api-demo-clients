@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,12 @@ namespace KalkulationApp
     {
         private MainWindow _mainWindow;
         private NevarisBuildClient? Client { get; set; }
-
+        
+        /// <summary>
+        /// Protokoll ausgeben für Kalk.-Blätter, die geändert wurden.        
+        /// </summary>
+        public List<ProtokollItem> ProtokollItems { get; private set; } = new();
+        
         public ViewModel(MainWindow mainView)
         {
             _mainWindow = mainView;
@@ -61,8 +67,7 @@ namespace KalkulationApp
 
         internal void ReloadKalkulation()
         {
-            //Kalkulationszeilen bzw. Blätter neu laden.
-            _mainWindow.SetWaitSpinner(true);
+            //Kalkulationszeilen bzw. Blätter neu laden.            
             Kalkulationsblätter.Clear();
             LoadKalkulationsbältter(CurrentLvPosition);
         }
@@ -146,7 +151,7 @@ namespace KalkulationApp
 
         private async void LoadLvs()
         {
-            _mainWindow.SetWaitSpinner(false);
+            _mainWindow.SetWaitSpinner2(false);
             Lvs.Clear();
             if (SelectedProjekt != null && Client != null)
             {
@@ -212,10 +217,10 @@ namespace KalkulationApp
 
         private async void LoadLV(Leistungsverzeichnis? lv)
         {
-            Kalkulationen.Clear();
-
+            Kalkulationen.Clear();            
             if (lv != null && SelectedProjekt != null && Client != null)
             {
+                _mainWindow.SetWaitSpinner1(true);
                 try
                 {
                     Leistungsverzeichnis? fullLv = await Client.ProjektApi.
@@ -231,6 +236,7 @@ namespace KalkulationApp
                 {
                     MessageBox.Show(ex.Message, "Nevaris Build API");
                 }
+                finally { _mainWindow.SetWaitSpinner1(false); }
             }
         }
         
@@ -263,7 +269,7 @@ namespace KalkulationApp
         {
             if (kalkulation != null && Client != null && SelectedProjekt != null)
             {
-                _mainWindow.SetWaitSpinner(true);
+                _mainWindow.SetWaitSpinner2(true);
                 _mainWindow.TxtErsetzenOk.Text = null;
                 OnPropertyChanged(nameof(SelectedLvPosition));
                 try
@@ -367,7 +373,7 @@ namespace KalkulationApp
                 }
                 
                 OnPropertyChanged(nameof(SelectedLvPosition));
-                _mainWindow.SetWaitSpinner(false);
+                _mainWindow.SetWaitSpinner2(false);
             }
             catch (Exception ex)
             {
@@ -438,9 +444,9 @@ namespace KalkulationApp
             set { _ersetzeNurGefiltertePositionen = value; OnPropertyChanged(nameof(ErsetzeNurGefiltertePositionen)); }
         }
 
-        internal (string Message, bool Success) ErsetzeVariable()
-        {
-            if (Client == null || SelectedProjekt == null || SelectedKalkulation == null) { return ("Die Kalkulation ist nicht vorhanden.", false); }
+        internal void ErsetzeVariable()
+        {            
+            ProtokollItems.Clear();
 
             //Alle Kalkulationsblätter durchforsten nach der gewünschten Variable und den Wert durch jenen der Eigenleistung der SummenZeile erstezen.
             var nurGefiltertePositionenErsetzen = LvDetails?.LvPositionen.Select(_ => _.Id).ToHashSet();
@@ -458,7 +464,7 @@ namespace KalkulationApp
                 Select(_ => _.Value).
                 ToList();
 
-            int counter = 0;
+            var lvPositionen = LvDetails?.LvPositionen?.ToDictionary(_ => _.Id) ?? new();
             foreach (var kalkblatt in kalkblätterToUpdate)
             {
                 if (kalkblatt.PositionId != null)
@@ -466,44 +472,89 @@ namespace KalkulationApp
                     var kalkBlattToUpdate = GetCurrentKalkulation(kalkblatt.PositionId.Value);
                     if (kalkBlattToUpdate != null)
                     {
-                        //Ermitteln der Variable "sk" und den Kosten der T-Zeile
+                        //Ermitteln der Variable "sk" und den Kosten der T-Zeile oder Z-Zeile
+                        //T-Zeile = Teilsumme
+                        //Z-Zeile = Zwischensumme
+                        //mehrere T-Zeilen ergeben eine Zwischensumme
                         var originalKalkblatt = kalkBlattToUpdate.OrigianlKalkblatt;
                         if (originalKalkblatt != null)
                         {
                             KalkulationsZeile? zeileVariableSk = null;
-                            decimal? kostenZeileEigenleistung = null;
+                            decimal? kosten_Eigenleistung = null;
                             foreach (var kalkZeile in originalKalkblatt.Zeilen)
                             {
                                 if (kalkZeile.VariablenDetails != null && kalkZeile.VariablenDetails.Variable == "sk")
                                 {
                                     zeileVariableSk = kalkZeile;
                                 }
-                                else if (kalkZeile.SummenDetails != null &&
-                                    kalkZeile.SummenDetails?.Art == SummenKalkulationsZeileArt.Relativ &&                                    
-                                    kalkZeile.Bezeichnung == "Eigenleistung")
+                                else if (IsEigenleistung(kalkZeile))
                                 {
-                                    kostenZeileEigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
+                                    if (kalkZeile.SummenDetails.Art == SummenKalkulationsZeileArt.Absolut)
+                                    {
+                                        kosten_Eigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
+                                    }
+                                    else if (kosten_Eigenleistung == null)
+                                    {
+                                        //Wenn die Kosten von der Z-Zeile bereits zugewiesen wurden diese verwenden
+                                        //sonst sollen die Kosten der T-Zeile genommen werden.
+                                        kosten_Eigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
+                                    }                                    
                                 }
                             }
-
-                            if (zeileVariableSk != null && kostenZeileEigenleistung != null)
+                            
+                            if (zeileVariableSk != null && kosten_Eigenleistung != null)
                             {
                                 //Update vornehmen mit den gemerkten Werten.
                                 var ansatzSplit = zeileVariableSk.VariablenDetails.Ansatz.Split("*");
-                                ansatzSplit[0] = kostenZeileEigenleistung.Value.ToString("N2");
-                                zeileVariableSk.VariablenDetails.Ansatz = $"{ansatzSplit[0]}*{ansatzSplit[1]}";
+                                ansatzSplit[0] = kosten_Eigenleistung.Value.ToString("N2");
+                                if (ansatzSplit.Count() > 1)
+                                {
+                                    zeileVariableSk.VariablenDetails.Ansatz = $"{ansatzSplit[0]}*{ansatzSplit[1]}";
+                                }
+                                else
+                                {
+                                    zeileVariableSk.VariablenDetails.Ansatz = ansatzSplit[0];
+                                }
 
-                                ++counter;
+                                if (lvPositionen.TryGetValue(kalkblatt.PositionId.Value, out var lvPosition))
+                                {
+                                    AddProtokollItem(kosten_Eigenleistung.Value, lvPosition);
+                                }
+                                else
+                                {
+                                    string bezeichnung = "Position konnte nicht gefunden werden";
+                                    AddProtokollItem(kosten_Eigenleistung.Value, lvPosition, bezeichnung);                                    
+                                }
 
-                                Client.ProjektApi.UpdateKalkulationsBlatt(SelectedProjekt.Id, SelectedKalkulation.Id, kalkblatt.PositionId.Value, originalKalkblatt);
+                                //API aktualisiert die Kalkulation.
+                                if (SelectedProjekt != null &&
+                                    SelectedKalkulation != null)
+                                {
+                                    Client?.ProjektApi.UpdateKalkulationsBlatt(
+                                        SelectedProjekt.Id,
+                                        SelectedKalkulation.Id,
+                                        kalkblatt.PositionId.GetValueOrDefault(),
+                                        originalKalkblatt);
+                                }
                             }                            
                         }
                     }                    
                 }
             }
+        }
 
-            if (counter == 0) { return ("Es wurden keine Zeilen geändert.", false); }
-            else { return ($"Es wurden {counter} Kalkulationszeilen geändert.", true); }
-        }        
+        private void AddProtokollItem(decimal kosten_Eigenleistung, LvPosition? lvPosition, string? bezeichnung = null)
+        {
+            ProtokollItems.Add(
+                     new ProtokollItem(
+                         lvPosition?.Nummer,
+                         bezeichnung ?? lvPosition?.Bezeichnung,
+                         kosten_Eigenleistung.ToString("N2")));
+        }
+
+        public static bool IsEigenleistung(KalkulationsZeile zeile) =>
+            zeile.Bezeichnung?.Contains("Eigenleistung") == true &&
+            (zeile.SummenDetails?.Art == SummenKalkulationsZeileArt.Absolut ||
+            zeile.SummenDetails?.Art == SummenKalkulationsZeileArt.Relativ);
     }
 }

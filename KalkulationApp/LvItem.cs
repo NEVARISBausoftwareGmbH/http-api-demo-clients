@@ -106,8 +106,8 @@ namespace KalkulationApp
         }
 
         public ObservableCollection<LvItem> ItemNodes { get; set; } = new();
-        private string? Nummer { get; set; }
-        private string? Bezeichnung { get; set; }
+        public string? Nummer { get; private set; }
+        public string? Bezeichnung { get; private set; }
         public string? NummerUndBezeichnung { get; set; }
 
         private bool _isvisible = true;
