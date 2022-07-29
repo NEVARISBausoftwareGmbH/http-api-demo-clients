@@ -122,7 +122,7 @@ namespace KalkulationApp
                 _searchText = value; 
                 OnPropertyChanged(nameof(SearchText));
                 RootNodes.FirstOrDefault()?.
-                    Search(i => i.NummerUndBezeichnung?.ToLower()?.Contains(value ?? "") == true);               
+                    Search(i => i.NummerUndBezeichnung?.ToLower()?.Contains(value?.ToLower() ?? "") == true);               
             }
         }
 

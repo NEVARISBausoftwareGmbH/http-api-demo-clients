@@ -382,7 +382,7 @@ namespace KalkulationApp
         }
 
         private Kalkulationsblatt? GetCurrentKalkulation(Guid lvPositionId)
-        {
+       {
             Kalkulationsblätter.TryGetValue(lvPositionId, out var kalkBlatt);
             return kalkBlatt;
         }
@@ -481,75 +481,121 @@ namespace KalkulationApp
                         {
                             KalkulationsZeile? zeileVariableSk = null;
                             decimal? kosten_Eigenleistung = null;
+                            bool hasEigenleistung = originalKalkblatt.Zeilen.Any(IsEigenleistung);
+                            bool kostenFromZZeile = false;
                             foreach (var kalkZeile in originalKalkblatt.Zeilen)
                             {
                                 if (kalkZeile.VariablenDetails != null && kalkZeile.VariablenDetails.Variable == "sk")
                                 {
                                     zeileVariableSk = kalkZeile;
                                 }
-                                else if (IsEigenleistung(kalkZeile))
+                                else if (hasEigenleistung && IsEigenleistung(kalkZeile))
                                 {
-                                    if (kalkZeile.SummenDetails.Art == SummenKalkulationsZeileArt.Absolut)
-                                    {
-                                        kosten_Eigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
-                                    }
-                                    else if (kosten_Eigenleistung == null)
-                                    {
-                                        //Wenn die Kosten von der Z-Zeile bereits zugewiesen wurden diese verwenden
-                                        //sonst sollen die Kosten der T-Zeile genommen werden.
-                                        kosten_Eigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
-                                    }                                    
+                                    kosten_Eigenleistung = ErmittleEigeneKosten(kosten_Eigenleistung, kalkZeile, ref kostenFromZZeile);
+                                }
+                                else if (!hasEigenleistung && kalkZeile.SummenDetails != null)
+                                {
+                                    kosten_Eigenleistung = ErmittleEigeneKosten(kosten_Eigenleistung, kalkZeile, ref kostenFromZZeile);
                                 }
                             }
                             
+
                             if (zeileVariableSk != null && kosten_Eigenleistung != null)
                             {
-                                //Update vornehmen mit den gemerkten Werten.
-                                var ansatzSplit = zeileVariableSk.VariablenDetails.Ansatz.Split("*");
-                                ansatzSplit[0] = kosten_Eigenleistung.Value.ToString("N2");
-                                if (ansatzSplit.Count() > 1)
+                                UpdateSkVariablenZeile(
+                                    lvPositionen, 
+                                    kalkblatt, 
+                                    originalKalkblatt, 
+                                    zeileVariableSk, 
+                                    kosten_Eigenleistung, 
+                                    hasEigenleistung);                                
+                            }
+                            else
+                            {
+                                if (kalkblatt?.PositionId != null &&
+                                    lvPositionen.TryGetValue(kalkblatt.PositionId.Value, out var lvPosition))
                                 {
-                                    zeileVariableSk.VariablenDetails.Ansatz = $"{ansatzSplit[0]}*{ansatzSplit[1]}";
+                                    AddProtokollItem(kosten_Eigenleistung, lvPosition, hasEigenleistung);
                                 }
-                                else
-                                {
-                                    zeileVariableSk.VariablenDetails.Ansatz = ansatzSplit[0];
-                                }
-
-                                if (lvPositionen.TryGetValue(kalkblatt.PositionId.Value, out var lvPosition))
-                                {
-                                    AddProtokollItem(kosten_Eigenleistung.Value, lvPosition);
-                                }
-                                else
-                                {
-                                    string bezeichnung = "Position konnte nicht gefunden werden";
-                                    AddProtokollItem(kosten_Eigenleistung.Value, lvPosition, bezeichnung);                                    
-                                }
-
-                                //API aktualisiert die Kalkulation.
-                                if (SelectedProjekt != null &&
-                                    SelectedKalkulation != null)
-                                {
-                                    Client?.ProjektApi.UpdateKalkulationsBlatt(
-                                        SelectedProjekt.Id,
-                                        SelectedKalkulation.Id,
-                                        kalkblatt.PositionId.GetValueOrDefault(),
-                                        originalKalkblatt);
-                                }
-                            }                            
+                            }
                         }
                     }                    
                 }
             }
         }
 
-        private void AddProtokollItem(decimal kosten_Eigenleistung, LvPosition? lvPosition, string? bezeichnung = null)
+        private void UpdateSkVariablenZeile(Dictionary<Guid, LvPosition> lvPositionen, 
+            Kalkulationsblatt kalkblatt, KalkulationsBlatt? originalKalkblatt, 
+            KalkulationsZeile? zeileVariableSk, decimal? kosten_Eigenleistung, bool hasEigenleistung)
+        {
+            if (kosten_Eigenleistung == null || zeileVariableSk == null) { return; }
+            //Update vornehmen mit den gemerkten Werten.
+            var ansatzSplit = zeileVariableSk.VariablenDetails.Ansatz.Split("*");
+            ansatzSplit[0] = kosten_Eigenleistung.Value.ToString("N2");
+            if (ansatzSplit.Length > 1)
+            {
+                zeileVariableSk.VariablenDetails.Ansatz = $"{ansatzSplit[0]}*{ansatzSplit[1]}";
+            }
+            else
+            {
+                zeileVariableSk.VariablenDetails.Ansatz = ansatzSplit[0];
+            }
+
+            if (kalkblatt?.PositionId != null &&
+                lvPositionen.TryGetValue(kalkblatt.PositionId.Value, out var lvPosition))
+            {
+                AddProtokollItem(kosten_Eigenleistung.Value, lvPosition, hasEigenleistung);
+            }
+            else
+            {
+                string bezeichnung = "Position konnte nicht gefunden werden";
+                AddProtokollItem(kosten_Eigenleistung.Value, null, hasEigenleistung, bezeichnung);
+            }
+
+            //API aktualisiert die Kalkulation.
+            if (SelectedProjekt != null &&
+                SelectedKalkulation != null &&
+                kalkblatt != null &&
+                originalKalkblatt != null)
+            {
+                Client?.ProjektApi.UpdateKalkulationsBlatt(
+                    SelectedProjekt.Id,
+                    SelectedKalkulation.Id,
+                    kalkblatt.PositionId.GetValueOrDefault(),
+                    originalKalkblatt);
+            }
+        }
+
+        private static decimal? ErmittleEigeneKosten(decimal? kosten_Eigenleistung, KalkulationsZeile kalkZeile, ref bool kostenFromZZeile)
+        {        
+            //Erste Z-Zeile die Kosten verwenden.
+            if (!kostenFromZZeile && kalkZeile.SummenDetails.Art == SummenKalkulationsZeileArt.Absolut)
+            {
+                //Bei der Z-Zeile muss es sich um Eigenleistung handeln.
+                if (IsEigenleistung(kalkZeile))
+                {
+                    kosten_Eigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
+                    kostenFromZZeile = true;
+                }
+            }
+            else if (kosten_Eigenleistung == null)
+            {
+                //Wenn die Kosten von der Z-Zeile bereits zugewiesen wurden diese verwenden
+                //sonst sollen die Kosten der T-Zeile genommen werden.
+                kosten_Eigenleistung = kalkZeile.SummenDetails.Kosten?.FirstValue;
+            }
+
+            return kosten_Eigenleistung;
+        }
+
+        private void AddProtokollItem(decimal? kosten_Eigenleistung, LvPosition? lvPosition, bool hasEigenleistung, string? bezeichnung = null)
         {
             ProtokollItems.Add(
                      new ProtokollItem(
                          lvPosition?.Nummer,
                          bezeichnung ?? lvPosition?.Bezeichnung,
-                         kosten_Eigenleistung.ToString("N2")));
+                         kosten_Eigenleistung?.ToString("N2"),
+                         hasEigenleistung));
         }
 
         public static bool IsEigenleistung(KalkulationsZeile zeile) =>

@@ -91,14 +91,7 @@ namespace KalkulationApp
             if (VariableDetails != null)
             {
                 Ansatz = VariableDetails.Ansatz;
-                Variable = VariableDetails.Variable;
-
-                //Werte zum Ersetzen zwischenspeichern.
-                if (Variable == "sk" && Kalkblatt != null)
-                {
-                    //Hier den Merker auf false setzen damit er weiter unten ausgewertet werden kann.
-                    Kalkblatt.MustUpdateKalkblatt = false;
-                }
+                Variable = VariableDetails.Variable;                
             }
             
             if (SummeDetails != null)
@@ -106,16 +99,7 @@ namespace KalkulationApp
                 Kosten = SummeDetails.Kosten?.FirstValue;
                 ProduktiveStunden = SummeDetails.StundenProduktiv;
                 Preis = SummeDetails.Preis?.FirstValue;
-                Nummer = SummeDetails.Art == SummenKalkulationsZeileArt.Relativ ? "T" : "Z";
-
-                //Werte zum Ersetzen zwischenspeichern.
-                if (Kalkblatt != null && 
-                    ViewModel.IsEigenleistung(_zeile) && 
-                    Kosten != null && 
-                    Kalkblatt.MustUpdateKalkblatt != null)
-                {
-                    Kalkblatt.MustUpdateKalkblatt = true;
-                }
+                Nummer = SummeDetails.Art == SummenKalkulationsZeileArt.Relativ ? "T" : "Z";                
             }
             
             if (RückgriffZeileDetails != null)

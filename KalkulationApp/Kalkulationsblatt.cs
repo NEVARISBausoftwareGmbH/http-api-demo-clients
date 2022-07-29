@@ -20,7 +20,7 @@ namespace KalkulationApp
         public void GenerateKalkulationsZeilen()
         {
             if (OrigianlKalkblatt != null)
-            {
+            {                
                 foreach (var zeile in OrigianlKalkblatt.Zeilen)
                 {
                     var newKalkZeile = new KalkZeile(zeile);
@@ -28,6 +28,13 @@ namespace KalkulationApp
                     newKalkZeile.Generatezeile();
                     var indexInsert = Zeilen.Count - newKalkZeile.Childs.Count;
                     Zeilen.Insert(indexInsert, newKalkZeile);
+                }
+
+                //prüfen ob eine sk-Variablenzeile vorkommt.
+                if (OrigianlKalkblatt.Zeilen.Any(_ => _.VariablenDetails?.Variable == "sk"))
+                {
+                    //Kommt eine Eigenleistung vor dann nimm diese.
+                    MustUpdateKalkblatt = OrigianlKalkblatt.Zeilen.Any(_ => _.SummenDetails != null);
                 }
             }            
         }
