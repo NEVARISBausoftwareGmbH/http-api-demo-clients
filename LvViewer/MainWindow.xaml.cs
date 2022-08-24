@@ -56,6 +56,8 @@ namespace HttpApi_Wpf_Bommhardt
             {
                 Model.LvDetails.SelectedLvItem = e.NewValue as LvItem;
                 LoadHtmlText(Model?.LvDetails?.SelectedLvItem?.FormattedLangtext);
+                dgIndividualProperties.ItemsSource = Model?.LvDetails?.SelectedLvItem?.CustomProperties;
+                Model?.UpdateLvItem(e.OldValue as LvItem);
             }
         }
 
@@ -88,6 +90,6 @@ namespace HttpApi_Wpf_Bommhardt
         internal void ClearFormattedText()
         {
             LoadHtmlText();
-        }
+        }        
     }
 }

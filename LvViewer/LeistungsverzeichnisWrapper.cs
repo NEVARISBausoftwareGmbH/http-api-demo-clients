@@ -116,9 +116,10 @@ namespace HttpApi_Wpf_Bommhardt
                 OnPropertyChanged(nameof(SelectedLvItem));
             }
         }
-
+        
         internal void Dispose()
         {
+            SelectedLvItem?.CustomProperties.Clear();
             RootNodes.Clear();
             SelectedLvItem = null;
             _lv = null;

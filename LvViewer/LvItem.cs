@@ -1,4 +1,5 @@
-﻿using Nevaris.Build.ClientApi;
+﻿using Lv_Viewer;
+using Nevaris.Build.ClientApi;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +14,8 @@ namespace HttpApi_Wpf_Bommhardt
         public static int _numberLength = 60;
         public LvItem(LvItemBase? lvItemBase)
         {
+            NevarisLvItem = lvItemBase;
+            Id = lvItemBase?.Id;
             Nummer = lvItemBase?.NummerKomplett;
             if (Nummer != null)
                 _numberLength  = Nummer.Length;
@@ -40,6 +43,8 @@ namespace HttpApi_Wpf_Bommhardt
             {
                 NummerUndBezeichnung = Nummer;
             }
+
+            ReadCustomProperties(lvItemBase);
         }
 
         private string? GetText(string? text, bool firstLineOnly = true)
@@ -82,10 +87,24 @@ namespace HttpApi_Wpf_Bommhardt
             return null;
         }
 
+        private void ReadCustomProperties(Nevaris.Build.ClientApi.LvItemBase? lvPosition)
+        {
+            if (lvPosition != null)
+            {
+                foreach (var custProperty in lvPosition.CustomPropertyValues)
+                {
+                    CustomProperties.Add(new CustomProperty(custProperty, NevarisLvItem));
+                }
+            }
+        }
+
+        public Guid? Id { get; set; }
         public ObservableCollection<LvItem> ItemNodes { get; set; } = new();
         private string? Nummer { get; set; }
         private string? Bezeichnung { get; set; }
         public string? NummerUndBezeichnung { get; set; }
         public string? FormattedLangtext { get; set; }
+        public List<CustomProperty> CustomProperties { get; set; } = new();
+        public LvItemBase? NevarisLvItem { get; set; }
     }
 }

@@ -90,8 +90,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height=".4*"/>
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Margin="0 0 0 3">
                 <TextBlock Text="LV Details: " FontSize="14"/>
@@ -161,11 +160,27 @@
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
-            
-            <TextBlock Text="Langetext:" Grid.Row="3" FontSize="14" Margin="0 7 0 0"/>
-            <Border BorderThickness=".5" BorderBrush="Gray" Grid.Row="4">
-                <WebBrowser x:Name="WebBrowserLt" />
-            </Border>
+
+            <TabControl Grid.Row="3" FontSize="14" Margin="0 7 0 0">
+                <TabItem Header="Langtext">
+                    <Border BorderThickness=".5" BorderBrush="Gray" Grid.Row="4">
+                        <WebBrowser x:Name="WebBrowserLt" />
+                    </Border>
+                </TabItem>
+                <TabItem Header="Individualeigenschaften" Name="TabCustomProperties">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Individualeigenschaften werden in NEVARIS Build in der Administration je LV-Typ (Position, Knotenelement) angelegt und beliebig erweitert."/>
+                        <TextBlock Text="Als Beispiel wurde die Leistungsposition um zwei Eigenschaften erweitert."/>
+                        <DataGrid x:Name="dgIndividualProperties" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="200"/>
+                            <DataGridTextColumn Header="Wert" Binding="{Binding Wert}" Width="200"/>
+                            <DataGridTextColumn Header="Typ" Binding="{Binding ValueType}" Width="200" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 14 0 0" HorizontalAlignment="Right">

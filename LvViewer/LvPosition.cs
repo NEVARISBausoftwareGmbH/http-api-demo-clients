@@ -17,7 +17,7 @@ namespace HttpApi_Wpf_Bommhardt
             Einheit = lvPosition?.Einheit;
             Einheitspreis = lvPosition?.Ergebnisse?.Einheitspreis?.FirstValue;
             _itemType = lvPosition?.ItemTyp;
-            _mengenArt = mengenArt;            
+            _mengenArt = mengenArt;
         }
 
         private MengenArtViewItem? _mengenArt;
@@ -27,12 +27,12 @@ namespace HttpApi_Wpf_Bommhardt
             lvItemTyp == Nevaris.Build.ClientApi.LvItemTyp.GaebLeistungsposition ||
                 lvItemTyp == Nevaris.Build.ClientApi.LvItemTyp.GaebZuschlagsposition ||
                 lvItemTyp == Nevaris.Build.ClientApi.LvItemTyp.GaebUnterbeschreibung;
-
+        
         public decimal? Menge { get; set; }
         public string? Einheit { get; set; }
         public decimal? Einheitspreis { get; set; }
         public string? MengenArt => IsMengenPosition(_itemType) ? "LV-Menge" : null;
         public string? EinheitText => IsMengenPosition(_itemType) ? "Eh:" : null;
-        public string? EinheitspreisText => IsMengenPosition(_itemType) ? "EP:" : null;
+        public string? EinheitspreisText => IsMengenPosition(_itemType) ? "EP:" : null;        
     }
 }

@@ -247,5 +247,32 @@ namespace HttpApi_Wpf_Bommhardt
                 }
             }            
         }
+
+        public async void UpdateLvItem(LvItem? lvItem)
+        {           
+            if (Client != null && SelectedProjekt != null &&
+                lvItem?.CustomProperties.Any(_ => _.IsModified) == true)
+            {
+                try
+                {
+                    if (lvItem is LvPosition lvPosition &&
+                    lvPosition.Id != null &&
+                    lvItem.NevarisLvItem is Nevaris.Build.ClientApi.LvPosition nevarisLvPosition)
+                    {                        
+                        await Client.ProjektApi.UpdateLvPosition(SelectedProjekt.Id, lvPosition.Id.Value, nevarisLvPosition);
+                    }
+                    else if (lvItem is LvItem lvKnoten &&
+                        lvItem.Id != null &&
+                        lvItem.NevarisLvItem is Nevaris.Build.ClientApi.LvKnoten nevarisLvKnoten)
+                    {
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }                
+            }
+        }
     }
 }
