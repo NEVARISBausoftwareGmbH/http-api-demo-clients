@@ -169,8 +169,9 @@
                 </TabItem>
                 <TabItem Header="Individualeigenschaften" Name="TabCustomProperties">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Individualeigenschaften werden in NEVARIS Build in der Administration je LV-Typ (Position, Knotenelement) angelegt und beliebig erweitert."/>
+                        <TextBlock Text="Individualeigenschaften werden in NEVARIS Build in der Administration je LV-Typ (Position, Gruppen) angelegt und beliebig erweitert."/>
                         <TextBlock Text="Als Beispiel wurde die Leistungsposition um zwei Eigenschaften erweitert."/>
+                        <TextBlock Text="Der Typ der neuen Eigenschaften &quot;Neu_1&quot; und &quot;Neu_2&quot; wurde als Kommazahl (Decimal) festgelet."/>
                         <DataGrid x:Name="dgIndividualProperties" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True" Width="200"/>
