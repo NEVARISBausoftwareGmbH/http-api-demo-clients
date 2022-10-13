@@ -1,9 +1,10 @@
 # http-api-demo-clients
 
-Diese Visual Studio-Solution enthält Projekte, die den Zugriff auf NEVARIS Build 2022.2 über die
+Diese Visual Studio-Solution enthält Projekte, die den Zugriff auf NEVARIS Build 2023.0 über die
 RESTful API demonstrieren. Dabei kommt die
 [Nevaris.Build.ClientApi](https://github.com/NEVARISBausoftwareGmbH/http-api-client-libs) zum Einsatz.
 
+* *EinfacherApiClient:* Minimale Konsolenapplikation, die die Verwendung der Nevaris.Build.ClientApi zeigt.
 * *AdressConsoleApp:* Konsolenapplikation, die den Zugriff auf globale Adressen demonstriert.
 Die notwendigen Einstellungen (unter anderem die Basis-URL des Zielsystems) müssen in der Datei _Settings.json_ eingetragen werden.
 * *AbrechnungConsoleApp:* Konsolenapplikation, die den Lesezugriff auf Abrechnungsdaten (Positionsblöcke mit Aufmaßzeilen) eines Projekts demonstriert.

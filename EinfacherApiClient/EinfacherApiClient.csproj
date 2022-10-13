@@ -5,19 +5,12 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Nevaris.Build.ClientApi">
         <Version>4.2.1</Version>
       </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Settings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
 </Project>
