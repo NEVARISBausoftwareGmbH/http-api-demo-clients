@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     public class ViewModel : NotifyPropertyChangedBase
     {
@@ -217,6 +217,12 @@ namespace HttpApi_Wpf_Bommhardt
             get { return _lvDetails; }
             set { _lvDetails = value; OnPropertyChanged(nameof(LvDetails)); }
         }
+        public bool IsLvLoaded => LvDetails != null;
+        
+        /// <summary>
+        /// Aktuelle Zahlungsbedingung vom LV - Bautechnikbox
+        /// </summary>
+        public Zahlungsbedingung CurrentLvZahlungsbedingung { get; set; }
 
         private async void LoadLv(Leistungsverzeichnis? lv)
         {
@@ -225,10 +231,10 @@ namespace HttpApi_Wpf_Bommhardt
             if (lv != null && SelectedProjekt != null && Client != null)
             {                
                 _mainWindow.SetWaitSpinner(true);                
-                Leistungsverzeichnis? newLv = null;
+                
                 try
                 {
-                    newLv = await Client.ProjektApi.GetLeistungsverzeichnis
+                    _selectedLv = await Client.ProjektApi.GetLeistungsverzeichnis
                         (SelectedProjekt.Id, lv.Id, SelectedMenge?.Art ?? MengenArt.Lv);
                 }
                 catch (Exception ex)
@@ -240,11 +246,27 @@ namespace HttpApi_Wpf_Bommhardt
                     _mainWindow.SetWaitSpinner(false);
                 }
 
-                if (newLv != null)
+                if (SelectedLv != null)
                 {
-                    LvDetails = new LeistungsverzeichnisWrapper(newLv, SelectedMenge);
-                    _mainWindow.SetTreeViewSource();                    
+                    LvDetails = new LeistungsverzeichnisWrapper(SelectedLv, SelectedMenge);
+                    _mainWindow.SetTreeViewSource();
+
+                    CurrentLvZahlungsbedingung = SelectedLv.LvDetails.ZahlungsbedingungLV;
+                    OnPropertyChanged(nameof(IsLvLoaded));
                 }
+            }            
+        }
+
+        internal async void UpdateZahlungsbedingung()
+        {
+            
+            try
+            {
+                await Client!.ProjektApi.UpdateLeistungsverzeichnis(SelectedProjekt!.Id, SelectedLv!.Id, SelectedLv);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }            
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     /// <summary>
     /// Interaction logic for UcSpinnerApple.xaml

@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -88,6 +88,21 @@ namespace HttpApi_Wpf_Bommhardt
         internal void ClearFormattedText()
         {
             LoadHtmlText();
+        }
+
+        private void Zahlungsbedingung_Click(object sender, RoutedEventArgs e)
+        {
+            ZahlungsbedingungWindow window = new(Model!.CurrentLvZahlungsbedingung ?? new());
+            window.ShowDialog();
+
+            if (window.MustUpdate)
+            {
+                if (Model.SelectedLv?.LvDetails != null && Model.SelectedLv?.LvDetails?.ZahlungsbedingungLV == null)
+                {
+                    Model.SelectedLv!.LvDetails.ZahlungsbedingungLV = window.Zb;
+                }
+                Model.UpdateZahlungsbedingung();
+            }
         }
     }
 }

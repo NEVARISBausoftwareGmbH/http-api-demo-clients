@@ -1,9 +1,9 @@
-﻿<Window x:Class="HttpApi_Wpf_Bommhardt.MainWindow"
+﻿<Window x:Class="Lv_Viewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HttpApi_Wpf_Bommhardt"
+        xmlns:local="clr-namespace:Lv_Viewer"
         mc:Ignorable="d"
         Title="LV - VIEWER" Height="1000" Width="1100"
         FontFamily="Segoe UI"
@@ -25,6 +25,7 @@
     
     <Grid Margin="14">
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -84,8 +85,21 @@
             </Grid>
         </StackPanel>
 
+        <StackPanel Grid.Row="3" Margin="0 14 0 0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Zahlungsbedingungen" Click="Zahlungsbedingung_Click"
+                        HorizontalAlignment="Right" Width="200" Grid.Column="2"
+                        IsEnabled="{Binding IsLvLoaded, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </StackPanel>
+        
         <!-- LV Details anzeigen -->
-        <Grid Grid.Row="3" Margin="0 21 0 0">
+        <Grid Grid.Row="4" Margin="0 21 0 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -168,7 +182,7 @@
             </Border>
         </Grid>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0 14 0 0" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0 14 0 0" HorizontalAlignment="Right">
             <Button Content="Schließen" HorizontalAlignment="Right" Width="120"
                     Click="Button_Click"/>
         </StackPanel>
