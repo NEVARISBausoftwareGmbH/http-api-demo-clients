@@ -1,6 +1,6 @@
 # http-api-demo-clients
 
-Diese Visual Studio-Solution enthält Projekte, die den Zugriff auf NEVARIS Build 2023.0 über die
+Diese Visual Studio-Solution enthält Projekte, die den Zugriff auf NEVARIS Build 2023.1 über die
 RESTful API demonstrieren. Dabei kommt die
 [Nevaris.Build.ClientApi](https://github.com/NEVARISBausoftwareGmbH/http-api-client-libs) zum Einsatz.
 
