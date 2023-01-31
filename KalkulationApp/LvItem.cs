@@ -10,8 +10,9 @@ namespace KalkulationApp
 {
     public class LvItem : NotifyPropertyChangedBase
     {
-        public static int _numberLength = 60;
-        public LvItem(LvItemBase? lvItemBase)
+        public readonly int _numberLength = 60;
+
+        protected LvItem(LvItemBase? lvItemBase)
         {
             Nummer = lvItemBase?.NummerKomplett;
             if (Nummer != null)

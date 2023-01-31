@@ -11,8 +11,10 @@ Die notwendigen Einstellungen (unter anderem die Basis-URL des Zielsystems) müs
 Die Basis-URL des Zielsystems sowie die Informationen zur Projektidentifikation müssen in _Settings.json_ eingetragen werden.
 * *LvKopierenApp:* Konsolenapplikation, die ein Leistungsverzeichnis dupliziert, indem es alle Positionen und Gruppen einzeln kopiert.
 Quelle und Ziel müssen in _Settings.json_ eingetragen werden. 
-* *Lv Viewer:* WPF-Applikation, die das Auslesen eines Leistungsverzeichnisses demonstriert. Speicherort, Projekt und Leistungsverzeichnis
+* *LV Viewer:* WPF-Applikation, die das Auslesen eines Leistungsverzeichnisses demonstriert. Speicherort, Projekt und Leistungsverzeichnis
 können über die grafische Oberfläche ausgewählt werden.
+* *KalkulationApp:* Ähnlich dem LV Viewer erlaubt diese App die Auswahl eines Leistungsverzeichnisses, darüber hinaus ist ein lesender Zugriff
+auf die enthaltenen Kalkulationen möglich. 
 * *BetriebsmittelStammApp:* WPF-Applikation, die Betriebsmittelstämme von einem System in ein anderes kopiert.
 
 ## Voraussetzungen ##

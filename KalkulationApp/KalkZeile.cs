@@ -9,7 +9,8 @@ namespace KalkulationApp
 {
     public class KalkZeile : NotifyPropertyChangedBase
     {
-        private KalkulationsZeile _zeile;
+        private readonly KalkulationsZeile _zeile;
+
         private List<KalkulationsZeile>? _zeilenUp;
 
         public KalkZeile(KalkulationsZeile zeile)

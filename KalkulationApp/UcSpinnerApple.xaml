@@ -5,11 +5,10 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="KalkulationApp.UcSpinnerApple"
-	x:Name="UserControl"
->
+	x:Name="UserControl">
 
 	<UserControl.Resources>
-		<Storyboard x:Uid="spinner" x:Key="spinner"  x:Name="spinner"  BeginTime="00:00:00" RepeatBehavior="Forever">
+		<Storyboard x:Uid="spinner" x:Key="spinner" BeginTime="00:00:00" RepeatBehavior="Forever">
 			<DoubleAnimationUsingKeyFrames x:Uid="DoubleAnimationUsingKeyFrames_1" BeginTime="00:00:00" Storyboard.TargetName="Rectangle01" Storyboard.TargetProperty="(UIElement.Opacity)">
 				<EasingDoubleKeyFrame x:Uid="EasingDoubleKeyFrame_1" KeyTime="00:00:00" Value="1"/>
 				<EasingDoubleKeyFrame x:Uid="EasingDoubleKeyFrame_2" KeyTime="00:00:00.1000000" Value="0.5"/>
