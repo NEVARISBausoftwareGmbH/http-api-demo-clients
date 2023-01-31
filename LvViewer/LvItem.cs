@@ -1,17 +1,15 @@
-﻿using Nevaris.Build.ClientApi;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Nevaris.Build.ClientApi;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     public class LvItem : NotifyPropertyChangedBase
     {
-        public static int _numberLength = 60;
-        public LvItem(LvItemBase? lvItemBase)
+        private readonly int _numberLength = 60;
+
+        protected LvItem(LvItemBase? lvItemBase)
         {
             Nummer = lvItemBase?.NummerKomplett;
             if (Nummer != null)

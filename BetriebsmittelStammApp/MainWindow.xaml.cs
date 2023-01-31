@@ -136,7 +136,6 @@ namespace BetriebsmittelStammApp
             catch (Exception ex)
             {
                 LogInfoText(ex.Message, true);
-                return;
             }
             finally
             {

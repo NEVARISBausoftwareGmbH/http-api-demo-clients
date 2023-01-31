@@ -1,20 +1,16 @@
-﻿using Lv_Viewer;
-using Nevaris.Build.ClientApi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
+using Nevaris.Build.ClientApi;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     public class ViewModel : NotifyPropertyChangedBase
     {
-        private MainWindow _mainWindow;
+        private readonly MainWindow _mainWindow;
+
         private NevarisBuildClient? Client { get; set; }
 
         public ViewModel(MainWindow mainView)

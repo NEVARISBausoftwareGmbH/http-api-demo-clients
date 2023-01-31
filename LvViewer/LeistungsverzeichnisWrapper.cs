@@ -1,19 +1,15 @@
-﻿using Lv_Viewer;
-using Nevaris.Build.ClientApi;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Nevaris.Build.ClientApi;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     public class LeistungsverzeichnisWrapper : NotifyPropertyChangedBase
     {
         private Leistungsverzeichnis? _lv;
-        private MengenArtViewItem _mengenArt;
+        
+        private readonly MengenArtViewItem _mengenArt;
+        
         public LeistungsverzeichnisWrapper(Leistungsverzeichnis lv, MengenArtViewItem? mengenArt)
         {
             _lv = lv ?? throw new ArgumentNullException(nameof(lv));

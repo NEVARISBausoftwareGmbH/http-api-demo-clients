@@ -1,12 +1,4 @@
-﻿using Lv_Viewer;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HttpApi_Wpf_Bommhardt
+﻿namespace Lv_Viewer
 {
     public class LvPosition : LvItem
     {
@@ -21,7 +13,7 @@ namespace HttpApi_Wpf_Bommhardt
         }
 
         private MengenArtViewItem? _mengenArt;
-        private Nevaris.Build.ClientApi.LvItemTyp? _itemType;
+        private readonly Nevaris.Build.ClientApi.LvItemTyp? _itemType;
 
         private bool IsMengenPosition(Nevaris.Build.ClientApi.LvItemTyp? lvItemTyp) =>
             lvItemTyp == Nevaris.Build.ClientApi.LvItemTyp.GaebLeistungsposition ||

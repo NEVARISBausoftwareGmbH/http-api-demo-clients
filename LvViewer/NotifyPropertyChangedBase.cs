@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
     {

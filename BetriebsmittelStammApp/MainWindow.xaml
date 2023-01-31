@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BetriebsmittelStammApp"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:MainWindow}"
         Title="Betriebsmitteltransfer" Height="750" Width="1100" MinHeight="400" MinWidth="700" Background="Beige">
 
     <Window.Resources>

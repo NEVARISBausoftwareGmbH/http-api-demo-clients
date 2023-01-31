@@ -1,12 +1,6 @@
 ﻿using Nevaris.Build.ClientApi;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HttpApi_Wpf_Bommhardt
+namespace Lv_Viewer
 {
     public class LvNode : LvItem
     {
@@ -15,7 +9,7 @@ namespace HttpApi_Wpf_Bommhardt
         {
             Betrag = lvKnoten?.Ergebnisse?.Betrag?.FirstValue;
         }
-                
+
         public decimal? Betrag { get; set; }
     }
 }

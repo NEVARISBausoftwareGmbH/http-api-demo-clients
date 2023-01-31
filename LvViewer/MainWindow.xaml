@@ -1,23 +1,24 @@
-﻿<Window x:Class="HttpApi_Wpf_Bommhardt.MainWindow"
+﻿<Window x:Class="Lv_Viewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HttpApi_Wpf_Bommhardt"
+        xmlns:clientapi="clr-namespace:Nevaris.Build.ClientApi;assembly=Nevaris.Build.ClientApi"
+        xmlns:lvViewer="clr-namespace:Lv_Viewer"
         mc:Ignorable="d"
-        Title="LV - VIEWER" Height="1000" Width="1100"
+        Title="LV-Viewer" Height="1000" Width="1100"
         FontFamily="Segoe UI"
-        >
+        d:DataContext="{d:DesignInstance lvViewer:ViewModel}">
     <Window.Resources>
         <DataTemplate x:Key="comboBoxItemTemplate">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
                 <TextBlock Text="{Binding Nummer}"/>
                 <TextBlock Text=" - "/>
                 <TextBlock Text="{Binding Bezeichnung}"/>
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="speicherOrtItemTemplate">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
                 <TextBlock Text="{Binding Bezeichnung}"/>
             </StackPanel>
         </DataTemplate>
@@ -70,9 +71,9 @@
                     <TextBlock Text="{Binding Lvs.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Lvs}" SelectedItem="{Binding SelectedLv}"
-                          ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1"/>
+                          ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1" Grid.Column="0" />
 
-                <TextBlock Text="Mengen wählen:" FontSize="14" Grid.Column="1" Margin="7 0 0 3"/>
+                <TextBlock Text="Menge wählen:" FontSize="14" Grid.Row="0" Grid.Column="1" Margin="7 0 0 3"/>
                 <ComboBox ItemsSource="{Binding Mengen}" SelectedItem="{Binding SelectedMenge}"                          
                           Grid.Row="1" Grid.Column="1" Margin="7 0 0 0">
                     <ComboBox.ItemTemplate>
@@ -84,6 +85,7 @@
             </Grid>
         </StackPanel>
 
+        <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
         <!-- LV Details anzeigen -->
         <Grid Grid.Row="3" Margin="0 21 0 0">
             <Grid.RowDefinitions>
@@ -103,7 +105,7 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <local:UcSpinnerApple x:Name="WaitSpinner" Visibility="Collapsed" Margin="7 0 0 0"/>
+                <lvViewer:UcSpinnerApple x:Name="WaitSpinner" Visibility="Collapsed" Margin="7 0 0 0"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Margin="7 0 0 3" Orientation="Horizontal" HorizontalAlignment="Left">
@@ -121,7 +123,7 @@
                       SelectedItemChanged="tv_SelectedItemChanged"
                       SelectedValuePath="{Binding LvDetails.SelectedLvItem, UpdateSourceTrigger=PropertyChanged}">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:LvPosition}" ItemsSource="{Binding ItemNodes}">
+                    <HierarchicalDataTemplate DataType="{x:Type lvViewer:LvPosition}" ItemsSource="{Binding ItemNodes}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="600"/>
@@ -142,7 +144,7 @@
                         </Grid>
                     </HierarchicalDataTemplate>
 
-                    <HierarchicalDataTemplate DataType="{x:Type local:LvNode}" ItemsSource="{Binding ItemNodes}">
+                    <HierarchicalDataTemplate DataType="{x:Type lvViewer:LvNode}" ItemsSource="{Binding ItemNodes}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="600"/>
