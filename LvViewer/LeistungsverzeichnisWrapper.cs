@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nevaris.Build.ClientApi;
 
@@ -27,13 +28,7 @@ namespace Lv_Viewer
 
             var lvRootNode = CreateLvNode();
 
-            foreach (var item in _lv.RootKnotenListe)
-            {
-                var rootNode = new LvNode(item);
-                lvRootNode.ItemNodes.Add(rootNode);
-
-                LoadNodesRecursive(item, rootNode);
-            }
+            LoadNodesRecursive(_lv.RootKnotenListe, lvRootNode);
         }
 
         private LvNode CreateLvNode()
@@ -60,16 +55,15 @@ namespace Lv_Viewer
             return lvRootNodeItem!;
         }
 
-        private void LoadNodesRecursive(LvKnoten? root, LvNode rootLvItem)
+        private void LoadNodesRecursive(IEnumerable<LvKnoten> knoten, LvNode rootLvItem)
         {
-            if (root == null) { return; }
-            foreach (var node in root.Knoten)
+            foreach (var node in knoten)
             {
                 var nodeLvItem = new LvNode(node);
                 rootLvItem.ItemNodes.Add(nodeLvItem);
                 CreatePositionen(node, nodeLvItem);
 
-                LoadNodesRecursive(node, nodeLvItem);
+                LoadNodesRecursive(node.Knoten, nodeLvItem);
             }
         }
 

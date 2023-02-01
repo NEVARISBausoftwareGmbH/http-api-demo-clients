@@ -80,7 +80,7 @@ namespace Lv_Viewer
             return null;
         }
 
-        public ObservableCollection<LvItem> ItemNodes { get; set; } = new();
+        public ObservableCollection<LvItem> ItemNodes { get; } = new();
         private string? Nummer { get; set; }
         private string? Bezeichnung { get; set; }
         public string? NummerUndBezeichnung { get; set; }
