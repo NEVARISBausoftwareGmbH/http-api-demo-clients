@@ -63,8 +63,6 @@ namespace KalkulationApp
             Client?.Dispose();
         }
 
-        private ObservableCollection<Speicherort?> _SpeicherOrte = new();
-
         internal void ReloadKalkulation()
         {
             //Kalkulationszeilen bzw. Blätter neu laden.            
@@ -72,11 +70,7 @@ namespace KalkulationApp
             LoadKalkulationsbältter(CurrentLvPosition);
         }
 
-        public ObservableCollection<Speicherort?> SpeicherOrte
-        {
-            get { return _SpeicherOrte; }
-            set { _SpeicherOrte = value; OnPropertyChanged(nameof(SpeicherOrte)); }
-        }
+        public ObservableCollection<Speicherort> SpeicherOrte { get; } = new();
 
         private Speicherort? _selectedSpeicherOrt;
 
@@ -116,13 +110,7 @@ namespace KalkulationApp
             }
         }
 
-        private ObservableCollection<ProjektInfo> _projekte = new();
-
-        public ObservableCollection<ProjektInfo> Projekte
-        {
-            get { return _projekte; }
-            set { _projekte = value; OnPropertyChanged(nameof(Projekte)); }
-        }
+        public ObservableCollection<ProjektInfo> Projekte { get; } = new();
 
         private ProjektInfo? _selectedProjekt;
 
@@ -141,13 +129,7 @@ namespace KalkulationApp
             }
         }
 
-        private ObservableCollection<Leistungsverzeichnis> _lvs = new();
-
-        public ObservableCollection<Leistungsverzeichnis> Lvs
-        {
-            get { return _lvs; }
-            set { _lvs = value; OnPropertyChanged(nameof(Lvs)); }
-        }        
+        public ObservableCollection<Leistungsverzeichnis> Lvs { get; } = new();
 
         private async void LoadLvs()
         {
@@ -193,13 +175,7 @@ namespace KalkulationApp
             }
         }
 
-        private ObservableCollection<Kalkulation> _kalkulationen = new();
-
-        public ObservableCollection<Kalkulation> Kalkulationen
-        {
-            get { return _kalkulationen; }
-            set { _kalkulationen = value; OnPropertyChanged(nameof(Kalkulationen)); }
-        }
+        public ObservableCollection<Kalkulation> Kalkulationen { get; } = new();
 
         private Kalkulation? _selectedKalkulation;
 

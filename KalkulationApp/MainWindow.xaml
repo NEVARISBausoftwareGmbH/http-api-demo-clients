@@ -42,7 +42,7 @@
                 <TextBlock Text="{Binding SpeicherOrte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding SpeicherOrte}"
-                  SelectedItem="{Binding SelectedSpeicherOrt}"
+                      SelectedItem="{Binding SelectedSpeicherOrt}"
                       ItemTemplate="{StaticResource speicherOrtItemTemplate}"/>
         </StackPanel>
 
@@ -53,7 +53,7 @@
                 <TextBlock Text="{Binding Projekte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding Projekte}"
-                  SelectedItem="{Binding SelectedProjekt}"
+                      SelectedItem="{Binding SelectedProjekt}"
                       ItemTemplate="{StaticResource comboBoxItemTemplate}"/>
         </StackPanel>
 
@@ -75,7 +75,8 @@
                     <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Lvs.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
-                <ComboBox ItemsSource="{Binding Lvs}" SelectedItem="{Binding SelectedLv}"
+                <ComboBox ItemsSource="{Binding Lvs}"
+                          SelectedItem="{Binding SelectedLv}"
                           ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1" Grid.Column="0" />
 
                 <local:UcSpinnerApple x:Name="WaitSpinner1" Visibility="Collapsed" Margin="7 0 7 0" Grid.Column="1" Grid.Row="1"/>
@@ -85,7 +86,8 @@
                     <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Kalkulationen.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
-                <ComboBox ItemsSource="{Binding Kalkulationen}" SelectedItem="{Binding SelectedKalkulation}"
+                <ComboBox ItemsSource="{Binding Kalkulationen}"
+                          SelectedItem="{Binding SelectedKalkulation}"
                           ItemTemplate="{StaticResource comboBoxItemTemplate}"
                           Grid.Row="1" Grid.Column="2" Margin="7 0 0 0"/>
 

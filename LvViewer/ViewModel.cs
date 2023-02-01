@@ -33,7 +33,7 @@ namespace Lv_Viewer
             {
                 if (Client != null)
                 {
-                    speicherOrte = (await Client.StammApi.GetSpeicherorte())?.Where(_ => _.DatenbankInfo != null);
+                    speicherOrte = (await Client.StammApi.GetSpeicherorte()).Where(_ => _.DatenbankInfo != null);
                 }
             }
             catch (Exception ex)
@@ -56,16 +56,10 @@ namespace Lv_Viewer
             Client?.Dispose();
         }
 
-        private ObservableCollection<Speicherort?> _SpeicherOrte = new();        
-
-        public ObservableCollection<Speicherort?> SpeicherOrte
-        {
-            get { return _SpeicherOrte; }
-            set { _SpeicherOrte = value; OnPropertyChanged(nameof(SpeicherOrte)); }
-        }
+        public ObservableCollection<Speicherort> SpeicherOrte { get; } = new();
 
         private Speicherort? _selectedSpeicherOrt;
-                
+
         public Speicherort? SelectedSpeicherOrt
         {
             get { return _selectedSpeicherOrt; }
@@ -103,13 +97,7 @@ namespace Lv_Viewer
             }
         }        
 
-        private ObservableCollection<ProjektInfo> _projekte = new();
-
-        public ObservableCollection<ProjektInfo> Projekte
-        {
-            get { return _projekte; }
-            set { _projekte = value; OnPropertyChanged(nameof(Projekte)); }
-        }
+        public ObservableCollection<ProjektInfo> Projekte { get; } = new();
 
         private ProjektInfo? _selectedProjekt;
 
@@ -138,13 +126,7 @@ namespace Lv_Viewer
             }
         }
 
-        private ObservableCollection<MengenArtViewItem> _mengen = new();
-
-        public ObservableCollection<MengenArtViewItem> Mengen
-        {
-            get { return _mengen; }
-            set { _mengen = value; OnPropertyChanged(nameof(Mengen)); }
-        }
+        public ObservableCollection<MengenArtViewItem> Mengen { get; } = new();
 
         private void LoadMengen()
         {
@@ -185,13 +167,7 @@ namespace Lv_Viewer
             }            
         }
 
-        private ObservableCollection<Leistungsverzeichnis> _lvs = new();
-
-        public ObservableCollection<Leistungsverzeichnis> Lvs
-        {
-            get { return _lvs; }
-            set { _lvs = value; OnPropertyChanged(nameof(Lvs)); }
-        }
+        public ObservableCollection<Leistungsverzeichnis> Lvs { get; } = new();
 
         private Leistungsverzeichnis? _selectedLv;
 

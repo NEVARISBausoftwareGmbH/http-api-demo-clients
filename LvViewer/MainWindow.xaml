@@ -40,7 +40,7 @@
                 <TextBlock Text="{Binding SpeicherOrte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding SpeicherOrte}"
-                  SelectedItem="{Binding SelectedSpeicherOrt}"
+                      SelectedItem="{Binding SelectedSpeicherOrt}"
                       ItemTemplate="{StaticResource speicherOrtItemTemplate}"/>
         </StackPanel>
 
@@ -51,7 +51,7 @@
                 <TextBlock Text="{Binding Projekte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding Projekte}"
-                  SelectedItem="{Binding SelectedProjekt}"
+                      SelectedItem="{Binding SelectedProjekt}"
                       ItemTemplate="{StaticResource comboBoxItemTemplate}"/>
         </StackPanel>
         
@@ -70,8 +70,10 @@
                     <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Lvs.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
-                <ComboBox ItemsSource="{Binding Lvs}" SelectedItem="{Binding SelectedLv}"
-                          ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1" Grid.Column="0" />
+                <ComboBox ItemsSource="{Binding Lvs}"
+                          SelectedItem="{Binding SelectedLv}"
+                          ItemTemplate="{StaticResource comboBoxItemTemplate}"
+                          Grid.Row="1" Grid.Column="0" />
 
                 <TextBlock Text="Menge wählen:" FontSize="14" Grid.Row="0" Grid.Column="1" Margin="7 0 0 3"/>
                 <ComboBox ItemsSource="{Binding Mengen}" SelectedItem="{Binding SelectedMenge}"                          
