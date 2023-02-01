@@ -11,21 +11,6 @@
         WindowState="Maximized"
         d:DataContext="{d:DesignInstance local:ViewModel}">
 
-    <Window.Resources>
-        <DataTemplate x:Key="comboBoxItemTemplate">
-            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
-                <TextBlock Text="{Binding Nummer}"/>
-                <TextBlock Text=" - "/>
-                <TextBlock Text="{Binding Bezeichnung}"/>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="speicherOrtItemTemplate">
-            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
-                <TextBlock Text="{Binding Bezeichnung}"/>
-            </StackPanel>
-        </DataTemplate>
-    </Window.Resources>
-
     <Grid Margin="14">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -42,8 +27,15 @@
                 <TextBlock Text="{Binding SpeicherOrte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding SpeicherOrte}"
-                      SelectedItem="{Binding SelectedSpeicherOrt}"
-                      ItemTemplate="{StaticResource speicherOrtItemTemplate}"/>
+                      SelectedItem="{Binding SelectedSpeicherOrt}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
+                            <TextBlock Text="{Binding Bezeichnung}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0 14 0 0">
@@ -53,8 +45,17 @@
                 <TextBlock Text="{Binding Projekte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding Projekte}"
-                      SelectedItem="{Binding SelectedProjekt}"
-                      ItemTemplate="{StaticResource comboBoxItemTemplate}"/>
+                      SelectedItem="{Binding SelectedProjekt}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
+                            <TextBlock Text="{Binding Nummer}"/>
+                            <TextBlock Text=" - "/>
+                            <TextBlock Text="{Binding Bezeichnung}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="0 14 0 0">
@@ -77,7 +78,17 @@
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Lvs}"
                           SelectedItem="{Binding SelectedLv}"
-                          ItemTemplate="{StaticResource comboBoxItemTemplate}" Grid.Row="1" Grid.Column="0" />
+                          Grid.Row="1" Grid.Column="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Leistungsverzeichnis}">
+                                <TextBlock Text="{Binding Nummer}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Bezeichnung}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <local:UcSpinnerApple x:Name="WaitSpinner1" Visibility="Collapsed" Margin="7 0 7 0" Grid.Column="1" Grid.Row="1"/>
 
@@ -88,8 +99,17 @@
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Kalkulationen}"
                           SelectedItem="{Binding SelectedKalkulation}"
-                          ItemTemplate="{StaticResource comboBoxItemTemplate}"
-                          Grid.Row="1" Grid.Column="2" Margin="7 0 0 0"/>
+                          Grid.Row="1" Grid.Column="2" Margin="7 0 0 0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Kalkulation}">
+                                <TextBlock Text="{Binding Nummer}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Bezeichnung}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <local:UcSpinnerApple x:Name="WaitSpinner2" Visibility="Collapsed" Margin="7 0 7 0" Grid.Column="3" Grid.Row="1"/>
 

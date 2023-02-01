@@ -9,20 +9,6 @@
         Title="LV-Viewer" Height="1000" Width="1100"
         FontFamily="Segoe UI"
         d:DataContext="{d:DesignInstance lvViewer:ViewModel}">
-    <Window.Resources>
-        <DataTemplate x:Key="comboBoxItemTemplate">
-            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
-                <TextBlock Text="{Binding Nummer}"/>
-                <TextBlock Text=" - "/>
-                <TextBlock Text="{Binding Bezeichnung}"/>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="speicherOrtItemTemplate">
-            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
-                <TextBlock Text="{Binding Bezeichnung}"/>
-            </StackPanel>
-        </DataTemplate>
-    </Window.Resources>
     
     <Grid Margin="14">
         <Grid.RowDefinitions>
@@ -40,8 +26,15 @@
                 <TextBlock Text="{Binding SpeicherOrte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding SpeicherOrte}"
-                      SelectedItem="{Binding SelectedSpeicherOrt}"
-                      ItemTemplate="{StaticResource speicherOrtItemTemplate}"/>
+                      SelectedItem="{Binding SelectedSpeicherOrt}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
+                            <TextBlock Text="{Binding Bezeichnung}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0 14 0 0">
@@ -51,8 +44,17 @@
                 <TextBlock Text="{Binding Projekte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding Projekte}"
-                      SelectedItem="{Binding SelectedProjekt}"
-                      ItemTemplate="{StaticResource comboBoxItemTemplate}"/>
+                      SelectedItem="{Binding SelectedProjekt}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
+                            <TextBlock Text="{Binding Nummer}"/>
+                            <TextBlock Text=" - "/>
+                            <TextBlock Text="{Binding Bezeichnung}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
         
         <StackPanel Grid.Row="2" Margin="0 14 0 0">
@@ -72,8 +74,17 @@
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Lvs}"
                           SelectedItem="{Binding SelectedLv}"
-                          ItemTemplate="{StaticResource comboBoxItemTemplate}"
-                          Grid.Row="1" Grid.Column="0" />
+                          Grid.Row="1" Grid.Column="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Leistungsverzeichnis}">
+                                <TextBlock Text="{Binding Nummer}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Bezeichnung}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <TextBlock Text="Menge wählen:" FontSize="14" Grid.Row="0" Grid.Column="1" Margin="7 0 0 3"/>
                 <ComboBox ItemsSource="{Binding Mengen}" SelectedItem="{Binding SelectedMenge}"                          
