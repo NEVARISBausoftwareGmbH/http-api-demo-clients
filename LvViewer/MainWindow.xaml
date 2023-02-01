@@ -21,16 +21,17 @@
 
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Speicherort wählen: " FontSize="14" Margin="0 0 0 3"/>
-                <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding SpeicherOrte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
+                <TextBlock Text="Speicherort/Ordner wählen: " FontSize="14" Margin="0 0 0 3"/>
+                <TextBlock Text="Anzahl: " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding SpeicherOrteOrdners.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
-            <ComboBox ItemsSource="{Binding SpeicherOrte}"
+            <ComboBox ItemsSource="{Binding SpeicherOrteOrdners}"
                       SelectedItem="{Binding SelectedSpeicherOrt}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
-                            <TextBlock Text="{Binding Bezeichnung}"/>
+                        <StackPanel Orientation="Horizontal"
+                                    d:DataContext="{d:DesignInstance lvViewer:SpeicherortOrdnerViewModel}">
+                            <TextBlock Text="{Binding Pfad}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -40,7 +41,7 @@
         <StackPanel Grid.Row="1" Margin="0 14 0 0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Projekt wählen: " FontSize="14" Margin="0 0 0 3"/>
-                <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
+                <TextBlock Text="Anzahl: " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding Projekte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding Projekte}"
@@ -69,7 +70,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Leistungsverzeichnis wählen: " FontSize="14" Margin="0 0 0 3"/>
-                    <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
+                    <TextBlock Text="Anzahl: " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Lvs.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Lvs}"
