@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -28,27 +29,56 @@ namespace Lv_Viewer
 
         private async void Run()
         {
-            IEnumerable<Speicherort>? speicherOrte = null;
+            SpeicherOrteOrdners.Clear();
+            
+            if (Client == null) return;
+            
             try
             {
                 if (Client != null)
                 {
-                    speicherOrte = (await Client.StammApi.GetSpeicherorte()).Where(_ => _.DatenbankInfo != null);
+                    var projektServers = (await Client.StammApi.GetSpeicherorte()).Where(_ => _.DatenbankInfo != null).ToList();
+
+                    // Iteriere über alle Speicherorte und befülle 'SpeicherOrteOrdners' mit den enthaltenen Ordnern
+                    foreach (var projektServer in projektServers)
+                    {
+                        var projektServerDetailed = await Client.StammApi.GetSpeicherort(projektServer.Id);
+                        
+                        // Wurzelebene
+                        SpeicherOrteOrdners.Add(
+                            new SpeicherortOrdnerViewModel(
+                                projektServerDetailed,
+                                ordner: null,
+                                pfad: projektServerDetailed.Bezeichnung));
+
+                        // Durch enthaltene Ordner rekursiv iterieren 
+                        AddOrdners(
+                            projektServerDetailed.RootOrdnerList,
+                            parentPfad: projektServerDetailed.Bezeichnung);
+
+                        void AddOrdners(IEnumerable<SpeicherortOrdner> ordnerList, string parentPfad)
+                        {
+                            foreach (var ordner in ordnerList)
+                            {
+                                string pfad = parentPfad + "/" + ordner.Bezeichnung;
+
+                                SpeicherOrteOrdners.Add(
+                                    new SpeicherortOrdnerViewModel(
+                                        projektServerDetailed, 
+                                        ordner: ordner,
+                                        pfad: pfad));
+                                
+                                AddOrdners(ordner.OrdnerList, parentPfad: pfad);
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return;
             }            
-
-            SpeicherOrte.Clear();
-            if (speicherOrte != null)
-            {
-                foreach (var sp in speicherOrte)
-                {
-                    SpeicherOrte.Add(sp);
-                }
-            }
         }
 
         public void Dispose()
@@ -56,44 +86,35 @@ namespace Lv_Viewer
             Client?.Dispose();
         }
 
-        public ObservableCollection<Speicherort> SpeicherOrte { get; } = new();
+        /// <summary>
+        /// Liste mit Speicherort-Ordnern (inkl. Wurzelebene).
+        /// </summary>
+        public ObservableCollection<SpeicherortOrdnerViewModel> SpeicherOrteOrdners { get; } = new();
 
-        private Speicherort? _selectedSpeicherOrt;
+        private SpeicherortOrdnerViewModel? _selectedSpeicherortOrdner;
 
-        public Speicherort? SelectedSpeicherOrt
+        public SpeicherortOrdnerViewModel? SelectedSpeicherOrt
         {
-            get { return _selectedSpeicherOrt; }
+            get { return _selectedSpeicherortOrdner; }
             set 
             {
-                _selectedSpeicherOrt = value;
-                LoadProjekte();
+                _selectedSpeicherortOrdner = value;
+                UpdateProjektListe();
                 OnPropertyChanged(nameof(SelectedSpeicherOrt)); 
             }
         }
 
-        private async void LoadProjekte()
+        private void UpdateProjektListe()
         {
             Projekte.Clear();
             Lvs.Clear();
-            if (SelectedSpeicherOrt != null && Client != null)
-            {
-                Speicherort? speicherort = null;
-                try
-                {                    
-                    speicherort = await Client.StammApi.GetSpeicherort(SelectedSpeicherOrt.Id);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
 
-                if (speicherort != null)
-                {
-                    foreach (var p in speicherort.ProjektInfos.OrderBy(_ => _.Nummer).ThenBy(_ => _.Bezeichnung))
-                    {
-                        Projekte.Add(p);
-                    }
-                }
+            if (SelectedSpeicherOrt == null || Client == null) return;
+
+            var projektInfos = SelectedSpeicherOrt.Ordner?.ProjektInfos ?? SelectedSpeicherOrt.Speicherort.RootProjektInfos;
+            foreach (var p in projektInfos.OrderBy(_ => _.Nummer).ThenBy(_ => _.Bezeichnung))
+            {
+                Projekte.Add(p);
             }
         }        
 

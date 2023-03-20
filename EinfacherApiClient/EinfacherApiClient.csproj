@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nevaris.Build.ClientApi" Version="4.2.6" />
+      <PackageReference Include="Nevaris.Build.ClientApi">
+        <Version>4.3.1-2023.1</Version>
+      </PackageReference>
     </ItemGroup>
 
 </Project>

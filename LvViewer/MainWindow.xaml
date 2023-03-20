@@ -9,20 +9,6 @@
         Title="LV-Viewer" Height="1000" Width="1100"
         FontFamily="Segoe UI"
         d:DataContext="{d:DesignInstance lvViewer:ViewModel}">
-    <Window.Resources>
-        <DataTemplate x:Key="comboBoxItemTemplate">
-            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
-                <TextBlock Text="{Binding Nummer}"/>
-                <TextBlock Text=" - "/>
-                <TextBlock Text="{Binding Bezeichnung}"/>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="speicherOrtItemTemplate">
-            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Speicherort}">
-                <TextBlock Text="{Binding Bezeichnung}"/>
-            </StackPanel>
-        </DataTemplate>
-    </Window.Resources>
     
     <Grid Margin="14">
         <Grid.RowDefinitions>
@@ -35,24 +21,41 @@
 
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Speicherort wählen: " FontSize="14" Margin="0 0 0 3"/>
-                <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding SpeicherOrte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
+                <TextBlock Text="Speicherort/Ordner wählen: " FontSize="14" Margin="0 0 0 3"/>
+                <TextBlock Text="Anzahl: " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding SpeicherOrteOrdners.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
-            <ComboBox ItemsSource="{Binding SpeicherOrte}"
-                      SelectedItem="{Binding SelectedSpeicherOrt}"
-                      ItemTemplate="{StaticResource speicherOrtItemTemplate}"/>
+            <ComboBox ItemsSource="{Binding SpeicherOrteOrdners}"
+                      SelectedItem="{Binding SelectedSpeicherOrt}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal"
+                                    d:DataContext="{d:DesignInstance lvViewer:SpeicherortOrdnerViewModel}">
+                            <TextBlock Text="{Binding Pfad}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0 14 0 0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Projekt wählen: " FontSize="14" Margin="0 0 0 3"/>
-                <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
+                <TextBlock Text="Anzahl: " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding Projekte.Count}" FontWeight="Light" VerticalAlignment="Center"/>
             </StackPanel>
             <ComboBox ItemsSource="{Binding Projekte}"
-                      SelectedItem="{Binding SelectedProjekt}"
-                      ItemTemplate="{StaticResource comboBoxItemTemplate}"/>
+                      SelectedItem="{Binding SelectedProjekt}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:ProjektInfo}">
+                            <TextBlock Text="{Binding Nummer}"/>
+                            <TextBlock Text=" - "/>
+                            <TextBlock Text="{Binding Bezeichnung}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
         
         <StackPanel Grid.Row="2" Margin="0 14 0 0">
@@ -67,13 +70,22 @@
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Leistungsverzeichnis wählen: " FontSize="14" Margin="0 0 0 3"/>
-                    <TextBlock Text="Anzahl " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
+                    <TextBlock Text="Anzahl: " Margin="14 0 0 0" FontWeight="Light" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Lvs.Count}" FontWeight="Light" VerticalAlignment="Center"/>
                 </StackPanel>
                 <ComboBox ItemsSource="{Binding Lvs}"
                           SelectedItem="{Binding SelectedLv}"
-                          ItemTemplate="{StaticResource comboBoxItemTemplate}"
-                          Grid.Row="1" Grid.Column="0" />
+                          Grid.Row="1" Grid.Column="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" d:DataContext="{d:DesignInstance clientapi:Leistungsverzeichnis}">
+                                <TextBlock Text="{Binding Nummer}"/>
+                                <TextBlock Text=" - "/>
+                                <TextBlock Text="{Binding Bezeichnung}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <TextBlock Text="Menge wählen:" FontSize="14" Grid.Row="0" Grid.Column="1" Margin="7 0 0 3"/>
                 <ComboBox ItemsSource="{Binding Mengen}" SelectedItem="{Binding SelectedMenge}"                          
